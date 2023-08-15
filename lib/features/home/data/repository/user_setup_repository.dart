@@ -1,0 +1,115 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:worlds_away/core/resources/id_available_data_state.dart';
+import 'package:worlds_away/core/resources/user_information_data_state.dart';
+import 'package:worlds_away/core/resources/user_setup_data_state.dart';
+import 'package:worlds_away/features/home/data/data_sources/local/local_user_setup_repository.dart';
+import 'package:worlds_away/features/home/data/data_sources/remote/remote_user_setup_repository.dart';
+import 'package:worlds_away/features/home/data/models/setup_information.dart';
+
+import 'package:worlds_away/features/home/data/models/user.dart';
+import 'package:worlds_away/features/home/domain/entity/user.dart';
+import 'package:worlds_away/features/home/domain/entity/user_setup_information.dart';
+
+import 'package:worlds_away/features/home/domain/repository/user_setup_repository.dart';
+
+class UserSetupRepositoryImpl implements UserSetupRepository {
+  final LocalUserSetupRepository _localSetupRepository;
+  final RemoteUserSetupRepository _remoteSetupRepository;
+
+  UserSetupRepositoryImpl(
+      this._localSetupRepository, this._remoteSetupRepository);
+
+  @override
+  Future<UserSetupDataState> getUserSetupState() async {
+    final hasUserDescription = _localSetupRepository.getHasUserSetup();
+
+    if (!hasUserDescription) {
+      try {
+        final UserModel? userModel =
+            await _remoteSetupRepository.getUserSetupModel();
+
+        if (userModel == null) {
+          return const UserSetupDataFailed();
+        } else {
+          return const UserSetupDataSuccess();
+        }
+      } on FirebaseException catch (e) {
+        if (e.code == 'unavailable') {
+          return const UserSetupDataError(
+              "Error: При первом входе нужно Интернет Соединение");
+        } else {
+          return UserSetupDataError("Error: ${e.message}");
+        }
+      }
+    }
+
+    return const UserSetupDataSuccess();
+  }
+
+  @override
+  Future<void> setUserSetupBool(bool value) async {
+    await _localSetupRepository.setUserSetupBool(value);
+  }
+
+  @override
+  Future<UserSetupDataState> sendUserSetupInformation(
+      UserSetupInformationEntity informationEntity) async {
+    final UserSetupInformationModel userSetupInformationModel =
+        UserSetupInformationModel.fromEntity(informationEntity);
+
+    try {
+      await _remoteSetupRepository
+          .sendUserSetupInformation(userSetupInformationModel);
+    } on FirebaseException catch (e) {
+      if (e.code == 'unavailable') {
+        return const UserSetupDataError("Error: Нужно Интернет Соединение");
+      } else {
+        return UserSetupDataError("Error: ${e.message}");
+      }
+    }
+
+    return const UserSetupDataSuccess();
+  }
+
+  @override
+  Future<UserInformationDataState<UserModel?>> getUserInformation() async {
+    try {
+      final UserModel? userModel =
+          await _remoteSetupRepository.getUserInformation();
+
+      if (userModel != null) {
+        return UserInformationDataSuccess(userModel);
+      }
+    } on FirebaseException catch (e) {
+      if (e.code == 'unavailable') {
+        return const UserInformationDataError(
+            "Error: Нужно Интернет Соединение");
+      } else {
+        return UserInformationDataError("Error: ${e.message}");
+      }
+    }
+
+    return const UserInformationDataError("Error: Пользователь не найден");
+  }
+
+  @override
+  Future<IdAvailableleDataState<bool>> checkIdAvailable(String id) async {
+    try {
+      final bool? isAvailable =
+          await _remoteSetupRepository.checkIdAvailable(id);
+
+      if (isAvailable != null) {
+        return IdAvailableSuccess(isAvailable);
+      }
+    } catch (e) {
+      return const IdAvailableError("Error: Нужно Интернет Соединение");
+    }
+
+    return const IdAvailableSuccess(false);
+  }
+
+  @override
+  UserEntity getUserLocalInformation() {
+    return _localSetupRepository.getUserLocalInformation();
+  }
+}

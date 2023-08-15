@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "141337503986",
+    "firebase_url": "https://worlds-away-f4aa1-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "worlds-away-f4aa1",
+    "storage_bucket": "worlds-away-f4aa1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141337503986:android:6ad95dee1739df475a886b",
+        "android_client_info": {
+          "package_name": "com.DaDaDaDEV.worlds_away"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141337503986-gae5vth3uglf7fhk9j07uhip60lsate0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.DaDaDaDEV.worlds_away",
+            "certificate_hash": "aa050e76055571f8cea091c037dd2f219a8c3c87"
+          }
+        },
+        {
+          "client_id": "141337503986-hbjeijfkvmsd7fekkdfc73h9pdl387ha.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH2XHcLPw1CYrhElm590NAGDqUfJmTEIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141337503986-hbjeijfkvmsd7fekkdfc73h9pdl387ha.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
