@@ -31,12 +31,12 @@ import 'package:worlds_away/features/home/domain/usecases/send_user_setup_inform
 import 'package:worlds_away/features/home/domain/usecases/set_user_setup_bool.dart';
 
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_bloc.dart';
-import 'package:worlds_away/features/home/presentation/blocs/init/setup_page/setup_page_bloc.dart';
+import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_bloc.dart';
 
 import 'features/auth/presentation/blocs/auth/auth_bloc.dart';
 import 'features/auth/presentation/blocs/user_auth_status/user_auth_bloc.dart';
 import 'features/home/data/repository/user_setup_repository.dart';
-import 'features/home/presentation/blocs/init/user_setup/user_setup_bloc.dart';
+import 'features/home/presentation/blocs/setup/user_setup/user_setup_bloc.dart';
 
 final sl = GetIt.instance;
 

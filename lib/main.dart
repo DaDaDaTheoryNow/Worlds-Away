@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_bloc.dart';
 
 import 'package:worlds_away/features/auth/presentation/pages/auth/auth_page.dart';
-import 'package:worlds_away/features/home/presentation/blocs/init/setup_page/setup_page_bloc.dart';
+import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_bloc.dart';
 import 'package:worlds_away/features/home/presentation/pages/home/home_page.dart';
 
 import 'config/routes/routes.dart';
@@ -18,7 +18,7 @@ import 'features/auth/presentation/blocs/user_auth_status/user_auth_bloc.dart';
 import 'features/auth/presentation/blocs/user_auth_status/user_auth_event.dart';
 import 'features/auth/presentation/blocs/user_auth_status/user_auth_state.dart';
 
-import 'features/home/presentation/blocs/init/user_setup/user_setup_bloc.dart';
+import 'features/home/presentation/blocs/setup/user_setup/user_setup_bloc.dart';
 import 'injection_container.dart';
 
 Future<void> main() async {

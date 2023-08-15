@@ -3,8 +3,8 @@ import 'package:worlds_away/core/resources/user_setup_data_state.dart';
 import 'package:worlds_away/features/home/domain/usecases/get_user_local_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/get_user_setup_state.dart';
 import 'package:worlds_away/features/home/domain/usecases/set_user_setup_bool.dart';
-import 'package:worlds_away/features/home/presentation/blocs/init/user_setup/user_setup_event.dart';
-import 'package:worlds_away/features/home/presentation/blocs/init/user_setup/user_setup_state.dart';
+import 'package:worlds_away/features/home/presentation/blocs/setup/user_setup/user_setup_event.dart';
+import 'package:worlds_away/features/home/presentation/blocs/setup/user_setup/user_setup_state.dart';
 
 class UserSetupBloc extends Bloc<UserSetupEvent, UserSetupState> {
   final GetUserSetupStateUseCase _getUserSetupUseCase;

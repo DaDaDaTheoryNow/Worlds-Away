@@ -8,8 +8,8 @@ import 'package:worlds_away/features/home/domain/usecases/check_id_available.dar
 import 'package:worlds_away/features/home/domain/usecases/get_user_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/send_user_setup_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/set_user_setup_bool.dart';
-import 'package:worlds_away/features/home/presentation/blocs/init/setup_page/setup_page_event.dart';
-import 'package:worlds_away/features/home/presentation/blocs/init/setup_page/setup_page_state.dart';
+import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_event.dart';
+import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_state.dart';
 
 class SetupPageBloc extends Bloc<SetupPageEvent, SetupPageState> {
   final GetUserInformationUseCase _getUserInformationUseCase;

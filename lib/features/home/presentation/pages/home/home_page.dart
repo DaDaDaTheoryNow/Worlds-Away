@@ -11,9 +11,9 @@ import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_b
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_state.dart';
 
 import 'package:worlds_away/core/widgets/auth_elevated_button.dart';
-import 'package:worlds_away/features/home/presentation/blocs/init/user_setup/user_setup_bloc.dart';
-import 'package:worlds_away/features/home/presentation/blocs/init/user_setup/user_setup_event.dart';
-import 'package:worlds_away/features/home/presentation/blocs/init/user_setup/user_setup_state.dart';
+import 'package:worlds_away/features/home/presentation/blocs/setup/user_setup/user_setup_bloc.dart';
+import 'package:worlds_away/features/home/presentation/blocs/setup/user_setup/user_setup_event.dart';
+import 'package:worlds_away/features/home/presentation/blocs/setup/user_setup/user_setup_state.dart';
 
 import 'package:worlds_away/features/home/presentation/widgets/app_bar.dart';
 import 'package:worlds_away/features/home/presentation/widgets/bottom_nav_bar.dart';
