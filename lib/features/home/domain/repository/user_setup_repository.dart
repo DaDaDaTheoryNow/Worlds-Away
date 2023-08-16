@@ -1,8 +1,8 @@
 import 'package:worlds_away/core/resources/id_available_data_state.dart';
 import 'package:worlds_away/core/resources/user_information_data_state.dart';
 import 'package:worlds_away/core/resources/user_setup_data_state.dart';
-import 'package:worlds_away/features/home/domain/entity/user.dart';
 import 'package:worlds_away/features/home/domain/entity/user_setup_information.dart';
+import 'package:worlds_away/features/common/domain/entity/user.dart';
 
 abstract class UserSetupRepository {
   Future<UserSetupDataState> getUserSetupState();

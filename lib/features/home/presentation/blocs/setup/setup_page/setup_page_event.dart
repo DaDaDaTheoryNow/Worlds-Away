@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:worlds_away/features/home/domain/entity/user.dart';
+import 'package:worlds_away/features/common/domain/entity/user.dart';
 
 class SetupPageEvent extends Equatable {
   final String? name;

@@ -4,25 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:worlds_away/features/auth/data/data_sources/local/shared_preferences/local_auth_impl.dart';
-import 'package:worlds_away/features/auth/data/data_sources/local/shared_preferences/local_auth_repository.dart';
-import 'package:worlds_away/features/auth/data/data_sources/remote/firebase_auth/remote_auth_impl.dart';
-import 'package:worlds_away/features/auth/data/data_sources/remote/firebase_auth/remote_auth_repository.dart';
-import 'package:worlds_away/features/auth/data/repositories/auth_repository.dart';
+import 'package:worlds_away/features/user/auth/data/data_sources/local/shared_preferences/local_auth_impl.dart';
+import 'package:worlds_away/features/user/auth/data/data_sources/local/shared_preferences/local_auth_repository.dart';
+import 'package:worlds_away/features/user/auth/data/data_sources/remote/firebase_auth/remote_auth_impl.dart';
+import 'package:worlds_away/features/user/auth/data/data_sources/remote/firebase_auth/remote_auth_repository.dart';
+import 'package:worlds_away/features/user/auth/data/repositories/auth_repository.dart';
 import 'package:worlds_away/features/home/data/data_sources/local/local_user_setup_impl.dart';
 import 'package:worlds_away/features/home/data/data_sources/local/local_user_setup_repository.dart';
 import 'package:worlds_away/features/home/data/data_sources/remote/remote_user_setup_impl.dart';
 import 'package:worlds_away/features/home/data/data_sources/remote/remote_user_setup_repository.dart';
 import 'package:worlds_away/features/home/data/repository/bottom_nav_bar_repository.dart';
-import 'package:worlds_away/features/auth/data/repositories/user_auth_repository.dart';
-import 'package:worlds_away/features/auth/domain/repositories/auth_repository.dart';
+import 'package:worlds_away/features/user/auth/data/repositories/user_auth_repository.dart';
+import 'package:worlds_away/features/user/auth/domain/repositories/auth_repository.dart';
 import 'package:worlds_away/features/home/domain/repository/bottom_nav_bar_repository.dart';
-import 'package:worlds_away/features/auth/domain/repositories/user_auth_repository.dart';
+import 'package:worlds_away/features/user/auth/domain/repositories/user_auth_repository.dart';
 import 'package:worlds_away/features/home/domain/repository/user_setup_repository.dart';
 import 'package:worlds_away/features/home/domain/usecases/bottom_nav_bar_on_tap.dart';
-import 'package:worlds_away/features/auth/domain/usecases/check_user_auth_status.dart';
-import 'package:worlds_away/features/auth/domain/usecases/sign_in_with_google.dart';
-import 'package:worlds_away/features/auth/domain/usecases/sign_out_and_clear_user_setup_bool.dart';
+import 'package:worlds_away/features/user/auth/domain/usecases/check_user_auth_status.dart';
+import 'package:worlds_away/features/user/auth/domain/usecases/sign_in_with_google.dart';
+import 'package:worlds_away/features/user/auth/domain/usecases/sign_out_and_clear_user_setup_bool.dart';
 import 'package:worlds_away/features/home/domain/usecases/check_id_available.dart';
 import 'package:worlds_away/features/home/domain/usecases/get_user_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/get_user_local_information.dart';
@@ -32,9 +32,15 @@ import 'package:worlds_away/features/home/domain/usecases/set_user_setup_bool.da
 
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_bloc.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_bloc.dart';
+import 'package:worlds_away/features/user/profile/data/data_sources/remote/remote_profile_impl.dart';
+import 'package:worlds_away/features/user/profile/data/data_sources/remote/remote_profile_repository.dart';
+import 'package:worlds_away/features/user/profile/data/repository/profile_repository.dart';
+import 'package:worlds_away/features/user/profile/domain/repository/profile_repository.dart';
+import 'package:worlds_away/features/user/profile/domain/usecases/get_user_profile.dart';
+import 'package:worlds_away/features/user/profile/presentation/blocs/profile_bloc.dart';
 
-import 'features/auth/presentation/blocs/auth/auth_bloc.dart';
-import 'features/auth/presentation/blocs/user_auth_status/user_auth_bloc.dart';
+import 'features/user/auth/presentation/blocs/auth/auth_bloc.dart';
+import 'features/user/auth/presentation/blocs/user_auth_status/user_auth_bloc.dart';
 import 'features/home/data/repository/user_setup_repository.dart';
 import 'features/home/presentation/blocs/setup/user_setup/user_setup_bloc.dart';
 
@@ -73,6 +79,11 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<UserSetupRepository>(
       UserSetupRepositoryImpl(sl(), sl()));
 
+  sl.registerSingleton<RemoteProfileRepository>(
+      RemoteProfileRepositoryImpl(prefs, sl(), sl()));
+
+  sl.registerSingleton<ProfileRepository>(ProfileRepositoryImpl(sl()));
+
   // usecases
   sl.registerSingleton<SignInWithGoogleUseCase>(SignInWithGoogleUseCase(sl()));
 
@@ -101,6 +112,8 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<GetUserLocalInformationUseCase>(
       GetUserLocalInformationUseCase(sl()));
 
+  sl.registerSingleton<GetUserProfileUseCase>(GetUserProfileUseCase(sl()));
+
   // factory
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));
 
@@ -113,4 +126,6 @@ Future<void> initializeDependencies() async {
 
   sl.registerFactory<SetupPageBloc>(
       () => SetupPageBloc(sl(), sl(), sl(), sl()));
+
+  sl.registerFactory<ProfileBloc>(() => ProfileBloc(sl()));
 }

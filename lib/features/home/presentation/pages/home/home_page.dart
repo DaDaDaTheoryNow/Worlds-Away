@@ -1,23 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/constants/constants.dart';
-import 'package:worlds_away/core/widgets/cupertino_loading.dart';
-import 'package:worlds_away/features/auth/presentation/blocs/auth/auth_bloc.dart';
-import 'package:worlds_away/features/auth/presentation/blocs/auth/auth_event.dart';
+import 'package:worlds_away/features/common/presentation/widgets/cupertino_loading.dart';
+import 'package:worlds_away/features/user/auth/presentation/blocs/auth/auth_bloc.dart';
+import 'package:worlds_away/features/user/auth/presentation/blocs/auth/auth_event.dart';
 
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_bloc.dart';
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_event.dart';
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_state.dart';
 
-import 'package:worlds_away/core/widgets/auth_elevated_button.dart';
+import 'package:worlds_away/features/common/presentation/widgets/auth_elevated_button.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/user_setup/user_setup_bloc.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/user_setup/user_setup_event.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/user_setup/user_setup_state.dart';
 
 import 'package:worlds_away/features/home/presentation/widgets/app_bar.dart';
 import 'package:worlds_away/features/home/presentation/widgets/bottom_nav_bar.dart';
-import 'package:worlds_away/features/home/presentation/widgets/setup_error_widget.dart';
+import 'package:worlds_away/features/common/presentation/widgets/my_error_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -33,7 +32,7 @@ class HomePage extends StatelessWidget {
         }
 
         if (state is UserSetupError) {
-          return Scaffold(body: SetupErrorWidget(error: state.error!));
+          return Scaffold(body: MyErrorWidget(error: state.error!));
         }
 
         if (state.status == UserSetupStatus.empty) {
@@ -43,7 +42,7 @@ class HomePage extends StatelessWidget {
 
         if (state.status == UserSetupStatus.filled) {
           return Scaffold(
-              appBar: _buildAppBarWidget(state.photoUrl ?? ""),
+              appBar: _buildAppBarWidget(state.photoUrl ?? "", context),
               body: _buildPageView(),
               bottomNavigationBar: _buildBottomNavigationBarWidget());
         }
@@ -53,11 +52,14 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  PreferredSize _buildAppBarWidget(String photoUrl) {
+  PreferredSize _buildAppBarWidget(String photoUrl, BuildContext context) {
     return PreferredSize(
         preferredSize: const Size.fromHeight(appBarHeight),
-        child: AppBarWidget(
-          photoUrl: photoUrl,
+        child: GestureDetector(
+          onTap: () => _onUserAvatarPressed(context),
+          child: AppBarWidget(
+            photoUrl: photoUrl,
+          ),
         ));
   }
 
@@ -92,6 +94,11 @@ class HomePage extends StatelessWidget {
 
   _onUserSetupEmpty(context) {
     Future.microtask(() => Navigator.pushNamedAndRemoveUntil(
-        context, "/UserSetup", (route) => false));
+        context, "/UserSetup", (route) => true));
+  }
+
+  _onUserAvatarPressed(context) {
+    Future.microtask(() => Navigator.pushNamedAndRemoveUntil(
+        context, "/Profile", (route) => true));
   }
 }

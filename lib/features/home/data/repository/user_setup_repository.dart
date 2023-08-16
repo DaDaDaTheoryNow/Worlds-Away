@@ -6,11 +6,10 @@ import 'package:worlds_away/features/home/data/data_sources/local/local_user_set
 import 'package:worlds_away/features/home/data/data_sources/remote/remote_user_setup_repository.dart';
 import 'package:worlds_away/features/home/data/models/setup_information.dart';
 
-import 'package:worlds_away/features/home/data/models/user.dart';
-import 'package:worlds_away/features/home/domain/entity/user.dart';
 import 'package:worlds_away/features/home/domain/entity/user_setup_information.dart';
 
 import 'package:worlds_away/features/home/domain/repository/user_setup_repository.dart';
+import 'package:worlds_away/features/common/data/models/user.dart';
 
 class UserSetupRepositoryImpl implements UserSetupRepository {
   final LocalUserSetupRepository _localSetupRepository;
@@ -109,7 +108,7 @@ class UserSetupRepositoryImpl implements UserSetupRepository {
   }
 
   @override
-  UserEntity getUserLocalInformation() {
+  UserModel getUserLocalInformation() {
     return _localSetupRepository.getUserLocalInformation();
   }
 }

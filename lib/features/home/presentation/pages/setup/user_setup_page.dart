@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/constants/constants.dart';
 import 'package:worlds_away/core/helpers/is_latin_only.dart';
-import 'package:worlds_away/core/widgets/cupertino_loading.dart';
+import 'package:worlds_away/features/common/presentation/widgets/cupertino_loading.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_bloc.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_event.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_state.dart';
-import 'package:worlds_away/features/home/presentation/widgets/setup_error_widget.dart';
+import 'package:worlds_away/features/common/presentation/widgets/my_error_widget.dart';
 
 class UserSetupPage extends StatefulWidget {
   const UserSetupPage({super.key});
@@ -54,7 +54,7 @@ class _UserSetupPageState extends State<UserSetupPage> {
         }
 
         if (state is SetupPageError) {
-          return SetupErrorWidget(error: state.error!);
+          return MyErrorWidget(error: state.error!);
         }
 
         if (state is SetupPageDone) {
