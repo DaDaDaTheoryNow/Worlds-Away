@@ -2,14 +2,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/resources/id_available_data_state.dart';
 import 'package:worlds_away/core/resources/user_information_data_state.dart';
 import 'package:worlds_away/core/resources/user_setup_data_state.dart';
-import 'package:worlds_away/features/home/domain/entity/user_setup_information.dart';
+import 'package:worlds_away/features/home/domain/entities/user_setup_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/check_id_available.dart';
 import 'package:worlds_away/features/home/domain/usecases/get_user_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/send_user_setup_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/set_user_setup_bool.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_event.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_state.dart';
-import 'package:worlds_away/features/common/domain/entity/user.dart';
+import 'package:worlds_away/features/common/domain/entities/user.dart';
 
 class SetupPageBloc extends Bloc<SetupPageEvent, SetupPageState> {
   final GetUserInformationUseCase _getUserInformationUseCase;

@@ -1,22 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/constants/constants.dart';
 import 'package:worlds_away/features/common/presentation/widgets/cupertino_loading.dart';
-import 'package:worlds_away/features/user/auth/presentation/blocs/auth/auth_bloc.dart';
-import 'package:worlds_away/features/user/auth/presentation/blocs/auth/auth_event.dart';
+import 'package:worlds_away/features/common/presentation/widgets/user_app_bar_avatar.dart';
 
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_bloc.dart';
-import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_event.dart';
+
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_state.dart';
 
-import 'package:worlds_away/features/common/presentation/widgets/auth_elevated_button.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/user_setup/user_setup_bloc.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/user_setup/user_setup_event.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/user_setup/user_setup_state.dart';
 
-import 'package:worlds_away/features/home/presentation/widgets/app_bar.dart';
 import 'package:worlds_away/features/home/presentation/widgets/bottom_nav_bar.dart';
 import 'package:worlds_away/features/common/presentation/widgets/my_error_widget.dart';
+import 'package:worlds_away/features/user/search/presentation/pages/users_search_page.dart';
+import 'package:worlds_away/injection_container.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -55,12 +55,23 @@ class HomePage extends StatelessWidget {
   PreferredSize _buildAppBarWidget(String photoUrl, BuildContext context) {
     return PreferredSize(
         preferredSize: const Size.fromHeight(appBarHeight),
-        child: GestureDetector(
-          onTap: () => _onUserAvatarPressed(context),
-          child: AppBarWidget(
-            photoUrl: photoUrl,
-          ),
-        ));
+        child: AppBar(
+            automaticallyImplyLeading: false,
+            title: const Text(
+              "Worlds Away",
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: UserAppBarAvatar(
+                  photoUrl: photoUrl,
+                  radius: 45,
+                  iconData: Icons.edit,
+                  onPressed: () => _onUserAvatarPressed(context),
+                  width: 70,
+                ),
+              )
+            ]));
   }
 
   _buildPageView() {
@@ -69,27 +80,17 @@ class HomePage extends StatelessWidget {
         return PageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: state.pageController,
-          children: [
-            const Center(child: Text("General")),
-            Center(child: _buildSignOutWithGoogleButton(context)),
+          children: const [
+            Center(child: Text("General")),
+            UsersSearchPage(),
           ],
         );
       },
     );
   }
 
-  _buildSignOutWithGoogleButton(context) {
-    return AuthElevatedButton(
-        title: "Выйти", function: () => _onSignOutPressed(context));
-  }
-
   _buildBottomNavigationBarWidget() {
     return const BottomNavigationBarWidget();
-  }
-
-  _onSignOutPressed(context) {
-    BlocProvider.of<BottomNavigationBarBloc>(context).add(const OnTap(0));
-    BlocProvider.of<AuthBloc>(context).add(const SignOut());
   }
 
   _onUserSetupEmpty(context) {
@@ -99,6 +100,9 @@ class HomePage extends StatelessWidget {
 
   _onUserAvatarPressed(context) {
     Future.microtask(() => Navigator.pushNamedAndRemoveUntil(
-        context, "/Profile", (route) => true));
+        context,
+        "/Profile",
+        arguments: sl<FirebaseAuth>().currentUser!.uid,
+        (route) => true));
   }
 }

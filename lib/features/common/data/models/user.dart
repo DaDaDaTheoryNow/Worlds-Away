@@ -1,21 +1,34 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:worlds_away/features/common/domain/entities/user.dart';
 
-import 'package:worlds_away/features/common/domain/entity/user.dart';
-
-part 'user.freezed.dart';
-part 'user.g.dart';
-
-@freezed
-class UserModel extends UserEntity with _$UserModel {
-  const factory UserModel({
+class UserModel extends UserEntity {
+  const UserModel({
     String? email,
     String? uniqueUid,
     String? id,
     String? name,
     String? photoUrl,
     String? about,
-  }) = _UserModel;
+  }) : super(
+          id: id,
+          uniqueUid: uniqueUid,
+          name: name,
+          email: email,
+          about: about,
+          photoUrl: photoUrl,
+        );
 
-  factory UserModel.fromJson(Map<String, dynamic> json) =>
-      _$UserModelFromJson(json);
+  factory UserModel.fromSnapshot(DocumentSnapshot documentSnapshot) {
+    final Map<String, dynamic>? data =
+        documentSnapshot.data() as Map<String, dynamic>?;
+
+    return UserModel(
+      email: data!["email"],
+      uniqueUid: data["uniqueUid"],
+      id: data["id"],
+      name: data["name"],
+      photoUrl: data["photoUrl"],
+      about: data["about"],
+    );
+  }
 }

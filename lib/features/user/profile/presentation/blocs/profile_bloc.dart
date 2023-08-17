@@ -13,7 +13,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void _onGetUserProfile(
       GetUserProfile event, Emitter<ProfileState> emit) async {
-    final dataState = await _getUserProfileUseCase();
+    final dataState = await _getUserProfileUseCase(params: event.userUniqueId);
 
     if (dataState is UserInformationDataSuccess) {
       emit(ProfileDone(dataState.user!));

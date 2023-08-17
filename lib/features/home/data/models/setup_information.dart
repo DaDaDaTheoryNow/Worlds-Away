@@ -1,19 +1,11 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:worlds_away/features/home/domain/entity/user_setup_information.dart';
+import 'package:worlds_away/features/home/domain/entities/user_setup_information.dart';
 
-part 'setup_information.freezed.dart';
-
-@freezed
-class UserSetupInformationModel extends UserSetupInformationEntity
-    with _$UserSetupInformationModel {
-  const factory UserSetupInformationModel({
-    String? email,
-    String? uniqueUid,
+class UserSetupInformationModel extends UserSetupInformationEntity {
+  const UserSetupInformationModel({
     String? id,
     String? name,
-    String? photoUrl,
     String? about,
-  }) = _UserSetupInformationModel;
+  }) : super(id: id, name: name, about: about);
 
   factory UserSetupInformationModel.fromEntity(
       UserSetupInformationEntity entity) {

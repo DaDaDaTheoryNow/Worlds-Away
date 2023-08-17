@@ -9,6 +9,7 @@ import 'package:worlds_away/features/user/auth/presentation/pages/auth/auth_page
 import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_bloc.dart';
 import 'package:worlds_away/features/home/presentation/pages/home/home_page.dart';
 import 'package:worlds_away/features/user/profile/presentation/blocs/profile_bloc.dart';
+import 'package:worlds_away/features/user/search/presentation/blocs/search_bloc.dart';
 
 import 'config/routes/routes.dart';
 import 'config/theme/theme.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => sl<UserSetupBloc>()),
           BlocProvider(create: (_) => sl<SetupPageBloc>()),
           BlocProvider(create: (_) => sl<ProfileBloc>()),
+          BlocProvider(create: (_) => sl<SearchBloc>()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

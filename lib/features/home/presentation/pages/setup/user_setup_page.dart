@@ -93,22 +93,26 @@ class _UserSetupPageState extends State<UserSetupPage> {
                       controller: _idController,
                       style: const TextStyle(color: Colors.white),
                       decoration: const InputDecoration(
-                        labelText: 'ID',
-                        floatingLabelStyle: TextStyle(color: Colors.white),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white)),
-                      ),
+                          labelText: 'Идентификатор',
+                          floatingLabelStyle: TextStyle(color: Colors.white),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          prefixText: '@',
+                          prefixStyle: TextStyle(
+                            color: Colors.white,
+                          )),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'ID обязателен';
+                          return 'Идентификатор обязателен';
                         }
 
                         if (value.contains(" ")) {
-                          return 'ID не может иметь пробелов';
+                          return 'Идентификатор не может иметь пробелов';
                         }
 
                         if (!isLatinOnly(value)) {
-                          return 'ID может иметь только латинские буквы';
+                          return 'Идентификатор может иметь только латинские буквы';
                         }
                         return null;
                       },
@@ -135,7 +139,7 @@ class _UserSetupPageState extends State<UserSetupPage> {
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          String id = _idController.text.toLowerCase();
+                          String id = "@${_idController.text.toLowerCase()}";
 
                           BlocProvider.of<SetupPageBloc>(context)
                               .add(CheckIdAvailable(id));
@@ -151,7 +155,7 @@ class _UserSetupPageState extends State<UserSetupPage> {
                     BlocBuilder<SetupPageBloc, SetupPageState>(
                       builder: (context, state) {
                         String name = _nameController.text.trim();
-                        String id = _idController.text.toLowerCase();
+                        String id = "@${_idController.text.toLowerCase()}";
                         String about = _aboutController.text.trim();
 
                         if (state.idIsAvailable == true) {
@@ -162,7 +166,7 @@ class _UserSetupPageState extends State<UserSetupPage> {
                           return const Padding(
                             padding: EdgeInsets.only(left: 5, top: 10),
                             child: Text(
-                              "ID занято",
+                              "Идентификатор занят",
                               style: TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.w600,

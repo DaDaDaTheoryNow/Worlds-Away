@@ -38,6 +38,12 @@ import 'package:worlds_away/features/user/profile/data/repository/profile_reposi
 import 'package:worlds_away/features/user/profile/domain/repository/profile_repository.dart';
 import 'package:worlds_away/features/user/profile/domain/usecases/get_user_profile.dart';
 import 'package:worlds_away/features/user/profile/presentation/blocs/profile_bloc.dart';
+import 'package:worlds_away/features/user/search/data/data_sources/remote/remote_search_impl.dart';
+import 'package:worlds_away/features/user/search/data/data_sources/remote/remote_search_repository.dart';
+import 'package:worlds_away/features/user/search/data/repository/search_repository.dart';
+import 'package:worlds_away/features/user/search/domain/repository/search_repository.dart';
+import 'package:worlds_away/features/user/search/domain/usecases/get_searched_users_stream.dart';
+import 'package:worlds_away/features/user/search/presentation/blocs/search_bloc.dart';
 
 import 'features/user/auth/presentation/blocs/auth/auth_bloc.dart';
 import 'features/user/auth/presentation/blocs/user_auth_status/user_auth_bloc.dart';
@@ -80,9 +86,13 @@ Future<void> initializeDependencies() async {
       UserSetupRepositoryImpl(sl(), sl()));
 
   sl.registerSingleton<RemoteProfileRepository>(
-      RemoteProfileRepositoryImpl(prefs, sl(), sl()));
+      RemoteProfileRepositoryImpl(prefs, sl()));
 
   sl.registerSingleton<ProfileRepository>(ProfileRepositoryImpl(sl()));
+
+  sl.registerSingleton<RemoteSearchRepository>(RemoteSearchImpl(sl(), sl()));
+
+  sl.registerSingleton<SearchRepository>(SearchRepositoryImpl(sl()));
 
   // usecases
   sl.registerSingleton<SignInWithGoogleUseCase>(SignInWithGoogleUseCase(sl()));
@@ -114,6 +124,9 @@ Future<void> initializeDependencies() async {
 
   sl.registerSingleton<GetUserProfileUseCase>(GetUserProfileUseCase(sl()));
 
+  sl.registerSingleton<GetSearchedUsersStreamUseCase>(
+      GetSearchedUsersStreamUseCase(sl()));
+
   // factory
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));
 
@@ -128,4 +141,6 @@ Future<void> initializeDependencies() async {
       () => SetupPageBloc(sl(), sl(), sl(), sl()));
 
   sl.registerFactory<ProfileBloc>(() => ProfileBloc(sl()));
+
+  sl.registerFactory<SearchBloc>(() => SearchBloc(sl()));
 }

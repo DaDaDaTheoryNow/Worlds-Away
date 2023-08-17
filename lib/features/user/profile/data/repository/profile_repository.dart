@@ -10,10 +10,11 @@ class ProfileRepositoryImpl implements ProfileRepository {
   ProfileRepositoryImpl(this._remoteProfileRepository);
 
   @override
-  UserInformationDataState<Stream<UserModel>> getUserProfileStream() {
+  UserInformationDataState<Stream<UserModel>> getUserProfileStream(
+      String userUniqueId) {
     try {
       final userInformationStream =
-          _remoteProfileRepository.getUserProfileStream();
+          _remoteProfileRepository.getUserProfileStream(userUniqueId);
       return UserInformationDataSuccess(userInformationStream);
     } on FirebaseException catch (e) {
       if (e.code == 'unavailable') {

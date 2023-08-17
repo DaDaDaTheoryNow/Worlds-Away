@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:worlds_away/features/common/domain/entity/user.dart';
+import 'package:worlds_away/features/common/domain/entities/user.dart';
+import 'package:worlds_away/features/user/profile/presentation/widgets/change_user_info_button.dart';
 
 class AccountInfoWidget extends StatelessWidget {
   final UserEntity user;
@@ -7,28 +8,47 @@ class AccountInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Colors.white,
-        width: MediaQuery.of(context).size.width,
-        height: 200,
-        child: Container(
-          margin: const EdgeInsets.only(top: 15, left: 15),
-          child: Column(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(left: 15, top: 35, right: 15),
+          child: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 "Аккаунт",
                 style: TextStyle(
                   color: Colors.blue,
                   fontWeight: FontWeight.w700,
-                  fontSize: 17,
+                  fontSize: 20,
                 ),
               ),
-              Text(user.name!),
-              Text(user.id!),
-              Text(user.about!)
+              Divider(),
             ],
           ),
-        ));
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        ChangeUserInfoButton(
+            onPressed: () {},
+            title: user.name!,
+            description: "Нажмите, чтобы изменить имя"),
+        const SizedBox(
+          height: 0.3,
+        ),
+        ChangeUserInfoButton(
+            onPressed: () {},
+            title: user.id!,
+            description: "Идентификатор пользователя"),
+        const SizedBox(
+          height: 0.3,
+        ),
+        ChangeUserInfoButton(
+            onPressed: () {}, title: user.about!, description: "О себе"),
+      ],
+    );
   }
 }

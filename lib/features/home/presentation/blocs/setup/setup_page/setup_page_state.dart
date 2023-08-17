@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:worlds_away/features/common/domain/entity/user.dart';
+import 'package:worlds_away/features/common/domain/entities/user.dart';
 
 class SetupPageState extends Equatable {
   final UserEntity? user;
