@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:worlds_away/core/resources/data_state.dart';
 import 'package:worlds_away/core/resources/id_available_data_state.dart';
-import 'package:worlds_away/core/resources/user_information_data_state.dart';
 import 'package:worlds_away/core/resources/user_setup_data_state.dart';
 import 'package:worlds_away/features/home/domain/entities/user_setup_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/check_id_available.dart';
@@ -72,9 +72,9 @@ class SetupPageBloc extends Bloc<SetupPageEvent, SetupPageState> {
   }
 
   Future<UserEntity?> getUserInformation(
-      UserInformationDataState<UserEntity?> dataState) async {
-    if (dataState is UserInformationDataSuccess) {
-      return dataState.user!;
+      DataState<UserEntity?> dataState) async {
+    if (dataState is DataSuccess) {
+      return dataState.data!;
     } else {
       return null;
     }

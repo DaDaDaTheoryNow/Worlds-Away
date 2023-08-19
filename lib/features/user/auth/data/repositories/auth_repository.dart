@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:worlds_away/core/resources/auth_data_state.dart';
+import 'package:worlds_away/core/resources/data_state.dart';
+
 import 'package:worlds_away/features/user/auth/data/data_sources/local/shared_preferences/local_auth_repository.dart';
 import 'package:worlds_away/features/user/auth/data/data_sources/remote/firebase_auth/remote_auth_repository.dart';
 import 'package:worlds_away/features/user/auth/domain/repositories/auth_repository.dart';
@@ -11,24 +12,24 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._firebaseAuthRepository, this._localAuthRepository);
 
   @override
-  Future<AuthDataState<User>> signInWithGoogle() async {
+  Future<DataState<User>> signInWithGoogle() async {
     final User? user = await _firebaseAuthRepository.signInWithGoogle();
 
     if (user != null) {
-      return AuthDataSuccess(user);
+      return DataSuccess(user);
     } else {
-      return const AuthDataFailed("Вход Был Отменён");
+      return const DataFailed("Вход Был Отменён");
     }
   }
 
   @override
-  Future<AuthDataState> signOutAndClearUserSetupBool() async {
+  Future<DataState> signOutAndClearUserSetupBool() async {
     try {
       await _localAuthRepository.clearUserSetupBool();
       await _firebaseAuthRepository.signOut();
-      return const AuthDataSuccess(null);
+      return const DataSuccess(null);
     } catch (e) {
-      return AuthDataFailed(e.toString());
+      return DataFailed(e.toString());
     }
   }
 }

@@ -12,7 +12,7 @@ class SearchedUserTile extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       radius: 65,
       onTap: () {
-        print("object");
+        debugPrint("searched user was clicked");
       },
       child: Container(
         margin: const EdgeInsets.all(12),

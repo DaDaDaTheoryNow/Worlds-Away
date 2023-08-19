@@ -14,7 +14,7 @@ class UsersSearchPage extends StatefulWidget {
 }
 
 class _UsersSearchPageState extends State<UsersSearchPage> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   bool _isSearching = false;
 
   @override

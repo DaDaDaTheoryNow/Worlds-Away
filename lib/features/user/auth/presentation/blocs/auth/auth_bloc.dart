@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:worlds_away/core/resources/auth_data_state.dart';
+
+import 'package:worlds_away/core/resources/data_state.dart';
 import 'package:worlds_away/features/user/auth/domain/usecases/sign_in_with_google.dart';
 import 'package:worlds_away/features/user/auth/domain/usecases/sign_out_and_clear_user_setup_bool.dart';
 
@@ -23,11 +24,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     final dataState = await _signInWithGoogleUseCase();
 
-    if (dataState is AuthDataSuccess && dataState.user != null) {
-      emit(UserSignIn(dataState.user!));
+    if (dataState is DataSuccess && dataState.data != null) {
+      emit(UserSignIn(dataState.data!));
     }
 
-    if (dataState is AuthDataFailed) {
+    if (dataState is DataFailed) {
       emit(AuthError(dataState.error!));
     }
   }
@@ -35,11 +36,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void onSignOut(SignOut event, Emitter emit) async {
     final dataState = await _signInOutAndClearUserSetupBoolUseCase();
 
-    if (dataState is AuthDataSuccess && dataState.user == null) {
+    if (dataState is DataSuccess && dataState.data == null) {
       emit(const UserSignOut());
     }
 
-    if (dataState is AuthDataFailed) {
+    if (dataState is DataFailed) {
       emit(AuthError(dataState.error!));
     }
   }

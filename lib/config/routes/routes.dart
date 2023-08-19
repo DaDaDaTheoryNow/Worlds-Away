@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:worlds_away/features/chat/chat/presentation/pages/chat_page.dart';
+import 'package:worlds_away/features/chat/chats/presention/pages/chats_page.dart';
+import 'package:worlds_away/features/common/domain/entities/user.dart';
 import 'package:worlds_away/features/user/auth/presentation/pages/auth/auth_page.dart';
 import 'package:worlds_away/features/home/presentation/pages/setup/user_setup_page.dart';
 import 'package:worlds_away/features/home/presentation/pages/home/home_page.dart';
-import 'package:worlds_away/features/user/profile/presentation/pages/my_profile_page.dart';
+import 'package:worlds_away/features/user/profile/presentation/pages/current_user_profile_page.dart';
 import 'package:worlds_away/features/user/search/presentation/pages/users_search_page.dart';
 
 class AppRoutes {
@@ -17,12 +20,19 @@ class AppRoutes {
       case '/UserSetup':
         return _materialRoute(const UserSetupPage());
 
-      case '/Profile':
-        return _materialRoute(
-            MyProfilePage(userUniqueId: settings.arguments as String));
+      case '/CurrentUserProfile':
+        return _materialRoute(const CurrentUserProfilePage());
 
       case '/UsersSearch':
         return _materialRoute(const UsersSearchPage());
+
+      case '/UsersChats':
+        return _materialRoute(const ChatsPage());
+
+      case '/Chat':
+        return _materialRoute(ChatPage(
+          user: settings.arguments as UserEntity,
+        ));
 
       default:
         return _materialRoute(const AuthPage());

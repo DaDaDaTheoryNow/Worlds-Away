@@ -10,5 +10,6 @@ const Color greyColor = Color.fromARGB(255, 29, 29, 29);
 const double appBarHeight = 75;
 
 const String firestoreCollectionUsers = "users";
+const String firestoreCollectionChats = "chats";
 
 const String prefsHasUserDescriptionKey = "hasUserDescription";

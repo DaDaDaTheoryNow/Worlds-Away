@@ -4,6 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:worlds_away/features/chat/chat/domain/usecases/get_messages_stream.dart';
+import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_bloc.dart';
+import 'package:worlds_away/features/chat/chats/data/data_sources/remote/remote_chats_impl.dart';
+import 'package:worlds_away/features/chat/chats/data/data_sources/remote/remote_chats_repository.dart';
+import 'package:worlds_away/features/chat/chats/data/repository/chats_repository.dart';
+import 'package:worlds_away/features/chat/chats/domain/repository/chats_repository.dart';
+import 'package:worlds_away/features/chat/chats/domain/usecases/get_chats_stream.dart';
+import 'package:worlds_away/features/chat/chats/presention/blocs/chats_bloc.dart';
 import 'package:worlds_away/features/user/auth/data/data_sources/local/shared_preferences/local_auth_impl.dart';
 import 'package:worlds_away/features/user/auth/data/data_sources/local/shared_preferences/local_auth_repository.dart';
 import 'package:worlds_away/features/user/auth/data/data_sources/remote/firebase_auth/remote_auth_impl.dart';
@@ -45,6 +53,10 @@ import 'package:worlds_away/features/user/search/domain/repository/search_reposi
 import 'package:worlds_away/features/user/search/domain/usecases/get_searched_users_stream.dart';
 import 'package:worlds_away/features/user/search/presentation/blocs/search_bloc.dart';
 
+import 'features/chat/chat/data/data_sources/remote/remote_chat_impl.dart';
+import 'features/chat/chat/data/data_sources/remote/remote_chat_repository.dart';
+import 'features/chat/chat/data/repository/chat_repository.dart';
+import 'features/chat/chat/domain/repository/chat_repository.dart';
 import 'features/user/auth/presentation/blocs/auth/auth_bloc.dart';
 import 'features/user/auth/presentation/blocs/user_auth_status/user_auth_bloc.dart';
 import 'features/home/data/repository/user_setup_repository.dart';
@@ -94,6 +106,12 @@ Future<void> initializeDependencies() async {
 
   sl.registerSingleton<SearchRepository>(SearchRepositoryImpl(sl()));
 
+  sl.registerSingleton<RemoteChatsRepository>(RemoteChatsImpl(sl(), sl()));
+  sl.registerSingleton<ChatsRepository>(ChatsRepositoryImpl(sl()));
+
+  sl.registerSingleton<RemoteChatRepository>(RemoteChatImpl(sl(), sl()));
+  sl.registerSingleton<ChatRepository>(ChatRepositoryImpl(sl()));
+
   // usecases
   sl.registerSingleton<SignInWithGoogleUseCase>(SignInWithGoogleUseCase(sl()));
 
@@ -127,6 +145,11 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<GetSearchedUsersStreamUseCase>(
       GetSearchedUsersStreamUseCase(sl()));
 
+  sl.registerSingleton<GetChatsStreamUseCase>(GetChatsStreamUseCase(sl()));
+
+  sl.registerSingleton<GetMessagesStreamUseCase>(
+      GetMessagesStreamUseCase(sl()));
+
   // factory
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));
 
@@ -140,7 +163,11 @@ Future<void> initializeDependencies() async {
   sl.registerFactory<SetupPageBloc>(
       () => SetupPageBloc(sl(), sl(), sl(), sl()));
 
-  sl.registerFactory<ProfileBloc>(() => ProfileBloc(sl()));
+  sl.registerFactory<ProfileBloc>(() => ProfileBloc(sl(), sl()));
 
   sl.registerFactory<SearchBloc>(() => SearchBloc(sl()));
+
+  sl.registerFactory<ChatsBloc>(() => ChatsBloc(sl()));
+
+  sl.registerFactory<ChatBloc>(() => ChatBloc(sl()));
 }

@@ -13,56 +13,35 @@ class SearchedUsers extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (context, state) {
+        if (state is SearchError) {
+          return MyErrorWidget(error: state.error!);
+        }
+
         if (state is SearchLoading) {
           return const CupertinoLoading();
         }
 
         if (state is SearchDone) {
-          return StreamBuilder(
-            stream: state.users,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return const MyErrorWidget(
-                  error: 'Error: нужно Интернет Соединение',
-                );
-              }
+          if (state.users!.usersList!.isEmpty) {
+            return const Center(
+              child: Text(
+                "Не найдено ни одного пользователя",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                ),
+              ),
+            );
+          }
 
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CupertinoLoading();
-              }
-
-              if (snapshot.hasData) {
-                final usersList = snapshot.data!.usersList;
-
-                if (usersList!.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      "Не найдено ни одного пользователя",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
-                    ),
-                  );
-                }
-
-                return ListView.builder(
-                  itemCount: usersList.length,
-                  itemBuilder: (context, index) {
-                    final searchedUser = usersList[index];
-                    return SearchedUserTile(user: searchedUser);
-                  },
-                );
-              }
-
-              return const SizedBox();
+          return ListView.builder(
+            itemCount: state.users!.usersList!.length,
+            itemBuilder: (context, index) {
+              final searchedUser = state.users!.usersList![index];
+              return SearchedUserTile(user: searchedUser);
             },
           );
-        }
-
-        if (state is SearchError) {
-          return MyErrorWidget(error: state.error!);
         }
 
         return const Center(

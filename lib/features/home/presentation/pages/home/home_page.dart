@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/constants/constants.dart';
+import 'package:worlds_away/features/chat/chats/presention/pages/chats_page.dart';
 import 'package:worlds_away/features/common/presentation/widgets/cupertino_loading.dart';
 import 'package:worlds_away/features/common/presentation/widgets/user_app_bar_avatar.dart';
 
@@ -81,7 +82,7 @@ class HomePage extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           controller: state.pageController,
           children: const [
-            Center(child: Text("General")),
+            ChatsPage(),
             UsersSearchPage(),
           ],
         );
@@ -101,7 +102,7 @@ class HomePage extends StatelessWidget {
   _onUserAvatarPressed(context) {
     Future.microtask(() => Navigator.pushNamedAndRemoveUntil(
         context,
-        "/Profile",
+        "/CurrentUserProfile",
         arguments: sl<FirebaseAuth>().currentUser!.uid,
         (route) => true));
   }

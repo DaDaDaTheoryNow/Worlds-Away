@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:worlds_away/core/resources/auth_data_state.dart';
+import 'package:worlds_away/core/resources/data_state.dart';
 
 abstract class AuthRepository {
-  Future<AuthDataState<User>> signInWithGoogle();
-  Future<AuthDataState> signOutAndClearUserSetupBool();
+  Future<DataState<User>> signInWithGoogle();
+  Future<DataState> signOutAndClearUserSetupBool();
 }

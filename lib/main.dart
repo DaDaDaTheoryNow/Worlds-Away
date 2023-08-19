@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_bloc.dart';
+import 'package:worlds_away/features/chat/chats/presention/blocs/chats_bloc.dart';
 
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_bloc.dart';
 
@@ -9,11 +11,13 @@ import 'package:worlds_away/features/user/auth/presentation/pages/auth/auth_page
 import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_bloc.dart';
 import 'package:worlds_away/features/home/presentation/pages/home/home_page.dart';
 import 'package:worlds_away/features/user/profile/presentation/blocs/profile_bloc.dart';
+import 'package:worlds_away/features/user/profile/presentation/blocs/profile_event.dart';
 import 'package:worlds_away/features/user/search/presentation/blocs/search_bloc.dart';
 
 import 'config/routes/routes.dart';
 import 'config/theme/theme.dart';
 
+import 'features/chat/chats/presention/blocs/chats_event.dart';
 import 'features/user/auth/presentation/blocs/auth/auth_bloc.dart';
 
 import 'features/user/auth/presentation/blocs/user_auth_status/user_auth_bloc.dart';
@@ -51,6 +55,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => sl<SetupPageBloc>()),
           BlocProvider(create: (_) => sl<ProfileBloc>()),
           BlocProvider(create: (_) => sl<SearchBloc>()),
+          BlocProvider(create: (_) => sl<ChatsBloc>()),
+          BlocProvider(create: (_) => sl<ChatBloc>()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -64,6 +70,8 @@ class MyApp extends StatelessWidget {
     return BlocBuilder<UserAuthBloc, UserAuthState>(
       builder: (context, state) {
         if (state.status == UserAuthStatus.authenticated) {
+          BlocProvider.of<ChatsBloc>(context).add(GetChatsStream());
+          BlocProvider.of<ProfileBloc>(context).add(GetCurrentUserProfile());
           return const HomePage();
         } else {
           return const AuthPage();

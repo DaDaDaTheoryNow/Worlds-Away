@@ -9,6 +9,4 @@ abstract class ProfileEvent extends Equatable {
   List<Object?> get props => [userUniqueId];
 }
 
-class GetUserProfile extends ProfileEvent {
-  const GetUserProfile(String userUniqueId) : super(userUniqueId: userUniqueId);
-}
+class GetCurrentUserProfile extends ProfileEvent {}
