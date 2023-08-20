@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:worlds_away/features/chat/chat/domain/entities/message.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class MessageWidget extends StatelessWidget {
   final MessageEntity message;
@@ -29,11 +30,11 @@ class MessageWidget extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              'From: ${message.fromUser!.name}',
+              'От: ${message.fromUser!.name}',
               style: const TextStyle(fontSize: 12, color: Colors.white),
             ),
             Text(
-              'Time: ${message.timestamp.toString()}',
+              'Время: ${timeago.format(DateTime.tryParse(message.timestamp!.toDate().toString())!, locale: "ru")}',
               style: const TextStyle(fontSize: 12, color: Colors.white),
             ),
           ],

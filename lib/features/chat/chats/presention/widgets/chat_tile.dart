@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:worlds_away/features/chat/chats/domain/entities/chat_entity.dart';
 import 'package:worlds_away/features/common/presentation/widgets/user_app_bar_avatar.dart';
 

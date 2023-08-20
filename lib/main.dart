@@ -27,6 +27,8 @@ import 'features/user/auth/presentation/blocs/user_auth_status/user_auth_state.d
 import 'features/home/presentation/blocs/setup/user_setup/user_setup_bloc.dart';
 import 'injection_container.dart';
 
+import 'package:timeago/timeago.dart' as timeago;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -35,6 +37,8 @@ Future<void> main() async {
 
   await SystemChrome.setPreferredOrientations(
       <DeviceOrientation>[DeviceOrientation.portraitUp]);
+
+  timeago.setLocaleMessages('ru', timeago.RuMessages());
 
   runApp(const MyApp());
 }

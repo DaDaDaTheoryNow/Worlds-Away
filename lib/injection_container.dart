@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:worlds_away/features/chat/chat/domain/usecases/get_messages_stream.dart';
+import 'package:worlds_away/features/chat/chat/domain/usecases/send_message.dart';
 import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_bloc.dart';
 import 'package:worlds_away/features/chat/chats/data/data_sources/remote/remote_chats_impl.dart';
 import 'package:worlds_away/features/chat/chats/data/data_sources/remote/remote_chats_repository.dart';
@@ -150,6 +151,8 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<GetMessagesStreamUseCase>(
       GetMessagesStreamUseCase(sl()));
 
+  sl.registerSingleton<SendMessageUseCase>(SendMessageUseCase(sl()));
+
   // factory
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));
 
@@ -169,5 +172,5 @@ Future<void> initializeDependencies() async {
 
   sl.registerFactory<ChatsBloc>(() => ChatsBloc(sl()));
 
-  sl.registerFactory<ChatBloc>(() => ChatBloc(sl()));
+  sl.registerFactory<ChatBloc>(() => ChatBloc(sl(), sl()));
 }

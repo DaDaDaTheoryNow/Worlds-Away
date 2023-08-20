@@ -11,6 +11,8 @@ class ChatWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController chatScrollController = ScrollController();
+
     return BlocBuilder<ChatBloc, ChatState>(
       builder: (context, state) {
         if (state is ChatError) {
@@ -35,7 +37,15 @@ class ChatWidget extends StatelessWidget {
             );
           }
 
+          // jump to down
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            chatScrollController
+                .jumpTo(chatScrollController.position.maxScrollExtent);
+          });
+
           return ListView.builder(
+            controller: chatScrollController,
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             itemCount: state.messages!.length,
             itemBuilder: (context, index) {
               final message = state.messages![index];

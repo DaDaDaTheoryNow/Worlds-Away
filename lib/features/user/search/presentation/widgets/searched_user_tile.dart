@@ -11,9 +11,7 @@ class SearchedUserTile extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(12),
       radius: 65,
-      onTap: () {
-        debugPrint("searched user was clicked");
-      },
+      onTap: () => _onUserTilePressed(context),
       child: Container(
         margin: const EdgeInsets.all(12),
         height: 75,
@@ -80,5 +78,11 @@ class SearchedUserTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _onUserTilePressed(context) {
+    Future.microtask(() => Navigator.pushNamedAndRemoveUntil(
+        context, "/Chat", (route) => true,
+        arguments: user));
   }
 }

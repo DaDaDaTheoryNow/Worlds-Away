@@ -5,6 +5,7 @@ import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_bloc.dart
 import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_event.dart';
 import 'package:worlds_away/features/chat/chat/presentation/widgets/chat.dart';
 import 'package:worlds_away/features/chat/chat/presentation/widgets/chat_app_bar.dart';
+import 'package:worlds_away/features/chat/chat/presentation/widgets/chat_text_field.dart';
 import 'package:worlds_away/features/common/domain/entities/user.dart';
 
 class ChatPage extends StatefulWidget {
@@ -27,7 +28,14 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: _buildBody(),
+      body: Column(
+        children: [
+          Expanded(
+            child: _buildBody(),
+          ),
+          _buildTextField(),
+        ],
+      ),
     );
   }
 
@@ -42,5 +50,7 @@ class _ChatPageState extends State<ChatPage> {
     return const ChatWidget();
   }
 
-  _buildTextField() {}
+  _buildTextField() {
+    return ChatTextField(widget.user);
+  }
 }
