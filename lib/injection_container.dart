@@ -6,7 +6,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:worlds_away/features/chat/chat/domain/usecases/get_messages_stream.dart';
 import 'package:worlds_away/features/chat/chat/domain/usecases/send_message.dart';
-import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_bloc.dart';
 import 'package:worlds_away/features/chat/chats/data/data_sources/remote/remote_chats_impl.dart';
 import 'package:worlds_away/features/chat/chats/data/data_sources/remote/remote_chats_repository.dart';
 import 'package:worlds_away/features/chat/chats/data/repository/chats_repository.dart';
@@ -171,6 +170,4 @@ Future<void> initializeDependencies() async {
   sl.registerFactory<SearchBloc>(() => SearchBloc(sl()));
 
   sl.registerFactory<ChatsBloc>(() => ChatsBloc(sl()));
-
-  sl.registerFactory<ChatBloc>(() => ChatBloc(sl(), sl()));
 }

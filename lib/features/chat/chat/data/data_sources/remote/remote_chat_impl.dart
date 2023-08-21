@@ -15,14 +15,12 @@ class RemoteChatImpl implements RemoteChatRepository {
   @override
   Future<Stream<List<MessageModel>>> getMessagesStream(
       String receiverUniqueUid) async {
-    final Stream<List<MessageModel>> newMessagesStream;
-
     final user = _auth.currentUser;
 
     final chatRef = _firestore.collection(firestoreCollectionChats);
     final userRef = _firestore.collection(firestoreCollectionUsers);
 
-    newMessagesStream = chatRef
+    return chatRef
         .where("recipients", arrayContains: receiverUniqueUid)
         .snapshots()
         .asyncMap((chatsSnapshot) async {
@@ -59,8 +57,6 @@ class RemoteChatImpl implements RemoteChatRepository {
       final combinedMessagesList = messageLists.expand((list) => list).toList();
       return combinedMessagesList;
     });
-
-    return newMessagesStream;
   }
 
   @override

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/constants/constants.dart';
 import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_bloc.dart';
-import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_event.dart';
 import 'package:worlds_away/features/chat/chat/presentation/widgets/chat.dart';
 import 'package:worlds_away/features/chat/chat/presentation/widgets/chat_app_bar.dart';
 import 'package:worlds_away/features/chat/chat/presentation/widgets/chat_text_field.dart';
 import 'package:worlds_away/features/common/domain/entities/user.dart';
+import 'package:worlds_away/injection_container.dart';
 
 class ChatPage extends StatefulWidget {
   final UserEntity user;
@@ -18,23 +18,25 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   @override
-  void initState() {
-    BlocProvider.of<ChatBloc>(context)
-        .add(GetMessagesStream(widget.user.uniqueUid!));
-    super.initState();
+  void dispose() {
+    BlocProvider.of<ChatBloc>(context).close();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: Column(
-        children: [
-          Expanded(
-            child: _buildBody(),
-          ),
-          _buildTextField(),
-        ],
+    return BlocProvider(
+      create: (_) => ChatBloc(sl(), sl(), widget.user.uniqueUid!),
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: Column(
+          children: [
+            Expanded(
+              child: _buildBody(),
+            ),
+            _buildTextField(),
+          ],
+        ),
       ),
     );
   }

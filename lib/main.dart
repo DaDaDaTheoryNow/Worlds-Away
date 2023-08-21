@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_bloc.dart';
 import 'package:worlds_away/features/chat/chats/presention/blocs/chats_bloc.dart';
 
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_bloc.dart';
@@ -60,7 +59,6 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => sl<ProfileBloc>()),
           BlocProvider(create: (_) => sl<SearchBloc>()),
           BlocProvider(create: (_) => sl<ChatsBloc>()),
-          BlocProvider(create: (_) => sl<ChatBloc>()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
