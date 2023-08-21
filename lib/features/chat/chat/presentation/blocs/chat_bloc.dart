@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/resources/data_state.dart';
 import 'package:worlds_away/features/chat/chat/domain/usecases/get_messages_stream.dart';
@@ -18,7 +17,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     this._sendMessageUseCase,
     this.receiverUniqueUid,
   ) : super(ChatLoading()) {
-    listenAndAddEmitEventMessages();
+    listenMessagesChanges();
 
     on<GetMessagesStream>(onGetMessagesStream);
     on<SendMessage>(onSendMessage);
@@ -42,7 +41,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     await _sendMessageUseCase(params: event.sendMessage);
   }
 
-  listenAndAddEmitEventMessages() async {
+  listenMessagesChanges() async {
     final dataState =
         await _getMessagesStreamUseCase(params: receiverUniqueUid);
 
@@ -59,8 +58,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   @override
   Future<void> close() {
-    debugPrint("chat bloc closed");
-    messagesStreamSubscription!.cancel();
+    messagesStreamSubscription?.cancel();
     return super.close();
   }
 }

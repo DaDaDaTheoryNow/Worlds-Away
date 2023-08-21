@@ -18,12 +18,6 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   @override
-  void dispose() {
-    BlocProvider.of<ChatBloc>(context).close();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => ChatBloc(sl(), sl(), widget.user.uniqueUid!),

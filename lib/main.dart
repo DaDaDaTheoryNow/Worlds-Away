@@ -16,7 +16,6 @@ import 'package:worlds_away/features/user/search/presentation/blocs/search_bloc.
 import 'config/routes/routes.dart';
 import 'config/theme/theme.dart';
 
-import 'features/chat/chats/presention/blocs/chats_event.dart';
 import 'features/user/auth/presentation/blocs/auth/auth_bloc.dart';
 
 import 'features/user/auth/presentation/blocs/user_auth_status/user_auth_bloc.dart';
@@ -58,7 +57,6 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => sl<SetupPageBloc>()),
           BlocProvider(create: (_) => sl<ProfileBloc>()),
           BlocProvider(create: (_) => sl<SearchBloc>()),
-          BlocProvider(create: (_) => sl<ChatsBloc>()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -72,9 +70,11 @@ class MyApp extends StatelessWidget {
     return BlocBuilder<UserAuthBloc, UserAuthState>(
       builder: (context, state) {
         if (state.status == UserAuthStatus.authenticated) {
-          BlocProvider.of<ChatsBloc>(context).add(GetChatsStream());
           BlocProvider.of<ProfileBloc>(context).add(GetCurrentUserProfile());
-          return const HomePage();
+
+          // provide chats
+          return BlocProvider(
+              create: (_) => sl<ChatsBloc>(), child: const HomePage());
         } else {
           return const AuthPage();
         }
