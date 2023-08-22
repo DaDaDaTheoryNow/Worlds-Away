@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/features/common/presentation/widgets/auth_elevated_button.dart';
 import 'package:worlds_away/features/common/presentation/widgets/cupertino_loading.dart';
 import 'package:worlds_away/features/common/presentation/widgets/my_error_widget.dart';
+import 'package:worlds_away/features/common/domain/usecases/update_user_online_status_usecase.dart';
 
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_bloc.dart';
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_event.dart';
+import 'package:worlds_away/features/common/presentation/observers/user_online_observer.dart';
 import 'package:worlds_away/features/user/auth/presentation/blocs/auth/auth_bloc.dart';
 import 'package:worlds_away/features/user/auth/presentation/blocs/auth/auth_event.dart';
 import 'package:worlds_away/features/user/profile/presentation/blocs/profile_bloc.dart';
@@ -15,6 +17,7 @@ import 'package:worlds_away/features/user/profile/presentation/widgets/account_i
 import 'package:worlds_away/features/user/profile/presentation/widgets/sliver_profile_app_bar.dart';
 import 'package:worlds_away/features/user/search/presentation/blocs/search_bloc.dart';
 import 'package:worlds_away/features/user/search/presentation/blocs/search_event.dart';
+import 'package:worlds_away/injection_container.dart';
 
 class CurrentUserProfilePage extends StatelessWidget {
   const CurrentUserProfilePage({super.key});
@@ -72,7 +75,9 @@ class CurrentUserProfilePage extends StatelessWidget {
         title: "Выйти", function: () => _onSignOutPressed(context));
   }
 
-  _onSignOutPressed(context) {
+  _onSignOutPressed(context) async {
+    await UserOnlineObserver(sl<UpdateUserOnlineStatusUseCase>())
+        .updateUserOnline(false);
     BlocProvider.of<BottomNavigationBarBloc>(context).add(const OnTap(0));
     BlocProvider.of<AuthBloc>(context).add(const SignOut());
     BlocProvider.of<SearchBloc>(context).add(ResetSearchState());

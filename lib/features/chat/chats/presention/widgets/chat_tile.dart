@@ -15,7 +15,7 @@ class ChatTile extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: const Color.fromARGB(28, 255, 255, 255),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Material(
         color: Colors.transparent,
@@ -64,6 +64,27 @@ class ChatTile extends StatelessWidget {
                       ),
                     ],
                   ),
+                ),
+                const Spacer(),
+                (chat.user.isOnline!)
+                    ? const Text(
+                        "Онлайн",
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )
+                    : const Text(
+                        "Не в сети",
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                const SizedBox(
+                  width: 10,
                 ),
               ],
             ),

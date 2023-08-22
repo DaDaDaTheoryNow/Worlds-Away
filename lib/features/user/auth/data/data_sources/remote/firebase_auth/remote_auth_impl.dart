@@ -48,6 +48,7 @@ class FirebaseAuthImpl implements RemoteAuthRepository {
           'uniqueUid': user.uid,
           'about': "",
           'photoUrl': user.photoURL ?? "",
+          'isOnline': null,
         });
 
         debugPrint('User document created successfully.');
