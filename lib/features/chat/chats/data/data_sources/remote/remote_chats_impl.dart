@@ -25,6 +25,7 @@ class RemoteChatsImpl implements RemoteChatsRepository {
       if (chatsSnapshot.docs.isNotEmpty) {
         return await Future.wait(chatsSnapshot.docs.map((doc) async {
           final recipients = doc.data()['recipients'] as List<dynamic>;
+          final messages = doc.data()['messages'] as List<dynamic>;
 
           final otherUserUid = recipients.firstWhere((uid) => uid != user!.uid);
 
@@ -33,7 +34,9 @@ class RemoteChatsImpl implements RemoteChatsRepository {
               .get()
               .then((value) => value.docs.first);
 
-          return ChatModel.fromSnapshot(userSnapshot);
+          final String lastMessage = messages.last["content"];
+
+          return ChatModel.fromSnapshot(userSnapshot, lastMessage);
         }).toList());
       } else {
         return <ChatModel>[];

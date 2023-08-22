@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:worlds_away/core/constants/constants.dart';
+
 import 'package:worlds_away/features/chat/chats/presention/pages/chats_page.dart';
 import 'package:worlds_away/features/common/presentation/widgets/cupertino_loading.dart';
-import 'package:worlds_away/features/common/presentation/widgets/user_app_bar_avatar.dart';
 
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_bloc.dart';
 
@@ -16,8 +14,8 @@ import 'package:worlds_away/features/home/presentation/blocs/setup/user_setup/us
 
 import 'package:worlds_away/features/home/presentation/widgets/bottom_nav_bar.dart';
 import 'package:worlds_away/features/common/presentation/widgets/my_error_widget.dart';
+import 'package:worlds_away/features/user/profile/presentation/pages/current_user_profile_page.dart';
 import 'package:worlds_away/features/user/search/presentation/pages/users_search_page.dart';
-import 'package:worlds_away/injection_container.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -43,7 +41,6 @@ class HomePage extends StatelessWidget {
 
         if (state.status == UserSetupStatus.filled) {
           return Scaffold(
-              appBar: _buildAppBarWidget(state.photoUrl ?? "", context),
               body: _buildPageView(),
               bottomNavigationBar: _buildBottomNavigationBarWidget());
         }
@@ -51,28 +48,6 @@ class HomePage extends StatelessWidget {
         return const SizedBox();
       },
     );
-  }
-
-  PreferredSize _buildAppBarWidget(String photoUrl, BuildContext context) {
-    return PreferredSize(
-        preferredSize: const Size.fromHeight(appBarHeight),
-        child: AppBar(
-            automaticallyImplyLeading: false,
-            title: const Text(
-              "Worlds Away",
-            ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: UserAppBarAvatar(
-                  photoUrl: photoUrl,
-                  radius: 45,
-                  iconData: Icons.edit,
-                  onPressed: () => _onUserAvatarPressed(context),
-                  width: 70,
-                ),
-              )
-            ]));
   }
 
   _buildPageView() {
@@ -84,6 +59,7 @@ class HomePage extends StatelessWidget {
           children: const [
             ChatsPage(),
             UsersSearchPage(),
+            CurrentUserProfilePage(),
           ],
         );
       },
@@ -97,13 +73,5 @@ class HomePage extends StatelessWidget {
   _onUserSetupEmpty(context) {
     Future.microtask(() => Navigator.pushNamedAndRemoveUntil(
         context, "/UserSetup", (route) => true));
-  }
-
-  _onUserAvatarPressed(context) {
-    Future.microtask(() => Navigator.pushNamedAndRemoveUntil(
-        context,
-        "/CurrentUserProfile",
-        arguments: sl<FirebaseAuth>().currentUser!.uid,
-        (route) => true));
   }
 }

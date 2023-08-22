@@ -37,8 +37,8 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return SafeArea(
+      child: Column(
         children: [
           _buildSearchBar(context),
           Expanded(

@@ -4,7 +4,7 @@ import 'package:worlds_away/core/constants/constants.dart';
 ThemeData theme() {
   return ThemeData(
     useMaterial3: true,
-    scaffoldBackgroundColor: Colors.black,
+    scaffoldBackgroundColor: backgroundColor,
     actionIconTheme: _buildActionIconThemeData(),
     elevatedButtonTheme: _elevatedButtonThemeData(),
     bottomNavigationBarTheme: _bottomNavigationBarThemeData(),
@@ -24,7 +24,7 @@ ElevatedButtonThemeData _elevatedButtonThemeData() => ElevatedButtonThemeData(
 BottomNavigationBarThemeData _bottomNavigationBarThemeData() =>
     const BottomNavigationBarThemeData(
       elevation: 0,
-      backgroundColor: greyColor,
+      backgroundColor: containerColor,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.grey,
       selectedIconTheme: IconThemeData(
@@ -45,7 +45,7 @@ BottomNavigationBarThemeData _bottomNavigationBarThemeData() =>
     );
 
 AppBarTheme _appBarTheme() => const AppBarTheme(
-    color: greyColor,
+    color: containerColor,
     toolbarHeight: appBarHeight,
     titleTextStyle: TextStyle(
       color: Colors.white,

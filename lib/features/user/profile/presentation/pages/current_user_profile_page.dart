@@ -74,7 +74,6 @@ class CurrentUserProfilePage extends StatelessWidget {
 
   _onSignOutPressed(context) {
     BlocProvider.of<BottomNavigationBarBloc>(context).add(const OnTap(0));
-    Future.microtask(() => Navigator.pop(context));
     BlocProvider.of<AuthBloc>(context).add(const SignOut());
     BlocProvider.of<SearchBloc>(context).add(ResetSearchState());
   }
