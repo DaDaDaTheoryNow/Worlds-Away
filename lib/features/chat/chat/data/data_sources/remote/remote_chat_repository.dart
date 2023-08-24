@@ -7,5 +7,5 @@ abstract class RemoteChatRepository {
 
   Future<void> sendMessage(SendMessageModel messageModel);
 
-  Future<void> setMessageIsViewed(MessageModel messageModel);
+  Future<void> setMessagesIsViewed(MessageModel messageModel);
 }

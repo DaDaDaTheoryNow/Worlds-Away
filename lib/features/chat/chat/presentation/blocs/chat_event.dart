@@ -32,7 +32,7 @@ class SendMessage extends ChatEvent {
       : super(sendMessage: sendMessage);
 }
 
-class SetMessageIsViewed extends ChatEvent {
-  const SetMessageIsViewed(MessageEntity messageEntity)
+class SetMessagesIsViewed extends ChatEvent {
+  const SetMessagesIsViewed(MessageEntity messageEntity)
       : super(messageEntity: messageEntity);
 }

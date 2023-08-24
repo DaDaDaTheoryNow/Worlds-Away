@@ -5,10 +5,11 @@ ThemeData theme() {
   return ThemeData(
     useMaterial3: true,
     scaffoldBackgroundColor: backgroundColor,
-    actionIconTheme: _buildActionIconThemeData(),
+    actionIconTheme: _actionIconThemeData(),
     elevatedButtonTheme: _elevatedButtonThemeData(),
     bottomNavigationBarTheme: _bottomNavigationBarThemeData(),
     appBarTheme: _appBarTheme(),
+    textSelectionTheme: _textSelectionThemeData(),
   );
 }
 
@@ -53,9 +54,15 @@ AppBarTheme _appBarTheme() => const AppBarTheme(
       fontSize: 18,
     ));
 
-ActionIconThemeData _buildActionIconThemeData() => ActionIconThemeData(
+ActionIconThemeData _actionIconThemeData() => ActionIconThemeData(
       backButtonIconBuilder: (context) => const Icon(
         Icons.arrow_back_ios_new,
         color: Colors.white,
       ),
     );
+
+TextSelectionThemeData _textSelectionThemeData() =>
+    const TextSelectionThemeData(
+        cursorColor: Colors.blue,
+        selectionColor: Colors.blue,
+        selectionHandleColor: Colors.blue);

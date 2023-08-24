@@ -163,8 +163,8 @@ Future<void> initializeDependencies() async {
 
   sl.registerSingleton(UpdateUserOnlineStatusUseCase(sl()));
 
-  sl.registerSingleton<SetMessageIsViewedUseCase>(
-      SetMessageIsViewedUseCase(sl()));
+  sl.registerSingleton<SetMessagesIsViewedUseCase>(
+      SetMessagesIsViewedUseCase(sl()));
 
   // factory
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));

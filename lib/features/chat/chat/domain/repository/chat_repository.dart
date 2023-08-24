@@ -8,5 +8,5 @@ abstract class ChatRepository {
 
   Future<void> sendMessage(SendMessageEntity messageEntity);
 
-  Future<void> setMessageIsViewed(MessageEntity messageEntity);
+  Future<void> setMessagesIsViewed(MessageEntity messageEntity);
 }

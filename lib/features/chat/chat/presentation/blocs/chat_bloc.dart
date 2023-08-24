@@ -11,7 +11,7 @@ import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_state.dar
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final GetMessagesStreamUseCase _getMessagesStreamUseCase;
   final SendMessageUseCase _sendMessageUseCase;
-  final SetMessageIsViewedUseCase _setMessageIsViewedUseCase;
+  final SetMessagesIsViewedUseCase _setMessageIsViewedUseCase;
   final String receiverUniqueUid;
 
   ChatBloc(
@@ -24,7 +24,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
     on<GetMessagesStream>(onGetMessagesStream);
     on<SendMessage>(onSendMessage);
-    on<SetMessageIsViewed>(onSetMessageIsViewed);
+    on<SetMessagesIsViewed>(onSetMessagesIsViewed);
   }
 
   StreamSubscription? messagesStreamSubscription;
@@ -45,7 +45,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     await _sendMessageUseCase(params: event.sendMessage);
   }
 
-  void onSetMessageIsViewed(SetMessageIsViewed event, Emitter emit) async {
+  void onSetMessagesIsViewed(SetMessagesIsViewed event, Emitter emit) async {
     await _setMessageIsViewedUseCase(params: event.messageEntity);
   }
 

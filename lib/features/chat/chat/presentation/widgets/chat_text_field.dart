@@ -28,10 +28,14 @@ class ChatTextField extends StatelessWidget {
                 ),
                 controller: messageController,
                 decoration: const InputDecoration(
-                  hintText: 'Type your message...',
-                ),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue)),
+                    hintText: 'Напишите ваше сообщение...',
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                    )),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (value == null || value.isEmpty || value.trim().isEmpty) {
                     return "Невозможно отправить пустое сообщение";
                   }
 

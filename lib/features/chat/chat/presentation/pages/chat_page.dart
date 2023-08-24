@@ -8,19 +8,14 @@ import 'package:worlds_away/features/chat/chat/presentation/widgets/chat_text_fi
 import 'package:worlds_away/features/common/domain/entities/user.dart';
 import 'package:worlds_away/injection_container.dart';
 
-class ChatPage extends StatefulWidget {
+class ChatPage extends StatelessWidget {
   final UserEntity user;
   const ChatPage({required this.user, super.key});
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
-}
-
-class _ChatPageState extends State<ChatPage> {
-  @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ChatBloc(sl(), sl(), sl(), widget.user.uniqueUid!),
+      create: (_) => ChatBloc(sl(), sl(), sl(), user.uniqueUid!),
       child: Scaffold(
         appBar: _buildAppBar(),
         body: Column(
@@ -38,7 +33,7 @@ class _ChatPageState extends State<ChatPage> {
   _buildAppBar() {
     return PreferredSize(
       preferredSize: const Size.fromHeight(appBarHeight),
-      child: ChatAppBar(widget.user),
+      child: ChatAppBar(user),
     );
   }
 
@@ -47,6 +42,6 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   _buildTextField() {
-    return ChatTextField(widget.user);
+    return ChatTextField(user);
   }
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:worlds_away/core/constants/constants.dart';
+import 'package:worlds_away/core/helpers/remove_non_english_letters.dart';
+
 import 'package:worlds_away/features/user/search/presentation/blocs/search_bloc.dart';
 import 'package:worlds_away/features/user/search/presentation/blocs/search_event.dart';
 
@@ -15,19 +18,6 @@ class UsersSearchPage extends StatefulWidget {
 
 class _UsersSearchPageState extends State<UsersSearchPage> {
   final TextEditingController _searchController = TextEditingController();
-  bool _isSearching = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _searchController.addListener(_onSearchTextChanged);
-  }
-
-  void _onSearchTextChanged() {
-    setState(() {
-      _isSearching = _searchController.text.isNotEmpty;
-    });
-  }
 
   @override
   void dispose() {
@@ -52,26 +42,37 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
   Widget _buildSearchBar(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        controller: _searchController,
-        style: const TextStyle(
-          color: Colors.white,
-        ),
-        onChanged: (query) {
-          final String idToSearch = "@${query.toLowerCase().trim()}";
-          BlocProvider.of<SearchBloc>(context)
-              .add(GetSearchedUsersStream(idToSearch));
-        },
-        decoration: InputDecoration(
-          hintText: "Искать пользователей...",
-          hintStyle: const TextStyle(
-            color: Colors.grey,
-          ),
-          prefixText: _isSearching ? "@" : "",
-          prefixStyle: const TextStyle(
+      child: Container(
+        decoration: BoxDecoration(
+            color: containerColor, borderRadius: BorderRadius.circular(42)),
+        child: TextField(
+          controller: _searchController,
+          style: const TextStyle(
             color: Colors.white,
           ),
-          prefixIcon: const Icon(Icons.search),
+          onChanged: (query) {
+            String idToSearch = query.toLowerCase().trim();
+
+            if (idToSearch[0] != "@") {
+              String parsedIdToSearch = removeNonEnglishLetters(idToSearch);
+              idToSearch = "@$parsedIdToSearch";
+            }
+
+            BlocProvider.of<SearchBloc>(context)
+                .add(GetSearchedUsersStream(idToSearch));
+          },
+          decoration: const InputDecoration(
+            focusedBorder: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            hintText: "Искать пользователей...",
+            hintStyle: TextStyle(
+              color: Colors.grey,
+            ),
+            prefixStyle: TextStyle(
+              color: Colors.white,
+            ),
+            prefixIcon: Icon(Icons.search),
+          ),
         ),
       ),
     );

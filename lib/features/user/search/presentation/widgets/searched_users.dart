@@ -39,7 +39,7 @@ class SearchedUsers extends StatelessWidget {
             itemCount: state.users!.usersList!.length,
             itemBuilder: (context, index) {
               final searchedUser = state.users!.usersList![index];
-              return SearchedUserTile(user: searchedUser);
+              return SearchedUserTile(searchedUser);
             },
           );
         }

@@ -98,39 +98,39 @@ class RemoteChatImpl implements RemoteChatRepository {
   }
 
   @override
-  Future<void> setMessageIsViewed(MessageModel messageModel) async {
+  Future<void> setMessagesIsViewed(MessageModel messageModel) async {
     final user = _auth.currentUser;
 
     final chatRef = _firestore.collection(firestoreCollectionChats);
 
-    // return docs where current user
-    final chatSnapshot =
-        await chatRef.where("recipients", arrayContains: user!.uid).get();
+    if (messageModel.fromUser!.uniqueUid != user!.uid) {
+      // return docs where current user
 
-    // return docs where current user with recipient
-    final filteredDocs = chatSnapshot.docs.where((doc) {
-      final recipients = doc.data()["recipients"] as List<dynamic>;
-      return recipients.contains(messageModel.receiverUniqueUid);
-    }).toList();
+      final chatSnapshot = await chatRef
+          .where("recipients", arrayContains: user.uid)
+          .get(const GetOptions(source: Source.server));
 
-    if (filteredDocs.isNotEmpty) {
-      final chatDoc = filteredDocs.first;
-      final data = chatDoc.data();
+      // return docs where current user with recipient
+      final filteredDocs = chatSnapshot.docs.where((doc) {
+        final recipients = doc.data()["recipients"] as List<dynamic>;
+        return recipients.contains(messageModel.receiverUniqueUid);
+      }).toList();
 
-      final messages = data["messages"] as List<dynamic>;
-      for (var message in messages) {
-        final index = messages.indexOf(message);
-        if (message["timestamp"] == messageModel.timestamp &&
-            message["content"] == messageModel.content) {
-          if (messageModel.fromUser!.uniqueUid != user.uid) {
-            final newMessage = message["isViewed"];
-            newMessage.isViewed = true;
-            messages.insert(index, newMessage);
-            await chatDoc.reference
-                .set({"messages": messages}, SetOptions(merge: true));
-            break;
+      if (filteredDocs.isNotEmpty) {
+        final chatDoc = filteredDocs.first;
+        final data = chatDoc.data();
+
+        final messages = data["messages"] as List<dynamic>;
+
+        for (var message in messages) {
+          if (message["isViewed"] == false) {
+            message["isViewed"] = true;
           }
         }
+
+        await chatDoc.reference.update({
+          "messages": messages,
+        });
       }
     }
   }

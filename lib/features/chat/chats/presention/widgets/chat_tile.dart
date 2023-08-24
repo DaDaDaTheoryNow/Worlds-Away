@@ -20,7 +20,7 @@ class ChatTile extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(20),
           onTap: () => _onChatPressed(context),
           child: Padding(
             padding: const EdgeInsets.only(left: 15),
@@ -46,12 +46,31 @@ class ChatTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(chat.user.name!,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 17,
-                          )),
+                      Row(
+                        children: [
+                          Text(chat.user.name!,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 17,
+                              )),
+                          if (chat.messagesToNotViewed > 0)
+                            Container(
+                              margin: const EdgeInsets.only(left: 10),
+                              width: 40,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(42)),
+                              child: Center(
+                                child: Text(
+                                  chat.messagesToNotViewed.toString(),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
                       const SizedBox(
                         height: 2,
                       ),
@@ -64,6 +83,9 @@ class ChatTile extends StatelessWidget {
                       ),
                     ],
                   ),
+                ),
+                const SizedBox(
+                  width: 10,
                 ),
                 const Spacer(),
                 (chat.user.isOnline!)

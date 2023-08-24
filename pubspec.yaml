@@ -46,7 +46,6 @@ dependencies:
   cached_network_image: ^3.2.3
   timeago: ^3.5.0
   rxdart: ^0.27.7
-  visibility_detector: ^0.4.0+2
 
 
 dev_dependencies:

@@ -33,7 +33,7 @@ class RemoteChatsImpl implements RemoteChatsRepository {
         return chatsWithUserDocs.docs.map((doc) {
           final recipients = doc.data()['recipients'] as List<dynamic>;
           final messages = doc.data()['messages'] as List<dynamic>;
-          final String lastMessage = messages.last["content"];
+          final lastMessage = messages.last;
 
           final otherUserUid = recipients.firstWhere((uid) => uid != user!.uid);
 
@@ -42,7 +42,19 @@ class RemoteChatsImpl implements RemoteChatsRepository {
               .toList()
               .first;
 
-          return ChatModel.fromSnapshot(userSnapshot, lastMessage);
+          int messagesToNotViewed = 0;
+          for (int i = messages.length - 1; i >= 0; i--) {
+            final message = messages[i];
+
+            if (!message["isViewed"] && message["fromUniqueUid"] != user!.uid) {
+              messagesToNotViewed++;
+            } else {
+              break;
+            }
+          }
+
+          return ChatModel.fromSnapshot(
+              userSnapshot, lastMessage["content"], messagesToNotViewed);
         }).toList();
       } else {
         return <ChatModel>[];
