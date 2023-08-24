@@ -8,15 +8,17 @@ class MessageEntity extends Equatable {
   final UserEntity? fromUser;
   final bool? isMy;
   final String? receiverUniqueUid;
+  final bool? isViewed;
 
   const MessageEntity(
       {this.content,
       this.fromUser,
       this.timestamp,
       this.isMy,
-      this.receiverUniqueUid});
+      this.receiverUniqueUid,
+      this.isViewed});
 
   @override
   List<Object?> get props =>
-      [content, timestamp, fromUser, isMy, receiverUniqueUid];
+      [content, timestamp, fromUser, isMy, receiverUniqueUid, isViewed];
 }

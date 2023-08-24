@@ -20,7 +20,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ChatBloc(sl(), sl(), widget.user.uniqueUid!),
+      create: (_) => ChatBloc(sl(), sl(), sl(), widget.user.uniqueUid!),
       child: Scaffold(
         appBar: _buildAppBar(),
         body: Column(

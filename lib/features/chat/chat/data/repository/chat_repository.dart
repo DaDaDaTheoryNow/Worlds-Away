@@ -3,6 +3,7 @@ import 'package:worlds_away/core/resources/data_state.dart';
 import 'package:worlds_away/features/chat/chat/data/data_sources/remote/remote_chat_repository.dart';
 import 'package:worlds_away/features/chat/chat/data/models/message.dart';
 import 'package:worlds_away/features/chat/chat/data/models/send_message.dart';
+import 'package:worlds_away/features/chat/chat/domain/entities/message.dart';
 import 'package:worlds_away/features/chat/chat/domain/entities/send_message.dart';
 import 'package:worlds_away/features/chat/chat/domain/repository/chat_repository.dart';
 
@@ -31,5 +32,11 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<void> sendMessage(SendMessageEntity messageEntity) async {
     await _remoteChatRepository
         .sendMessage(SendMessageModel.fromEntity(messageEntity));
+  }
+
+  @override
+  Future<void> setMessageIsViewed(MessageEntity messageEntity) async {
+    await _remoteChatRepository
+        .setMessageIsViewed(MessageModel.fromEntity(messageEntity));
   }
 }

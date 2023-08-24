@@ -72,13 +72,13 @@ class RemoteUserSetupImpl implements RemoteUserSetupRepository {
 
       if (userData != null) {
         return UserModel(
-          email: userData["email"],
-          id: userData["id"],
-          uniqueUid: userData["uniqueUid"],
-          name: userData["name"],
-          about: userData["about"],
-          photoUrl: userData["photoUrl"],
-        );
+            email: userData["email"],
+            id: userData["id"],
+            uniqueUid: userData["uniqueUid"],
+            name: userData["name"],
+            about: userData["about"],
+            photoUrl: userData["photoUrl"],
+            isOnline: userData["isOnline"]);
       }
     }
 

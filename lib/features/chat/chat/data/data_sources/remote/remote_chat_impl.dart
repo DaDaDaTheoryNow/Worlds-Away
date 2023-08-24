@@ -47,7 +47,8 @@ class RemoteChatImpl implements RemoteChatRepository {
           return MessageModel.fromFirestore(
               message,
               UserModel.fromSnapshot(userSnapshot),
-              fromUniqueUid == user!.uid ? true : false);
+              fromUniqueUid == user!.uid ? true : false,
+              receiverUniqueUid);
         }).toList());
 
         return messagesModelList;
@@ -75,30 +76,62 @@ class RemoteChatImpl implements RemoteChatRepository {
       return recipients.contains(messageModel.receiverUniqueUid);
     }).toList();
 
+    final newMessage = {
+      "content": messageModel.content,
+      "timestamp": messageModel.timestamp,
+      "fromUniqueUid": user.uid,
+      "isViewed": false,
+    };
+
     if (filteredDocs.isNotEmpty) {
       final chatDoc = filteredDocs.first;
-      final messages = chatDoc.data()["messages"] as List<dynamic>;
 
-      final newMessage = {
-        "content": messageModel.content,
-        "timestamp": messageModel.timestamp,
-        "fromUniqueUid": user.uid,
-      };
-
-      messages.add(newMessage);
-
-      await chatDoc.reference.update({"messages": messages});
+      await chatDoc.reference.update({
+        "messages": FieldValue.arrayUnion([newMessage]),
+      });
     } else {
-      final newMessage = {
-        "content": messageModel.content,
-        "timestamp": messageModel.timestamp,
-        "fromUniqueUid": user.uid,
-      };
-
       await chatRef.doc().set({
         "recipients": [user.uid, messageModel.receiverUniqueUid],
         "messages": [newMessage]
       });
+    }
+  }
+
+  @override
+  Future<void> setMessageIsViewed(MessageModel messageModel) async {
+    final user = _auth.currentUser;
+
+    final chatRef = _firestore.collection(firestoreCollectionChats);
+
+    // return docs where current user
+    final chatSnapshot =
+        await chatRef.where("recipients", arrayContains: user!.uid).get();
+
+    // return docs where current user with recipient
+    final filteredDocs = chatSnapshot.docs.where((doc) {
+      final recipients = doc.data()["recipients"] as List<dynamic>;
+      return recipients.contains(messageModel.receiverUniqueUid);
+    }).toList();
+
+    if (filteredDocs.isNotEmpty) {
+      final chatDoc = filteredDocs.first;
+      final data = chatDoc.data();
+
+      final messages = data["messages"] as List<dynamic>;
+      for (var message in messages) {
+        final index = messages.indexOf(message);
+        if (message["timestamp"] == messageModel.timestamp &&
+            message["content"] == messageModel.content) {
+          if (messageModel.fromUser!.uniqueUid != user.uid) {
+            final newMessage = message["isViewed"];
+            newMessage.isViewed = true;
+            messages.insert(index, newMessage);
+            await chatDoc.reference
+                .set({"messages": messages}, SetOptions(merge: true));
+            break;
+          }
+        }
+      }
     }
   }
 }

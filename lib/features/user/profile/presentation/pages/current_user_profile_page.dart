@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -75,9 +76,10 @@ class CurrentUserProfilePage extends StatelessWidget {
         title: "Выйти", function: () => _onSignOutPressed(context));
   }
 
-  _onSignOutPressed(context) async {
-    await UserOnlineObserver(sl<UpdateUserOnlineStatusUseCase>())
+  _onSignOutPressed(context) {
+    UserOnlineObserver(sl<UpdateUserOnlineStatusUseCase>(), sl<FirebaseAuth>())
         .updateUserOnline(false);
+
     BlocProvider.of<BottomNavigationBarBloc>(context).add(const OnTap(0));
     BlocProvider.of<AuthBloc>(context).add(const SignOut());
     BlocProvider.of<SearchBloc>(context).add(ResetSearchState());

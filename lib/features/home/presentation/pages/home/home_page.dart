@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,15 +35,15 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addObserver(
-        UserOnlineObserver(sl<UpdateUserOnlineStatusUseCase>())
-          ..updateUserOnline(true));
+    WidgetsBinding.instance.addObserver(UserOnlineObserver(
+        sl<UpdateUserOnlineStatusUseCase>(), sl<FirebaseAuth>())
+      ..updateUserOnline(true));
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(
-        UserOnlineObserver(sl<UpdateUserOnlineStatusUseCase>()));
+    WidgetsBinding.instance.removeObserver(UserOnlineObserver(
+        sl<UpdateUserOnlineStatusUseCase>(), sl<FirebaseAuth>()));
 
     super.dispose();
   }

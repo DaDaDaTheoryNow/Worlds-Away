@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:worlds_away/features/chat/chat/domain/usecases/get_messages_stream.dart';
 import 'package:worlds_away/features/chat/chat/domain/usecases/send_message.dart';
+import 'package:worlds_away/features/chat/chat/domain/usecases/set_message_is_viewed.dart';
 import 'package:worlds_away/features/chat/chats/data/data_sources/remote/remote_chats_impl.dart';
 import 'package:worlds_away/features/chat/chats/data/data_sources/remote/remote_chats_repository.dart';
 import 'package:worlds_away/features/chat/chats/data/repository/chats_repository.dart';
@@ -117,8 +118,7 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<RemoteChatRepository>(RemoteChatImpl(sl(), sl()));
   sl.registerSingleton<ChatRepository>(ChatRepositoryImpl(sl()));
 
-  sl.registerSingleton<RemoteUserOnlineRepository>(
-      RemoteUserOnlineImpl(sl(), sl()));
+  sl.registerSingleton<RemoteUserOnlineRepository>(RemoteUserOnlineImpl(sl()));
   sl.registerSingleton<UserOnlineRepository>(UserOnlineRepositoryImpl(sl()));
 
   // usecases
@@ -162,6 +162,9 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<SendMessageUseCase>(SendMessageUseCase(sl()));
 
   sl.registerSingleton(UpdateUserOnlineStatusUseCase(sl()));
+
+  sl.registerSingleton<SetMessageIsViewedUseCase>(
+      SetMessageIsViewedUseCase(sl()));
 
   // factory
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));

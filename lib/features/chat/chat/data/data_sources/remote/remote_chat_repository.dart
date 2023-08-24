@@ -6,4 +6,6 @@ abstract class RemoteChatRepository {
       String receiverUniqueUid);
 
   Future<void> sendMessage(SendMessageModel messageModel);
+
+  Future<void> setMessageIsViewed(MessageModel messageModel);
 }

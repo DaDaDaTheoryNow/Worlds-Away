@@ -8,21 +8,35 @@ class MessageModel extends MessageEntity {
       Timestamp? timestamp,
       UserModel? fromUser,
       bool? isMy,
+      bool? isViewed,
       String? receiverUniqueUid})
       : super(
             content: content,
             timestamp: timestamp,
             fromUser: fromUser,
             isMy: isMy,
+            isViewed: isViewed,
             receiverUniqueUid: receiverUniqueUid);
 
-  factory MessageModel.fromFirestore(
-      Map<String, dynamic> map, UserModel userModel, bool isMy) {
+  factory MessageModel.fromFirestore(Map<String, dynamic> map,
+      UserModel userModel, bool isMy, String receiverUniqueUid) {
     return MessageModel(
-      content: map['content'],
-      timestamp: map['timestamp'],
-      fromUser: userModel,
-      isMy: isMy,
+        content: map['content'],
+        timestamp: map['timestamp'],
+        fromUser: userModel,
+        isMy: isMy,
+        isViewed: map["isViewed"],
+        receiverUniqueUid: receiverUniqueUid);
+  }
+
+  factory MessageModel.fromEntity(MessageEntity messageEntity) {
+    return MessageModel(
+      content: messageEntity.content,
+      timestamp: messageEntity.timestamp,
+      fromUser: UserModel.fromEntity(messageEntity.fromUser!),
+      isMy: messageEntity.isMy,
+      isViewed: messageEntity.isViewed,
+      receiverUniqueUid: messageEntity.receiverUniqueUid,
     );
   }
 }

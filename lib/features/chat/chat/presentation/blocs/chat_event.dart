@@ -5,16 +5,21 @@ import 'package:worlds_away/features/chat/chat/domain/entities/message.dart';
 import 'package:worlds_away/features/chat/chat/domain/entities/send_message.dart';
 
 abstract class ChatEvent extends Equatable {
+  final MessageEntity? messageEntity;
   final SendMessageEntity? sendMessage;
   final DataState<List<MessageEntity>>? dataStateMessages;
 
   final String? receiverUniqueUid;
 
   const ChatEvent(
-      {this.receiverUniqueUid, this.sendMessage, this.dataStateMessages});
+      {this.receiverUniqueUid,
+      this.sendMessage,
+      this.dataStateMessages,
+      this.messageEntity});
 
   @override
-  List<Object?> get props => [receiverUniqueUid, sendMessage];
+  List<Object?> get props =>
+      [receiverUniqueUid, sendMessage, messageEntity, dataStateMessages];
 }
 
 class GetMessagesStream extends ChatEvent {
@@ -25,4 +30,9 @@ class GetMessagesStream extends ChatEvent {
 class SendMessage extends ChatEvent {
   const SendMessage(SendMessageEntity sendMessage)
       : super(sendMessage: sendMessage);
+}
+
+class SetMessageIsViewed extends ChatEvent {
+  const SetMessageIsViewed(MessageEntity messageEntity)
+      : super(messageEntity: messageEntity);
 }

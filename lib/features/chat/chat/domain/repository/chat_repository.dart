@@ -7,4 +7,6 @@ abstract class ChatRepository {
       String receiverUniqueUid);
 
   Future<void> sendMessage(SendMessageEntity messageEntity);
+
+  Future<void> setMessageIsViewed(MessageEntity messageEntity);
 }

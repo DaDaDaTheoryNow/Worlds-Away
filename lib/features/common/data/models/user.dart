@@ -33,4 +33,15 @@ class UserModel extends UserEntity {
         about: data["about"],
         isOnline: data["isOnline"]);
   }
+
+  factory UserModel.fromEntity(UserEntity userEntity) {
+    return UserModel(
+        email: userEntity.email,
+        uniqueUid: userEntity.uniqueUid,
+        id: userEntity.id,
+        name: userEntity.name,
+        photoUrl: userEntity.photoUrl,
+        about: userEntity.about,
+        isOnline: userEntity.isOnline);
+  }
 }
