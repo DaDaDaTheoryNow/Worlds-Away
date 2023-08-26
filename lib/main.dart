@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/features/chat/chats/presention/blocs/chats_bloc.dart';
 
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_bloc.dart';
+import 'package:worlds_away/features/notifications/domain/usecases/init_notifications.dart';
 
 import 'package:worlds_away/features/user/auth/presentation/pages/auth/auth_page.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_bloc.dart';
@@ -32,6 +33,8 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   await initializeDependencies();
+
+  await sl<InitNotificationsUseCase>().call();
 
   await SystemChrome.setPreferredOrientations(
       <DeviceOrientation>[DeviceOrientation.portraitUp]);

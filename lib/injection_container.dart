@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -17,6 +18,11 @@ import 'package:worlds_away/features/common/data/data_sources/remote_user_online
 import 'package:worlds_away/features/common/data/repository/user_online_repository.dart';
 import 'package:worlds_away/features/common/domain/repository/user_online_repository.dart';
 import 'package:worlds_away/features/common/domain/usecases/update_user_online_status_usecase.dart';
+import 'package:worlds_away/features/notifications/data/data_sources/remote/remote_notifications_impl.dart';
+import 'package:worlds_away/features/notifications/data/data_sources/remote/remote_notifications_repository.dart';
+import 'package:worlds_away/features/notifications/data/repository/notifications_repository.dart';
+import 'package:worlds_away/features/notifications/domain/repository/notifications_repository.dart';
+import 'package:worlds_away/features/notifications/domain/usecases/init_notifications.dart';
 import 'package:worlds_away/features/user/auth/data/data_sources/local/shared_preferences/local_auth_impl.dart';
 import 'package:worlds_away/features/user/auth/data/data_sources/local/shared_preferences/local_auth_repository.dart';
 import 'package:worlds_away/features/user/auth/data/data_sources/remote/firebase_auth/remote_auth_impl.dart';
@@ -77,111 +83,85 @@ Future<void> initializeDependencies() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   sl.registerSingleton<SharedPreferences>(prefs);
 
-  // auth with firebase
+  // Firebase dependencies
   sl.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
   sl.registerSingleton<GoogleSignIn>(GoogleSignIn());
   sl.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
 
-  // repositories
+  // Firebase Messaging dependencie
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  sl.registerSingleton<FirebaseMessaging>(firebaseMessaging);
+
+  // Repositories
   sl.registerSingleton<RemoteAuthRepository>(
       FirebaseAuthImpl(sl(), sl(), sl()));
-
   sl.registerSingleton<LocalAuthRepository>(LocalAuthImpl(prefs));
-
   sl.registerSingleton<AuthRepository>(AuthRepositoryImpl(sl(), sl()));
-
   sl.registerSingleton<UserAuthRepository>(UserAuthRepositoryImpl(sl()));
-
   sl.registerSingleton<BottomNavigationBarRepository>(
       BottomNavigatonBarRepositoryImpl());
-
   sl.registerSingleton<LocalUserSetupRepository>(
       LocalUserSetupImpl(prefs, sl()));
   sl.registerSingleton<RemoteUserSetupRepository>(
       RemoteUserSetupImpl(sl(), sl()));
-
   sl.registerSingleton<UserSetupRepository>(
       UserSetupRepositoryImpl(sl(), sl()));
-
   sl.registerSingleton<RemoteProfileRepository>(
       RemoteProfileRepositoryImpl(prefs, sl()));
-
   sl.registerSingleton<ProfileRepository>(ProfileRepositoryImpl(sl()));
-
   sl.registerSingleton<RemoteSearchRepository>(RemoteSearchImpl(sl(), sl()));
-
   sl.registerSingleton<SearchRepository>(SearchRepositoryImpl(sl()));
-
   sl.registerSingleton<RemoteChatsRepository>(RemoteChatsImpl(sl(), sl()));
   sl.registerSingleton<ChatsRepository>(ChatsRepositoryImpl(sl()));
-
   sl.registerSingleton<RemoteChatRepository>(RemoteChatImpl(sl(), sl()));
   sl.registerSingleton<ChatRepository>(ChatRepositoryImpl(sl()));
-
   sl.registerSingleton<RemoteUserOnlineRepository>(RemoteUserOnlineImpl(sl()));
   sl.registerSingleton<UserOnlineRepository>(UserOnlineRepositoryImpl(sl()));
+  sl.registerSingleton<RemoteNotificationsRepository>(
+      RemoteNotificationsImpl(sl()));
+  sl.registerSingleton<NotificationsRepository>(
+      NotificationsRepositoryImpl(sl()));
 
-  // usecases
+  // Usecases
   sl.registerSingleton<SignInWithGoogleUseCase>(SignInWithGoogleUseCase(sl()));
-
   sl.registerSingleton<SignInOutAndClearUserSetupBoolUseCase>(
       SignInOutAndClearUserSetupBoolUseCase(sl()));
-
   sl.registerSingleton<CheckUserAuthStatusUseCase>(
       CheckUserAuthStatusUseCase(sl()));
-
   sl.registerSingleton<BottomNavBarOnTapUseCase>(
       BottomNavBarOnTapUseCase(sl()));
-
   sl.registerSingleton<GetUserSetupStateUseCase>(
       GetUserSetupStateUseCase(sl<UserSetupRepository>()));
-
   sl.registerSingleton<SetUserSetupBoolUseCase>(SetUserSetupBoolUseCase(sl()));
-
   sl.registerSingleton<SendUserSetupInformationUseCase>(
       SendUserSetupInformationUseCase(sl()));
-
   sl.registerSingleton<GetUserInformationUseCase>(
       GetUserInformationUseCase(sl()));
-
   sl.registerSingleton<CheckIdAvailableUseCase>(CheckIdAvailableUseCase(sl()));
-
   sl.registerSingleton<GetUserLocalInformationUseCase>(
       GetUserLocalInformationUseCase(sl()));
-
   sl.registerSingleton<GetUserProfileUseCase>(GetUserProfileUseCase(sl()));
-
   sl.registerSingleton<GetSearchedUsersStreamUseCase>(
       GetSearchedUsersStreamUseCase(sl()));
-
   sl.registerSingleton<GetChatsStreamUseCase>(GetChatsStreamUseCase(sl()));
-
   sl.registerSingleton<GetMessagesStreamUseCase>(
       GetMessagesStreamUseCase(sl()));
-
   sl.registerSingleton<SendMessageUseCase>(SendMessageUseCase(sl()));
-
   sl.registerSingleton(UpdateUserOnlineStatusUseCase(sl()));
-
   sl.registerSingleton<SetMessagesIsViewedUseCase>(
       SetMessagesIsViewedUseCase(sl()));
+  sl.registerSingleton<InitNotificationsUseCase>(
+      InitNotificationsUseCase(sl()));
 
-  // factory
+  // Factory
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));
-
   sl.registerFactory<UserAuthBloc>(() => UserAuthBloc(sl()));
-
   sl.registerFactory<BottomNavigationBarBloc>(
       () => BottomNavigationBarBloc(sl(), sl()));
-
   sl.registerFactory<UserSetupBloc>(() => UserSetupBloc(sl(), sl(), sl()));
-
   sl.registerFactory<SetupPageBloc>(
       () => SetupPageBloc(sl(), sl(), sl(), sl()));
-
   sl.registerFactory<ProfileBloc>(() => ProfileBloc(sl(), sl()));
-
   sl.registerFactory<SearchBloc>(() => SearchBloc(sl()));
-
   sl.registerFactory<ChatsBloc>(() => ChatsBloc(sl()));
 }
