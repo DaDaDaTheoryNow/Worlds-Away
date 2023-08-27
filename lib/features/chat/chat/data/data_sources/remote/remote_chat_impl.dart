@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:worlds_away/core/constants/constants.dart';
 import 'package:worlds_away/features/chat/chat/data/data_sources/remote/remote_chat_repository.dart';
+import 'package:worlds_away/features/chat/chat/data/models/chat_info.dart';
 import 'package:worlds_away/features/chat/chat/data/models/message.dart';
 import 'package:worlds_away/features/chat/chat/data/models/send_message.dart';
 import 'package:worlds_away/features/common/data/models/user.dart';
@@ -13,50 +15,58 @@ class RemoteChatImpl implements RemoteChatRepository {
   RemoteChatImpl(this._firestore, this._auth);
 
   @override
-  Future<Stream<List<MessageModel>>> getMessagesStream(
+  Future<Stream<ChatInfoModel>> getChatInfoStream(
       String receiverUniqueUid) async {
     final user = _auth.currentUser;
 
     final chatRef = _firestore.collection(firestoreCollectionChats);
     final userRef = _firestore.collection(firestoreCollectionUsers);
 
-    return chatRef
+    final chatWithUserSnapshot = chatRef
         .where("recipients", arrayContains: receiverUniqueUid)
-        .snapshots()
-        .asyncMap((chatsSnapshot) async {
+        .snapshots();
+    final usersSnapshot = userRef.snapshots();
+
+    return CombineLatestStream([chatWithUserSnapshot, usersSnapshot], (values) {
       // return docs where current user and recipient
-      final filteredDocs = chatsSnapshot.docs.where((doc) {
+      final chatWithReceiverUserDocs = values[0].docs.where((doc) {
         final recipients = doc.data()["recipients"] as List<dynamic>;
         return recipients.contains(user!.uid);
       }).toList();
+      final usersDocs = values[1].docs;
 
-      // get messages from firestore
-      final messageLists =
-          await Future.wait(filteredDocs.map((filteredDoc) async {
-        final messages = filteredDoc.data()["messages"] as List<dynamic>;
+      if (chatWithReceiverUserDocs.isNotEmpty && usersDocs.isNotEmpty) {
+        final messages =
+            chatWithReceiverUserDocs.first.data()["messages"] as List<dynamic>;
 
-        final messagesModelList =
-            await Future.wait(messages.map((message) async {
+        final listMessageModel = messages.map((message) {
           final String fromUniqueUid = message["fromUniqueUid"];
 
-          final userSnapshot = await userRef
-              .where("uniqueUid", isEqualTo: fromUniqueUid)
-              .get()
-              .then((value) => value.docs.first);
+          final userSnapshot = usersDocs
+              .where((element) => element.data()["uniqueUid"] == fromUniqueUid)
+              .toList()
+              .first;
 
           return MessageModel.fromFirestore(
               message,
               UserModel.fromSnapshot(userSnapshot),
               fromUniqueUid == user!.uid ? true : false,
               receiverUniqueUid);
-        }).toList());
+        }).toList();
 
-        return messagesModelList;
-      }));
+        final receiverUser = usersDocs
+            .where(
+                (element) => element.data()["uniqueUid"] == receiverUniqueUid)
+            .toList()
+            .first;
 
-      // Combine all the lists of messages
-      final combinedMessagesList = messageLists.expand((list) => list).toList();
-      return combinedMessagesList;
+        return ChatInfoModel(
+            messages: listMessageModel,
+            receiverUser: UserModel.fromSnapshot(receiverUser));
+      } else {
+        return const ChatInfoModel(
+            messages: <MessageModel>[], receiverUser: null);
+      }
     });
   }
 

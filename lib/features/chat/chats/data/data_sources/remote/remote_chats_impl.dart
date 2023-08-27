@@ -26,18 +26,18 @@ class RemoteChatsImpl implements RemoteChatsRepository {
 
     return CombineLatestStream([chatsWithUserSnapshot, usersSnapshot],
         (values) {
-      final chatsWithUserDocs = values[0];
-      final usersDocs = values[1];
+      final chatsWithUserDocs = values[0].docs;
+      final usersDocs = values[1].docs;
 
-      if (chatsWithUserDocs.docs.isNotEmpty && usersDocs.docs.isNotEmpty) {
-        return chatsWithUserDocs.docs.map((doc) {
+      if (chatsWithUserDocs.isNotEmpty && usersDocs.isNotEmpty) {
+        return chatsWithUserDocs.map((doc) {
           final recipients = doc.data()['recipients'] as List<dynamic>;
           final messages = doc.data()['messages'] as List<dynamic>;
           final lastMessage = messages.last;
 
           final otherUserUid = recipients.firstWhere((uid) => uid != user!.uid);
 
-          final userSnapshot = usersDocs.docs
+          final userSnapshot = usersDocs
               .where((element) => element.data()["uniqueUid"] == otherUserUid)
               .toList()
               .first;

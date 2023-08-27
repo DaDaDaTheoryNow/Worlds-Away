@@ -31,9 +31,9 @@ class ChatPage extends StatelessWidget {
   }
 
   _buildAppBar() {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(appBarHeight),
-      child: ChatAppBar(user),
+    return const PreferredSize(
+      preferredSize: Size.fromHeight(appBarHeight),
+      child: ChatAppBar(),
     );
   }
 

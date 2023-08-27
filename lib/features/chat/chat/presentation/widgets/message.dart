@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:worlds_away/features/chat/chat/domain/entities/message.dart';
-import 'package:timeago/timeago.dart' as timeago;
+
 import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_bloc.dart';
 import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_event.dart';
 
@@ -41,42 +42,25 @@ class _MessageWidgetState extends State<MessageWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              widget.message.content!,
-              style: const TextStyle(fontSize: 16, color: Colors.white),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'От: ${widget.message.fromUser!.name}',
-              style: const TextStyle(fontSize: 12, color: Colors.white),
-            ),
-            Text(
-              'Время: ${timeago.format(DateTime.tryParse(widget.message.timestamp!.toDate().toString())!, locale: "ru")}',
-              style: const TextStyle(fontSize: 12, color: Colors.white),
-            ),
-            if (!widget.message.isViewed!)
-              const Icon(
-                Icons.check,
-                size: 13,
-                color: Colors.black,
-              )
-            else
-              RichText(
-                text: const TextSpan(
-                  children: [
-                    WidgetSpan(
-                        child: Icon(
-                      Icons.check,
-                      size: 13,
-                      color: Colors.black,
-                    )),
-                    WidgetSpan(
-                        child: Icon(
-                      Icons.check,
-                      size: 13,
-                      color: Colors.black,
-                    ))
-                  ],
+            RichText(
+                text: TextSpan(children: [
+              TextSpan(
+                text: widget.message.content!,
+                style: const TextStyle(fontSize: 16, color: Colors.white),
+              ),
+              const WidgetSpan(child: SizedBox(width: 10)),
+              TextSpan(
+                text: DateFormat('HH:mm').format(DateTime.tryParse(
+                    widget.message.timestamp!.toDate().toString())!),
+                style: const TextStyle(
+                    fontSize: 12, color: Colors.white, letterSpacing: 2),
+              ),
+            ])),
+            if (widget.message.isViewed!)
+              const Text(
+                "Просмотрено",
+                style: TextStyle(
+                  color: Color.fromARGB(193, 255, 255, 255),
                 ),
               ),
           ],

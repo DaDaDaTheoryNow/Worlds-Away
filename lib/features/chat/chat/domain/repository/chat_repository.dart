@@ -1,9 +1,10 @@
 import 'package:worlds_away/core/resources/data_state.dart';
+import 'package:worlds_away/features/chat/chat/domain/entities/chat_info.dart';
 import 'package:worlds_away/features/chat/chat/domain/entities/message.dart';
 import 'package:worlds_away/features/chat/chat/domain/entities/send_message.dart';
 
 abstract class ChatRepository {
-  Future<DataState<Stream<List<MessageEntity>>>> getMessagesStream(
+  Future<DataState<Stream<ChatInfoEntity>>> getChatInfoStream(
       String receiverUniqueUid);
 
   Future<void> sendMessage(SendMessageEntity messageEntity);

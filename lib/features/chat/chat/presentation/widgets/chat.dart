@@ -24,7 +24,8 @@ class ChatWidget extends StatelessWidget {
         }
 
         if (state is ChatDone) {
-          if (state.messages!.isEmpty) {
+          final messages = state.chatInfo!.messages;
+          if (messages!.isEmpty) {
             return const Center(
               child: Text(
                 "Начните переписку первым",
@@ -46,9 +47,9 @@ class ChatWidget extends StatelessWidget {
           return ListView.builder(
             controller: chatScrollController,
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            itemCount: state.messages!.length,
+            itemCount: messages.length,
             itemBuilder: (context, index) {
-              final message = state.messages![index];
+              final message = messages[index];
 
               return MessageWidget(message);
             },

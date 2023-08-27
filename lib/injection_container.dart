@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:worlds_away/features/chat/chat/domain/usecases/get_messages_stream.dart';
+import 'package:worlds_away/features/chat/chat/domain/usecases/get_chat_stream.dart';
 import 'package:worlds_away/features/chat/chat/domain/usecases/send_message.dart';
 import 'package:worlds_away/features/chat/chat/domain/usecases/set_message_is_viewed.dart';
 import 'package:worlds_away/features/chat/chats/data/data_sources/remote/remote_chats_impl.dart';
@@ -18,11 +18,7 @@ import 'package:worlds_away/features/common/data/data_sources/remote_user_online
 import 'package:worlds_away/features/common/data/repository/user_online_repository.dart';
 import 'package:worlds_away/features/common/domain/repository/user_online_repository.dart';
 import 'package:worlds_away/features/common/domain/usecases/update_user_online_status_usecase.dart';
-import 'package:worlds_away/features/notifications/data/data_sources/remote/remote_notifications_impl.dart';
-import 'package:worlds_away/features/notifications/data/data_sources/remote/remote_notifications_repository.dart';
-import 'package:worlds_away/features/notifications/data/repository/notifications_repository.dart';
-import 'package:worlds_away/features/notifications/domain/repository/notifications_repository.dart';
-import 'package:worlds_away/features/notifications/domain/usecases/init_notifications.dart';
+
 import 'package:worlds_away/features/user/auth/data/data_sources/local/shared_preferences/local_auth_impl.dart';
 import 'package:worlds_away/features/user/auth/data/data_sources/local/shared_preferences/local_auth_repository.dart';
 import 'package:worlds_away/features/user/auth/data/data_sources/remote/firebase_auth/remote_auth_impl.dart';
@@ -117,10 +113,6 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<ChatRepository>(ChatRepositoryImpl(sl()));
   sl.registerSingleton<RemoteUserOnlineRepository>(RemoteUserOnlineImpl(sl()));
   sl.registerSingleton<UserOnlineRepository>(UserOnlineRepositoryImpl(sl()));
-  sl.registerSingleton<RemoteNotificationsRepository>(
-      RemoteNotificationsImpl(sl()));
-  sl.registerSingleton<NotificationsRepository>(
-      NotificationsRepositoryImpl(sl()));
 
   // Usecases
   sl.registerSingleton<SignInWithGoogleUseCase>(SignInWithGoogleUseCase(sl()));
@@ -144,14 +136,12 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<GetSearchedUsersStreamUseCase>(
       GetSearchedUsersStreamUseCase(sl()));
   sl.registerSingleton<GetChatsStreamUseCase>(GetChatsStreamUseCase(sl()));
-  sl.registerSingleton<GetMessagesStreamUseCase>(
-      GetMessagesStreamUseCase(sl()));
+  sl.registerSingleton<GetChatInfoStreamUseCase>(
+      GetChatInfoStreamUseCase(sl()));
   sl.registerSingleton<SendMessageUseCase>(SendMessageUseCase(sl()));
   sl.registerSingleton(UpdateUserOnlineStatusUseCase(sl()));
   sl.registerSingleton<SetMessagesIsViewedUseCase>(
       SetMessagesIsViewedUseCase(sl()));
-  sl.registerSingleton<InitNotificationsUseCase>(
-      InitNotificationsUseCase(sl()));
 
   // Factory
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));

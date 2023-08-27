@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:worlds_away/core/resources/data_state.dart';
 import 'package:worlds_away/features/chat/chat/data/data_sources/remote/remote_chat_repository.dart';
+import 'package:worlds_away/features/chat/chat/data/models/chat_info.dart';
 import 'package:worlds_away/features/chat/chat/data/models/message.dart';
 import 'package:worlds_away/features/chat/chat/data/models/send_message.dart';
 import 'package:worlds_away/features/chat/chat/domain/entities/message.dart';
@@ -15,11 +16,11 @@ class ChatRepositoryImpl implements ChatRepository {
   ChatRepositoryImpl(this._remoteChatRepository);
 
   @override
-  Future<DataState<Stream<List<MessageModel>>>> getMessagesStream(
+  Future<DataState<Stream<ChatInfoModel>>> getChatInfoStream(
       String receiverUniqueUid) async {
     try {
       final messagesStream =
-          await _remoteChatRepository.getMessagesStream(receiverUniqueUid);
+          await _remoteChatRepository.getChatInfoStream(receiverUniqueUid);
       return DataSuccess(messagesStream);
     } on FirebaseException catch (e) {
       if (e.code == 'unavailable') {
