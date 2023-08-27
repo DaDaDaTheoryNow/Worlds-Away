@@ -3,15 +3,24 @@ import 'package:worlds_away/core/constants/constants.dart';
 
 ThemeData theme() {
   return ThemeData(
-    useMaterial3: true,
-    scaffoldBackgroundColor: backgroundColor,
-    actionIconTheme: _actionIconThemeData(),
-    elevatedButtonTheme: _elevatedButtonThemeData(),
-    bottomNavigationBarTheme: _bottomNavigationBarThemeData(),
-    appBarTheme: _appBarTheme(),
-    textSelectionTheme: _textSelectionThemeData(),
-  );
+      useMaterial3: true,
+      scaffoldBackgroundColor: backgroundColor,
+      actionIconTheme: _actionIconThemeData(),
+      elevatedButtonTheme: _elevatedButtonThemeData(),
+      bottomNavigationBarTheme: _bottomNavigationBarThemeData(),
+      appBarTheme: _appBarTheme(),
+      textSelectionTheme: _textSelectionThemeData(),
+      dialogTheme: _dialogTheme());
 }
+
+DialogTheme _dialogTheme() => DialogTheme(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+    backgroundColor: containerColor,
+    titleTextStyle: const TextStyle(
+      color: Colors.white,
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+    ));
 
 ElevatedButtonThemeData _elevatedButtonThemeData() => ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(

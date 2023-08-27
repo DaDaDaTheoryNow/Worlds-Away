@@ -3,4 +3,7 @@ import 'package:worlds_away/features/common/domain/entities/user.dart';
 
 abstract class ProfileRepository {
   DataState<Stream<UserEntity>> getUserProfileStream(String userUniqueId);
+
+  Future<DataState<void>> changeName(String name);
+  Future<DataState<void>> changeAbout(String about);
 }

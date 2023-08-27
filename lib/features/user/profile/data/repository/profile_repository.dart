@@ -23,4 +23,32 @@ class ProfileRepositoryImpl implements ProfileRepository {
       }
     }
   }
+
+  @override
+  Future<DataState<void>> changeAbout(String about) async {
+    try {
+      await _remoteProfileRepository.changeAbout(about);
+      return const DataSuccess(null);
+    } on FirebaseException catch (e) {
+      if (e.code == 'unavailable') {
+        return const DataFailed("Error: Нужно Интернет Соединение");
+      } else {
+        return DataFailed("Error: ${e.message}");
+      }
+    }
+  }
+
+  @override
+  Future<DataState<void>> changeName(String name) async {
+    try {
+      await _remoteProfileRepository.changeName(name);
+      return const DataSuccess(null);
+    } on FirebaseException catch (e) {
+      if (e.code == 'unavailable') {
+        return const DataFailed("Error: Нужно Интернет Соединение");
+      } else {
+        return DataFailed("Error: ${e.message}");
+      }
+    }
+  }
 }

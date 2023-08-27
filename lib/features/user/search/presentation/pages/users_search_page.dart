@@ -40,39 +40,37 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
   }
 
   Widget _buildSearchBar(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-            color: containerColor, borderRadius: BorderRadius.circular(42)),
-        child: TextField(
-          controller: _searchController,
-          style: const TextStyle(
+    return Container(
+      margin: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+          color: containerColor, borderRadius: BorderRadius.circular(42)),
+      child: TextField(
+        controller: _searchController,
+        style: const TextStyle(
+          color: Colors.white,
+        ),
+        onChanged: (query) {
+          String idToSearch = query.toLowerCase().trim();
+
+          if (idToSearch[0] != "@") {
+            String parsedIdToSearch = removeNonEnglishLetters(idToSearch);
+            idToSearch = "@$parsedIdToSearch";
+          }
+
+          BlocProvider.of<SearchBloc>(context)
+              .add(GetSearchedUsersStream(idToSearch));
+        },
+        decoration: const InputDecoration(
+          focusedBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          hintText: "Искать пользователей...",
+          hintStyle: TextStyle(
+            color: Colors.grey,
+          ),
+          prefixStyle: TextStyle(
             color: Colors.white,
           ),
-          onChanged: (query) {
-            String idToSearch = query.toLowerCase().trim();
-
-            if (idToSearch[0] != "@") {
-              String parsedIdToSearch = removeNonEnglishLetters(idToSearch);
-              idToSearch = "@$parsedIdToSearch";
-            }
-
-            BlocProvider.of<SearchBloc>(context)
-                .add(GetSearchedUsersStream(idToSearch));
-          },
-          decoration: const InputDecoration(
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            hintText: "Искать пользователей...",
-            hintStyle: TextStyle(
-              color: Colors.grey,
-            ),
-            prefixStyle: TextStyle(
-              color: Colors.white,
-            ),
-            prefixIcon: Icon(Icons.search),
-          ),
+          prefixIcon: Icon(Icons.search),
         ),
       ),
     );

@@ -64,6 +64,18 @@ class RemoteChatImpl implements RemoteChatRepository {
             messages: listMessageModel,
             receiverUser: UserModel.fromSnapshot(receiverUser));
       } else {
+        if (usersDocs.isNotEmpty) {
+          final receiverUser = usersDocs
+              .where(
+                  (element) => element.data()["uniqueUid"] == receiverUniqueUid)
+              .toList()
+              .first;
+
+          return ChatInfoModel(
+              messages: const <MessageModel>[],
+              receiverUser: UserModel.fromSnapshot(receiverUser));
+        }
+
         return const ChatInfoModel(
             messages: <MessageModel>[], receiverUser: null);
       }

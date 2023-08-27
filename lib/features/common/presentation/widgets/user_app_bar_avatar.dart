@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:worlds_away/core/constants/constants.dart';
 
 class UserAppBarAvatar extends StatelessWidget {
   final String photoUrl;
@@ -23,7 +24,7 @@ class UserAppBarAvatar extends StatelessWidget {
       height: radius + 15,
       width: radius + width,
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(42),
       ),
       child: Row(

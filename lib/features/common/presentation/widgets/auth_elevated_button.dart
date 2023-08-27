@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:worlds_away/core/constants/constants.dart';
 
 class AuthElevatedButton extends StatelessWidget {
   final String title;
@@ -14,10 +15,14 @@ class AuthElevatedButton extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: ElevatedButton(
           onPressed: function,
+          style: ElevatedButton.styleFrom(
+              backgroundColor: containerColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18))),
           child: Text(
             title,
             style: const TextStyle(
-                color: Colors.blue, fontWeight: FontWeight.w600, fontSize: 14),
+                color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14),
           )),
     );
   }

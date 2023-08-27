@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:worlds_away/core/constants/constants.dart';
+import 'package:worlds_away/features/common/domain/entities/user.dart';
 
 import 'package:worlds_away/features/common/presentation/widgets/auth_elevated_button.dart';
 import 'package:worlds_away/features/common/presentation/widgets/cupertino_loading.dart';
@@ -15,7 +17,7 @@ import 'package:worlds_away/features/user/auth/presentation/blocs/auth/auth_even
 import 'package:worlds_away/features/user/profile/presentation/blocs/profile_bloc.dart';
 import 'package:worlds_away/features/user/profile/presentation/blocs/profile_state.dart';
 import 'package:worlds_away/features/user/profile/presentation/widgets/account_info_widget.dart';
-import 'package:worlds_away/features/user/profile/presentation/widgets/sliver_profile_app_bar.dart';
+import 'package:worlds_away/features/user/profile/presentation/widgets/profile_app_bar.dart';
 import 'package:worlds_away/features/user/search/presentation/blocs/search_bloc.dart';
 import 'package:worlds_away/features/user/search/presentation/blocs/search_event.dart';
 import 'package:worlds_away/injection_container.dart';
@@ -25,12 +27,6 @@ class CurrentUserProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildBody(),
-    );
-  }
-
-  _buildBody() {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         if (state is ProfileLoading) {
@@ -38,36 +34,38 @@ class CurrentUserProfilePage extends StatelessWidget {
         }
 
         if (state is ProfileDone) {
-          return CustomScrollView(
-            slivers: [
-              SliverProfileAppBar(
-                user: state.user!,
-                onPressed: () {},
-              ),
-              SliverToBoxAdapter(
-                child: AccountInfoWidget(user: state.user!),
-              ),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                fillOverscroll: true,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: _buildSignOutWithGoogleButton(context),
-                  ),
+          return Scaffold(
+            appBar: _buildAppBar(state.user!),
+            body: Column(
+              children: [
+                AccountInfoWidget(user: state.user!),
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: _buildSignOutWithGoogleButton(context),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }
 
         if (state is ProfileError) {
-          return MyErrorWidget(error: state.error!);
+          return Scaffold(
+              body: Center(child: MyErrorWidget(error: state.error!)));
         }
 
         return const SizedBox();
       },
+    );
+  }
+
+  _buildAppBar(UserEntity user) {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(appBarHeight),
+      child: ProfileAppBar(
+        user: user,
+        onPressed: () {},
+      ),
     );
   }
 

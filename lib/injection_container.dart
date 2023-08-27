@@ -51,6 +51,8 @@ import 'package:worlds_away/features/user/profile/data/data_sources/remote/remot
 import 'package:worlds_away/features/user/profile/data/data_sources/remote/remote_profile_repository.dart';
 import 'package:worlds_away/features/user/profile/data/repository/profile_repository.dart';
 import 'package:worlds_away/features/user/profile/domain/repository/profile_repository.dart';
+import 'package:worlds_away/features/user/profile/domain/usecases/change_about.dart';
+import 'package:worlds_away/features/user/profile/domain/usecases/change_name.dart';
 import 'package:worlds_away/features/user/profile/domain/usecases/get_user_profile.dart';
 import 'package:worlds_away/features/user/profile/presentation/blocs/profile_bloc.dart';
 import 'package:worlds_away/features/user/search/data/data_sources/remote/remote_search_impl.dart';
@@ -103,7 +105,7 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<UserSetupRepository>(
       UserSetupRepositoryImpl(sl(), sl()));
   sl.registerSingleton<RemoteProfileRepository>(
-      RemoteProfileRepositoryImpl(prefs, sl()));
+      RemoteProfileRepositoryImpl(prefs, sl(), sl()));
   sl.registerSingleton<ProfileRepository>(ProfileRepositoryImpl(sl()));
   sl.registerSingleton<RemoteSearchRepository>(RemoteSearchImpl(sl(), sl()));
   sl.registerSingleton<SearchRepository>(SearchRepositoryImpl(sl()));
@@ -142,6 +144,8 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton(UpdateUserOnlineStatusUseCase(sl()));
   sl.registerSingleton<SetMessagesIsViewedUseCase>(
       SetMessagesIsViewedUseCase(sl()));
+  sl.registerSingleton<ChangeNameUseCase>(ChangeNameUseCase(sl()));
+  sl.registerSingleton<ChangeAboutUseCase>(ChangeAboutUseCase(sl()));
 
   // Factory
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));
