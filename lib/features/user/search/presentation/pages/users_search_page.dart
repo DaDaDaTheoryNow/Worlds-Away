@@ -53,7 +53,8 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
           String idToSearch = query.toLowerCase().trim();
 
           if (idToSearch[0] != "@") {
-            String parsedIdToSearch = removeNonEnglishLetters(idToSearch);
+            String parsedIdToSearch =
+                removeAllWithoutEnglishLettersAndNumbers(idToSearch);
             idToSearch = "@$parsedIdToSearch";
           }
 

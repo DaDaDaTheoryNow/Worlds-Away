@@ -14,8 +14,12 @@ import 'package:worlds_away/features/chat/chats/data/repository/chats_repository
 import 'package:worlds_away/features/chat/chats/domain/repository/chats_repository.dart';
 import 'package:worlds_away/features/chat/chats/domain/usecases/get_chats_stream.dart';
 import 'package:worlds_away/features/chat/chats/presention/blocs/chats_bloc.dart';
-import 'package:worlds_away/features/common/data/data_sources/remote_user_online_repository.dart';
+import 'package:worlds_away/features/common/data/data_sources/id/remote_id_impl.dart';
+import 'package:worlds_away/features/common/data/data_sources/id/remote_id_repository.dart';
+import 'package:worlds_away/features/common/data/data_sources/user_online/remote_user_online_repository.dart';
+import 'package:worlds_away/features/common/data/repository/id_repository.dart';
 import 'package:worlds_away/features/common/data/repository/user_online_repository.dart';
+import 'package:worlds_away/features/common/domain/repository/id_repository.dart';
 import 'package:worlds_away/features/common/domain/repository/user_online_repository.dart';
 import 'package:worlds_away/features/common/domain/usecases/update_user_online_status_usecase.dart';
 
@@ -38,7 +42,7 @@ import 'package:worlds_away/features/home/domain/usecases/bottom_nav_bar_on_tap.
 import 'package:worlds_away/features/user/auth/domain/usecases/check_user_auth_status.dart';
 import 'package:worlds_away/features/user/auth/domain/usecases/sign_in_with_google.dart';
 import 'package:worlds_away/features/user/auth/domain/usecases/sign_out_and_clear_user_setup_bool.dart';
-import 'package:worlds_away/features/home/domain/usecases/check_id_available.dart';
+import 'package:worlds_away/features/common/domain/usecases/check_id_available.dart';
 import 'package:worlds_away/features/home/domain/usecases/get_user_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/get_user_local_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/get_user_setup_state.dart';
@@ -52,6 +56,7 @@ import 'package:worlds_away/features/user/profile/data/data_sources/remote/remot
 import 'package:worlds_away/features/user/profile/data/repository/profile_repository.dart';
 import 'package:worlds_away/features/user/profile/domain/repository/profile_repository.dart';
 import 'package:worlds_away/features/user/profile/domain/usecases/change_about.dart';
+import 'package:worlds_away/features/user/profile/domain/usecases/change_id.dart';
 import 'package:worlds_away/features/user/profile/domain/usecases/change_name.dart';
 import 'package:worlds_away/features/user/profile/domain/usecases/get_user_profile.dart';
 import 'package:worlds_away/features/user/profile/presentation/blocs/profile_bloc.dart';
@@ -66,7 +71,7 @@ import 'features/chat/chat/data/data_sources/remote/remote_chat_impl.dart';
 import 'features/chat/chat/data/data_sources/remote/remote_chat_repository.dart';
 import 'features/chat/chat/data/repository/chat_repository.dart';
 import 'features/chat/chat/domain/repository/chat_repository.dart';
-import 'features/common/data/data_sources/remote_user_online_impl.dart';
+import 'features/common/data/data_sources/user_online/remote_user_online_impl.dart';
 import 'features/user/auth/presentation/blocs/auth/auth_bloc.dart';
 import 'features/user/auth/presentation/blocs/user_auth_status/user_auth_bloc.dart';
 import 'features/home/data/repository/user_setup_repository.dart';
@@ -115,6 +120,8 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<ChatRepository>(ChatRepositoryImpl(sl()));
   sl.registerSingleton<RemoteUserOnlineRepository>(RemoteUserOnlineImpl(sl()));
   sl.registerSingleton<UserOnlineRepository>(UserOnlineRepositoryImpl(sl()));
+  sl.registerSingleton<RemoteIdRepository>(RemoteIdImpl(sl()));
+  sl.registerSingleton<IdRepository>(IdRepositoryImpl(sl()));
 
   // Usecases
   sl.registerSingleton<SignInWithGoogleUseCase>(SignInWithGoogleUseCase(sl()));
@@ -146,6 +153,7 @@ Future<void> initializeDependencies() async {
       SetMessagesIsViewedUseCase(sl()));
   sl.registerSingleton<ChangeNameUseCase>(ChangeNameUseCase(sl()));
   sl.registerSingleton<ChangeAboutUseCase>(ChangeAboutUseCase(sl()));
+  sl.registerSingleton<ChangeIdUseCase>(ChangeIdUseCase(sl()));
 
   // Factory
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));

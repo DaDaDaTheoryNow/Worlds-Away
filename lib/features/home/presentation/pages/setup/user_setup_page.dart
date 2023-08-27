@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/constants/constants.dart';
-import 'package:worlds_away/core/helpers/is_latin_only.dart';
+import 'package:worlds_away/core/helpers/is_non_russian_only.dart';
 import 'package:worlds_away/features/common/presentation/widgets/cupertino_loading.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_bloc.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_event.dart';
@@ -111,8 +111,8 @@ class _UserSetupPageState extends State<UserSetupPage> {
                           return 'Идентификатор не может иметь пробелов';
                         }
 
-                        if (!isLatinOnly(value)) {
-                          return 'Идентификатор может иметь только латинские буквы';
+                        if (!isNonRussianOnly(value)) {
+                          return 'Идентификатор не может иметь русских букв';
                         }
                         return null;
                       },

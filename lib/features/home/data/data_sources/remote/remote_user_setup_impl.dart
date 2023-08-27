@@ -84,20 +84,4 @@ class RemoteUserSetupImpl implements RemoteUserSetupRepository {
 
     return null;
   }
-
-  @override
-  Future<bool?> checkIdAvailable(String id) async {
-    final userCollection = _firestore.collection(firestoreCollectionUsers);
-    final querySnapshot =
-        await userCollection.get(const GetOptions(source: Source.server));
-
-    for (final docSnapshot in querySnapshot.docs) {
-      final Map<String, dynamic> userData = docSnapshot.data();
-      if (userData['id'] == id) {
-        return false;
-      }
-    }
-
-    return true;
-  }
 }

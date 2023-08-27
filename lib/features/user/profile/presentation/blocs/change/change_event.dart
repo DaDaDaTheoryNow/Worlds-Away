@@ -4,10 +4,12 @@ abstract class ChangeEvent extends Equatable {
   final String? name;
   final String? about;
 
-  const ChangeEvent({this.about, this.name});
+  final String? id;
+
+  const ChangeEvent({this.about, this.name, this.id});
 
   @override
-  List<Object?> get props => [about, name];
+  List<Object?> get props => [about, name, id];
 }
 
 class ChangeName extends ChangeEvent {
@@ -16,4 +18,14 @@ class ChangeName extends ChangeEvent {
 
 class ChangeAbout extends ChangeEvent {
   const ChangeAbout(String about) : super(about: about);
+}
+
+class ChangeId extends ChangeEvent {
+  const ChangeId(String id) : super(id: id);
+}
+
+class ChangeInititState extends ChangeEvent {}
+
+class ChangeCheckIdAvailable extends ChangeEvent {
+  const ChangeCheckIdAvailable(String id) : super(id: id);
 }

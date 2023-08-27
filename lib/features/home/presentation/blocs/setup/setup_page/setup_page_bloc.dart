@@ -3,7 +3,7 @@ import 'package:worlds_away/core/resources/data_state.dart';
 import 'package:worlds_away/core/resources/id_available_data_state.dart';
 import 'package:worlds_away/core/resources/user_setup_data_state.dart';
 import 'package:worlds_away/features/home/domain/entities/user_setup_information.dart';
-import 'package:worlds_away/features/home/domain/usecases/check_id_available.dart';
+import 'package:worlds_away/features/common/domain/usecases/check_id_available.dart';
 import 'package:worlds_away/features/home/domain/usecases/get_user_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/send_user_setup_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/set_user_setup_bool.dart';
@@ -39,7 +39,7 @@ class SetupPageBloc extends Bloc<SetupPageEvent, SetupPageState> {
       final UserEntity? user =
           await getUserInformation(getUserInformationDataState);
 
-      emit(SetupPageDone(user, dataState.isAvailable));
+      emit(SetupPageDone(user, dataState.data));
     } else {
       emit(SetupPageError(dataState.error!));
     }

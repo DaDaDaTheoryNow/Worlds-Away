@@ -6,4 +6,5 @@ abstract class ProfileRepository {
 
   Future<DataState<void>> changeName(String name);
   Future<DataState<void>> changeAbout(String about);
+  Future<DataState<void>> changeId(String id);
 }

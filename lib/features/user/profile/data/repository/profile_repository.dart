@@ -51,4 +51,18 @@ class ProfileRepositoryImpl implements ProfileRepository {
       }
     }
   }
+
+  @override
+  Future<DataState<void>> changeId(String id) async {
+    try {
+      await _remoteProfileRepository.changeId(id);
+      return const DataSuccess(null);
+    } on FirebaseException catch (e) {
+      if (e.code == 'unavailable') {
+        return const DataFailed("Error: Нужно Интернет Соединение");
+      } else {
+        return DataFailed("Error: ${e.message}");
+      }
+    }
+  }
 }

@@ -57,4 +57,17 @@ class RemoteProfileRepositoryImpl implements RemoteProfileRepository {
       });
     }
   }
+
+  @override
+  Future<void> changeId(String id) async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      final userRef =
+          _firestore.collection(firestoreCollectionUsers).doc(user.uid);
+
+      await userRef.update({
+        "id": id,
+      });
+    }
+  }
 }

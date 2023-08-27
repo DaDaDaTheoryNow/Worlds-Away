@@ -5,4 +5,5 @@ abstract class RemoteProfileRepository {
 
   Future<void> changeName(String name);
   Future<void> changeAbout(String about);
+  Future<void> changeId(String id);
 }

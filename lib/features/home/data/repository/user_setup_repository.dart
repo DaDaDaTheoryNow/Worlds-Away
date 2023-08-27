@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:worlds_away/core/resources/data_state.dart';
-import 'package:worlds_away/core/resources/id_available_data_state.dart';
 import 'package:worlds_away/core/resources/user_setup_data_state.dart';
 import 'package:worlds_away/features/home/data/data_sources/local/local_user_setup_repository.dart';
 import 'package:worlds_away/features/home/data/data_sources/remote/remote_user_setup_repository.dart';
@@ -88,22 +87,6 @@ class UserSetupRepositoryImpl implements UserSetupRepository {
     }
 
     return const DataFailed("Error: Пользователь не найден");
-  }
-
-  @override
-  Future<IdAvailableleDataState<bool>> checkIdAvailable(String id) async {
-    try {
-      final bool? isAvailable =
-          await _remoteSetupRepository.checkIdAvailable(id);
-
-      if (isAvailable != null) {
-        return IdAvailableSuccess(isAvailable);
-      }
-    } catch (e) {
-      return const IdAvailableError("Error: Нужно Интернет Соединение");
-    }
-
-    return const IdAvailableSuccess(false);
   }
 
   @override

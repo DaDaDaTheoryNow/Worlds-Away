@@ -7,6 +7,4 @@ abstract class RemoteUserSetupRepository {
       UserSetupInformationModel userSetupInformationModel);
 
   Future<UserModel?> getUserInformation();
-
-  Future<bool?> checkIdAvailable(String id);
 }
