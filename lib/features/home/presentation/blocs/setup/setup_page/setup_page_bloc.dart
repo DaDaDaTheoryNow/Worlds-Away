@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/resources/data_state.dart';
-import 'package:worlds_away/core/resources/id_available_data_state.dart';
 import 'package:worlds_away/core/resources/user_setup_data_state.dart';
 import 'package:worlds_away/features/home/domain/entities/user_setup_information.dart';
 import 'package:worlds_away/features/common/domain/usecases/check_id_available.dart';
@@ -34,7 +33,7 @@ class SetupPageBloc extends Bloc<SetupPageEvent, SetupPageState> {
     final dataState =
         await _checkIdAvailableUseCase(params: event.idForAvailableCheck);
 
-    if (dataState is IdAvailableSuccess) {
+    if (dataState is DataSuccess) {
       final getUserInformationDataState = await _getUserInformationUseCase();
       final UserEntity? user =
           await getUserInformation(getUserInformationDataState);

@@ -19,8 +19,8 @@ import 'package:worlds_away/features/common/presentation/observers/user_online_o
 
 import 'package:worlds_away/features/home/presentation/widgets/bottom_nav_bar.dart';
 import 'package:worlds_away/features/common/presentation/widgets/my_error_widget.dart';
-import 'package:worlds_away/features/user/profile/presentation/pages/current_user_profile_page.dart';
-import 'package:worlds_away/features/user/search/presentation/pages/users_search_page.dart';
+import 'package:worlds_away/features/profile/presentation/pages/current_user_profile_page.dart';
+import 'package:worlds_away/features/search/presentation/pages/users_search_page.dart';
 import 'package:worlds_away/injection_container.dart';
 
 class HomePage extends StatefulWidget {

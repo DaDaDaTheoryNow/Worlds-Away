@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/constants/constants.dart';
-import 'package:worlds_away/core/helpers/is_non_russian_only.dart';
+import 'package:worlds_away/core/helpers/is_eng_tag_numbers_only.dart';
 import 'package:worlds_away/features/common/presentation/widgets/cupertino_loading.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_bloc.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_event.dart';
@@ -69,64 +70,144 @@ class _UserSetupPageState extends State<UserSetupPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextFormField(
-                      controller: _nameController,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: const InputDecoration(
-                        labelText: 'Имя',
-                        floatingLabelStyle: TextStyle(color: Colors.white),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white)),
-                      ),
-                      validator: (value) {
-                        if (value == null ||
-                            value.isEmpty ||
-                            !value.trim().isNotEmpty) {
-                          return 'Имя обязательно';
-                        }
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: _nameController,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(maxNameLength),
+                            ],
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration(
+                              labelText: 'Имя',
+                              floatingLabelStyle:
+                                  TextStyle(color: Colors.white),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white)),
+                            ),
+                            onChanged: (value) => setState(() {}),
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  !value.trim().isNotEmpty) {
+                                return 'Имя обязательно';
+                              }
 
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _idController,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: const InputDecoration(
-                          labelText: 'Идентификатор',
-                          floatingLabelStyle: TextStyle(color: Colors.white),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
+                              return null;
+                            },
                           ),
-                          prefixText: '@',
-                          prefixStyle: TextStyle(
-                            color: Colors.white,
-                          )),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Идентификатор обязателен';
-                        }
-
-                        if (value.contains(" ")) {
-                          return 'Идентификатор не может иметь пробелов';
-                        }
-
-                        if (!isNonRussianOnly(value)) {
-                          return 'Идентификатор не может иметь русских букв';
-                        }
-                        return null;
-                      },
+                        ),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.only(right: 12),
+                          child: Text(
+                            "${_nameController.text.trim().length}/$maxNameLength",
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _aboutController,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: const InputDecoration(
-                        labelText: 'О себе',
-                        floatingLabelStyle: TextStyle(color: Colors.white),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white)),
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: _idController,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(8),
+                              FilteringTextInputFormatter.deny(
+                                  RegExp(r'[^a-zA-Z0-9]'))
+                            ],
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration(
+                              labelText: 'Идентификатор',
+                              floatingLabelStyle:
+                                  TextStyle(color: Colors.white),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              prefixText: '@',
+                              prefixStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                              suffixIcon: Tooltip(
+                                triggerMode: TooltipTriggerMode.tap,
+                                message:
+                                    'Идентификатор может содержать только латиницу и цифры 0-9',
+                                child: Icon(
+                                  Icons.info,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            onChanged: (value) {
+                              setState(() {});
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Идентификатор обязателен';
+                              }
+
+                              if (value.contains(" ")) {
+                                return 'Идентификатор не может иметь пробелов';
+                              }
+
+                              if (!isEngTagNumbersOnly(value)) {
+                                return 'Идентификатор может иметь только латиницу и 0-9';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.only(right: 12),
+                          child: Text(
+                            "${_idController.text.trim().length}/$maxIdLength",
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: _aboutController,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(maxAboutLength),
+                            ],
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration(
+                              labelText: 'О себе',
+                              floatingLabelStyle:
+                                  TextStyle(color: Colors.white),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white)),
+                            ),
+                            onChanged: (value) => setState(() {}),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.only(right: 12),
+                          child: Text(
+                            "${_aboutController.text.trim().length}/$maxAboutLength",
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 32),
                     const Text('Данные Аккаунта:',
@@ -137,6 +218,8 @@ class _UserSetupPageState extends State<UserSetupPage> {
                     Text('Уникальный ID: $uniqueUid'),
                     const SizedBox(height: 32),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: containerColor),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           String id = "@${_idController.text.toLowerCase()}";
@@ -148,7 +231,7 @@ class _UserSetupPageState extends State<UserSetupPage> {
                       child: const Text(
                         'Готово',
                         style: TextStyle(
-                          color: Colors.blue,
+                          color: Colors.white,
                         ),
                       ),
                     ),

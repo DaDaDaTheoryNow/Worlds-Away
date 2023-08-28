@@ -17,3 +17,7 @@ const String firestoreCollectionUsers = "users";
 const String firestoreCollectionChats = "chats";
 
 const String prefsHasUserDescriptionKey = "hasUserDescription";
+
+const int maxNameLength = 15;
+const int maxIdLength = 15;
+const int maxAboutLength = 20;

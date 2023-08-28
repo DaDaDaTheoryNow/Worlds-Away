@@ -42,12 +42,17 @@ class ChatAppBar extends StatelessWidget {
             );
           } else {
             return AppBar(
-              title: const CupertinoLoading(),
+              title: const CupertinoLoading(
+                isCenter: false,
+              ),
             );
           }
         } else {
           return AppBar(
-            title: const CupertinoLoading(),
+            centerTitle: false,
+            title: const CupertinoLoading(
+              isCenter: false,
+            ),
           );
         }
       },
