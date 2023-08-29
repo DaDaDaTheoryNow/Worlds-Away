@@ -47,7 +47,10 @@ dependencies:
   timeago: ^3.5.0
   intl: ^0.18.1
   rxdart: ^0.27.7
-  firebase_messaging: ^14.6.7
+  flutter_background_service: ^5.0.1
+  flutter_background_service_android: ^6.0.1
+  flutter_local_notifications: ^15.1.1
+  
 
 
 dev_dependencies:

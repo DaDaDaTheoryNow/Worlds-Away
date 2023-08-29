@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:worlds_away/background_service.dart';
 import 'package:worlds_away/features/chat/chat/domain/usecases/get_chat_stream.dart';
 import 'package:worlds_away/features/chat/chat/domain/usecases/send_message.dart';
 import 'package:worlds_away/features/chat/chat/domain/usecases/set_message_is_viewed.dart';
@@ -92,8 +94,14 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
 
   // Firebase Messaging dependencie
-  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-  sl.registerSingleton<FirebaseMessaging>(firebaseMessaging);
+  final service = FlutterBackgroundService();
+  sl.registerSingleton<FlutterBackgroundService>(service);
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  sl.registerSingleton<FlutterLocalNotificationsPlugin>(
+      flutterLocalNotificationsPlugin);
+
+  sl.registerSingleton<BackgroundService>(BackgroundService(sl(), sl(), sl()));
 
   // Repositories
   sl.registerSingleton<RemoteAuthRepository>(
