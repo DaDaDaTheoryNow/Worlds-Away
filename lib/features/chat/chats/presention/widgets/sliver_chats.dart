@@ -5,8 +5,8 @@ import 'package:worlds_away/core/widgets/slivers/sliver_container.dart';
 import 'package:worlds_away/features/chat/chats/presention/blocs/chats_bloc.dart';
 import 'package:worlds_away/features/chat/chats/presention/blocs/chats_state.dart';
 import 'package:worlds_away/features/chat/chats/presention/widgets/chat_tile.dart';
-import 'package:worlds_away/features/common/presentation/widgets/cupertino_loading.dart';
-import 'package:worlds_away/features/common/presentation/widgets/my_error_widget.dart';
+import 'package:worlds_away/features/shared/common/presentation/widgets/cupertino_loading.dart';
+import 'package:worlds_away/features/shared/common/presentation/widgets/my_error_widget.dart';
 
 class SliverChats extends StatelessWidget {
   const SliverChats({super.key});

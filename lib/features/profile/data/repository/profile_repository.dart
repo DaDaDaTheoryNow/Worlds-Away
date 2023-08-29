@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:worlds_away/core/resources/data_state.dart';
-import 'package:worlds_away/features/common/data/models/user.dart';
+import 'package:worlds_away/features/shared/user/user/data/models/user.dart';
 import 'package:worlds_away/features/profile/data/data_sources/remote/remote_profile_repository.dart';
 import 'package:worlds_away/features/profile/domain/repository/profile_repository.dart';
 

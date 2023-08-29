@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:worlds_away/background_service.dart';
 import 'package:worlds_away/features/chat/chat/domain/usecases/get_chat_stream.dart';
 import 'package:worlds_away/features/chat/chat/domain/usecases/send_message.dart';
 import 'package:worlds_away/features/chat/chat/domain/usecases/set_message_is_viewed.dart';
@@ -16,14 +15,13 @@ import 'package:worlds_away/features/chat/chats/data/repository/chats_repository
 import 'package:worlds_away/features/chat/chats/domain/repository/chats_repository.dart';
 import 'package:worlds_away/features/chat/chats/domain/usecases/get_chats_stream.dart';
 import 'package:worlds_away/features/chat/chats/presention/blocs/chats_bloc.dart';
-import 'package:worlds_away/features/common/data/data_sources/id/remote_id_impl.dart';
-import 'package:worlds_away/features/common/data/data_sources/id/remote_id_repository.dart';
-import 'package:worlds_away/features/common/data/data_sources/user_online/remote_user_online_repository.dart';
-import 'package:worlds_away/features/common/data/repository/id_repository.dart';
-import 'package:worlds_away/features/common/data/repository/user_online_repository.dart';
-import 'package:worlds_away/features/common/domain/repository/id_repository.dart';
-import 'package:worlds_away/features/common/domain/repository/user_online_repository.dart';
-import 'package:worlds_away/features/common/domain/usecases/update_user_online_status_usecase.dart';
+import 'package:worlds_away/features/shared/user/id/data/data_sources/remote_id_impl.dart';
+import 'package:worlds_away/features/shared/user/id/data/data_sources/remote_id_repository.dart';
+import 'package:worlds_away/features/shared/user/online/data/data_sources/remote_user_online_repository.dart';
+import 'package:worlds_away/features/shared/user/id/data/repository/id_repository.dart';
+import 'package:worlds_away/features/shared/user/online/data/repository/user_online_repository.dart';
+import 'package:worlds_away/features/shared/user/id/domain/repository/id_repository.dart';
+import 'package:worlds_away/features/shared/user/online/domain/usecases/update_user_online_status_usecase.dart';
 
 import 'package:worlds_away/features/auth/data/data_sources/local/shared_preferences/local_auth_impl.dart';
 import 'package:worlds_away/features/auth/data/data_sources/local/shared_preferences/local_auth_repository.dart';
@@ -44,7 +42,7 @@ import 'package:worlds_away/features/home/domain/usecases/bottom_nav_bar_on_tap.
 import 'package:worlds_away/features/auth/domain/usecases/check_user_auth_status.dart';
 import 'package:worlds_away/features/auth/domain/usecases/sign_in_with_google.dart';
 import 'package:worlds_away/features/auth/domain/usecases/sign_out_and_clear_user_setup_bool.dart';
-import 'package:worlds_away/features/common/domain/usecases/check_id_available.dart';
+import 'package:worlds_away/features/shared/user/id/domain/usecases/check_id_available.dart';
 import 'package:worlds_away/features/home/domain/usecases/get_user_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/get_user_local_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/get_user_setup_state.dart';
@@ -73,11 +71,12 @@ import 'features/chat/chat/data/data_sources/remote/remote_chat_impl.dart';
 import 'features/chat/chat/data/data_sources/remote/remote_chat_repository.dart';
 import 'features/chat/chat/data/repository/chat_repository.dart';
 import 'features/chat/chat/domain/repository/chat_repository.dart';
-import 'features/common/data/data_sources/user_online/remote_user_online_impl.dart';
+import 'features/shared/user/online/data/data_sources/remote_user_online_impl.dart';
 import 'features/auth/presentation/blocs/auth/auth_bloc.dart';
 import 'features/auth/presentation/blocs/user_auth_status/user_auth_bloc.dart';
 import 'features/home/data/repository/user_setup_repository.dart';
 import 'features/home/presentation/blocs/setup/user_setup/user_setup_bloc.dart';
+import 'features/shared/user/online/domain/repository/user_online_repository.dart';
 
 final sl = GetIt.instance;
 
@@ -94,14 +93,10 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
 
   // Firebase Messaging dependencie
-  final service = FlutterBackgroundService();
-  sl.registerSingleton<FlutterBackgroundService>(service);
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  sl.registerSingleton<FlutterLocalNotificationsPlugin>(
-      flutterLocalNotificationsPlugin);
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  sl.registerSingleton<FirebaseMessaging>(firebaseMessaging);
 
-  sl.registerSingleton<BackgroundService>(BackgroundService(sl(), sl(), sl()));
+  sl.registerSingleton<Dio>(Dio());
 
   // Repositories
   sl.registerSingleton<RemoteAuthRepository>(

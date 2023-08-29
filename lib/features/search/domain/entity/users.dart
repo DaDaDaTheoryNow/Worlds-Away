@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:worlds_away/features/common/domain/entities/user.dart';
+import 'package:worlds_away/features/shared/user/user/domain/entities/user.dart';
 
 class UsersEntity extends Equatable {
   final List<UserEntity>? usersList;

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:worlds_away/core/constants/constants.dart';
 import 'package:worlds_away/features/home/data/data_sources/local/local_user_setup_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:worlds_away/features/common/data/models/user.dart';
+import 'package:worlds_away/features/shared/user/user/data/models/user.dart';
 
 class LocalUserSetupImpl implements LocalUserSetupRepository {
   final SharedPreferences prefs;

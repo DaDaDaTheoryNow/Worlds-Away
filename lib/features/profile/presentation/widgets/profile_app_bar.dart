@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:worlds_away/core/constants/constants.dart';
-import 'package:worlds_away/features/common/domain/entities/user.dart';
-import 'package:worlds_away/features/common/presentation/widgets/user_app_bar_avatar.dart';
+import 'package:worlds_away/features/shared/user/user/domain/entities/user.dart';
+import 'package:worlds_away/features/shared/common/presentation/widgets/user_app_bar_avatar.dart';
 
 class ProfileAppBar extends StatelessWidget {
   final UserEntity user;

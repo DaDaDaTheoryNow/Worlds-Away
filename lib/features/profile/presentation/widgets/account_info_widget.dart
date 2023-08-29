@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/constants/constants.dart';
-import 'package:worlds_away/features/common/domain/entities/user.dart';
+import 'package:worlds_away/features/shared/user/user/domain/entities/user.dart';
 import 'package:worlds_away/features/profile/presentation/blocs/change/change_bloc.dart';
 import 'package:worlds_away/features/profile/presentation/blocs/change/change_event.dart';
 import 'package:worlds_away/features/profile/presentation/pages/change/change_page_template.dart';

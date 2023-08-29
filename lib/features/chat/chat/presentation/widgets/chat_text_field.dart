@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/features/chat/chat/domain/entities/send_message.dart';
 import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_bloc.dart';
 import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_event.dart';
-import 'package:worlds_away/features/common/domain/entities/user.dart';
+import 'package:worlds_away/features/shared/user/user/domain/entities/user.dart';
 
 class ChatTextField extends StatelessWidget {
   final UserEntity user;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:worlds_away/features/common/presentation/widgets/cupertino_loading.dart';
-import 'package:worlds_away/features/common/presentation/widgets/my_error_widget.dart';
+import 'package:worlds_away/features/shared/common/presentation/widgets/cupertino_loading.dart';
+import 'package:worlds_away/features/shared/common/presentation/widgets/my_error_widget.dart';
 import 'package:worlds_away/features/search/presentation/blocs/search_bloc.dart';
 import 'package:worlds_away/features/search/presentation/blocs/search_state.dart';
 import 'package:worlds_away/features/search/presentation/widgets/searched_user_tile.dart';

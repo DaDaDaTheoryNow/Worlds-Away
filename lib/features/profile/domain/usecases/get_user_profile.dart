@@ -1,6 +1,6 @@
 import 'package:worlds_away/core/resources/data_state.dart';
 import 'package:worlds_away/core/usecase/usecase.dart';
-import 'package:worlds_away/features/common/domain/entities/user.dart';
+import 'package:worlds_away/features/shared/user/user/domain/entities/user.dart';
 import 'package:worlds_away/features/profile/domain/repository/profile_repository.dart';
 
 class GetUserProfileUseCase

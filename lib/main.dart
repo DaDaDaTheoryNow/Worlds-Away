@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:worlds_away/background_service.dart';
 import 'package:worlds_away/features/chat/chats/presention/blocs/chats_bloc.dart';
 
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_bloc.dart';
@@ -26,19 +25,13 @@ import 'features/auth/presentation/blocs/user_auth_status/user_auth_state.dart';
 import 'features/home/presentation/blocs/setup/user_setup/user_setup_bloc.dart';
 import 'injection_container.dart';
 
-import 'package:timeago/timeago.dart' as timeago;
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await initializeDependencies();
 
-  await sl<BackgroundService>().initializeService();
-
   await SystemChrome.setPreferredOrientations(
       <DeviceOrientation>[DeviceOrientation.portraitUp]);
-
-  timeago.setLocaleMessages('ru', timeago.RuMessages());
 
   runApp(const MyApp());
 }
@@ -74,7 +67,7 @@ class MyApp extends StatelessWidget {
         if (state.status == UserAuthStatus.authenticated) {
           BlocProvider.of<ProfileBloc>(context).add(GetCurrentUserProfile());
 
-          // provide chats
+          // providing chats
           return BlocProvider(
               create: (_) => sl<ChatsBloc>(), child: const HomePage());
         } else {

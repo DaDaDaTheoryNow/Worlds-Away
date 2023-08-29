@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:worlds_away/features/common/presentation/widgets/auth_elevated_button.dart';
+import 'package:worlds_away/features/shared/common/presentation/widgets/auth_elevated_button.dart';
 import 'package:worlds_away/features/auth/presentation/blocs/auth/auth_bloc.dart';
 import 'package:worlds_away/features/auth/presentation/blocs/auth/auth_event.dart';
 import 'package:worlds_away/features/auth/presentation/blocs/auth/auth_state.dart';

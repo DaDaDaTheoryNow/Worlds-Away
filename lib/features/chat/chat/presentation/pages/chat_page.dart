@@ -5,7 +5,7 @@ import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_bloc.dart
 import 'package:worlds_away/features/chat/chat/presentation/widgets/chat.dart';
 import 'package:worlds_away/features/chat/chat/presentation/widgets/chat_app_bar.dart';
 import 'package:worlds_away/features/chat/chat/presentation/widgets/chat_text_field.dart';
-import 'package:worlds_away/features/common/domain/entities/user.dart';
+import 'package:worlds_away/features/shared/user/user/domain/entities/user.dart';
 import 'package:worlds_away/injection_container.dart';
 
 class ChatPage extends StatelessWidget {

@@ -44,13 +44,11 @@ dependencies:
   equatable: ^2.0.5
   shared_preferences: ^2.2.0
   cached_network_image: ^3.2.3
-  timeago: ^3.5.0
   intl: ^0.18.1
   rxdart: ^0.27.7
-  flutter_background_service: ^5.0.1
-  flutter_background_service_android: ^6.0.1
-  flutter_local_notifications: ^15.1.1
-  
+  firebase_messaging: ^14.6.7
+  retrofit: ^4.0.1
+  dio: ^5.3.2
 
 
 dev_dependencies:
@@ -63,6 +61,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  retrofit_generator: ^7.0.8
+  build_runner: ^2.4.6
 
 
 # For information on the generic Dart part of this file, see the

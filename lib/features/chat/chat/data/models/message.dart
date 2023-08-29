@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:worlds_away/features/chat/chat/domain/entities/message.dart';
-import 'package:worlds_away/features/common/data/models/user.dart';
+import 'package:worlds_away/features/shared/user/user/data/models/user.dart';
 
 class MessageModel extends MessageEntity {
   const MessageModel(

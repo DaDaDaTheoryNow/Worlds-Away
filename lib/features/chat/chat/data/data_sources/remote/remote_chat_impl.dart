@@ -6,7 +6,7 @@ import 'package:worlds_away/features/chat/chat/data/data_sources/remote/remote_c
 import 'package:worlds_away/features/chat/chat/data/models/chat_info.dart';
 import 'package:worlds_away/features/chat/chat/data/models/message.dart';
 import 'package:worlds_away/features/chat/chat/data/models/send_message.dart';
-import 'package:worlds_away/features/common/data/models/user.dart';
+import 'package:worlds_away/features/shared/user/user/data/models/user.dart';
 
 class RemoteChatImpl implements RemoteChatRepository {
   final FirebaseFirestore _firestore;

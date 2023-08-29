@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:worlds_away/core/constants/constants.dart';
-import 'package:worlds_away/features/common/data/models/user.dart';
+import 'package:worlds_away/features/shared/user/user/data/models/user.dart';
 import 'package:worlds_away/features/profile/data/data_sources/remote/remote_profile_repository.dart';
 
 class RemoteProfileRepositoryImpl implements RemoteProfileRepository {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:worlds_away/features/chat/chat/presentation/pages/chat_page.dart';
 import 'package:worlds_away/features/chat/chats/presention/pages/chats_page.dart';
-import 'package:worlds_away/features/common/domain/entities/user.dart';
+import 'package:worlds_away/features/shared/user/user/domain/entities/user.dart';
 import 'package:worlds_away/features/auth/presentation/pages/auth/auth_page.dart';
 import 'package:worlds_away/features/home/presentation/pages/setup/user_setup_page.dart';
 import 'package:worlds_away/features/home/presentation/pages/home/home_page.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/resources/data_state.dart';
-import 'package:worlds_away/features/common/domain/usecases/check_id_available.dart';
+import 'package:worlds_away/features/shared/user/id/domain/usecases/check_id_available.dart';
 
 import 'package:worlds_away/features/profile/domain/usecases/change_about.dart';
 import 'package:worlds_away/features/profile/domain/usecases/change_id.dart';

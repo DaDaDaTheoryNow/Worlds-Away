@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:worlds_away/features/common/domain/entities/user.dart';
+import 'package:worlds_away/features/shared/user/user/domain/entities/user.dart';
 
 abstract class ProfileState extends Equatable {
   final UserEntity? user;

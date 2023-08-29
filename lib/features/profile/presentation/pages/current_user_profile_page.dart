@@ -2,16 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/constants/constants.dart';
-import 'package:worlds_away/features/common/domain/entities/user.dart';
+import 'package:worlds_away/features/shared/user/user/domain/entities/user.dart';
 
-import 'package:worlds_away/features/common/presentation/widgets/auth_elevated_button.dart';
-import 'package:worlds_away/features/common/presentation/widgets/cupertino_loading.dart';
-import 'package:worlds_away/features/common/presentation/widgets/my_error_widget.dart';
-import 'package:worlds_away/features/common/domain/usecases/update_user_online_status_usecase.dart';
+import 'package:worlds_away/features/shared/common/presentation/widgets/auth_elevated_button.dart';
+import 'package:worlds_away/features/shared/common/presentation/widgets/cupertino_loading.dart';
+import 'package:worlds_away/features/shared/common/presentation/widgets/my_error_widget.dart';
+import 'package:worlds_away/features/shared/user/online/domain/usecases/update_user_online_status_usecase.dart';
 
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_bloc.dart';
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_event.dart';
-import 'package:worlds_away/features/common/presentation/observers/user_online_observer.dart';
+import 'package:worlds_away/features/shared/user/online/presentation/observers/user_online_observer.dart';
 import 'package:worlds_away/features/auth/presentation/blocs/auth/auth_bloc.dart';
 import 'package:worlds_away/features/auth/presentation/blocs/auth/auth_event.dart';
 import 'package:worlds_away/features/profile/presentation/blocs/profile_bloc.dart';
