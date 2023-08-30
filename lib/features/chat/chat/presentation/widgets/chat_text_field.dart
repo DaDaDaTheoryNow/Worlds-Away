@@ -50,7 +50,7 @@ class ChatTextField extends StatelessWidget {
                     final message = messageController.text.trim();
 
                     // Dispatch event to send the message
-                    _onSendMessagePressed(message, user.uniqueUid!, context);
+                    _onSendMessagePressed(message, user, context);
 
                     messageController.clear();
                   }
@@ -61,10 +61,11 @@ class ChatTextField extends StatelessWidget {
     );
   }
 
-  _onSendMessagePressed(String message, String receiverUniqueUid, context) {
+  _onSendMessagePressed(String message, UserEntity user, context) {
     BlocProvider.of<ChatBloc>(context).add(SendMessage(SendMessageEntity(
-        content: message,
-        receiverUniqueUid: receiverUniqueUid,
-        timestamp: Timestamp.now())));
+      content: message,
+      toUser: user,
+      timestamp: Timestamp.now(),
+    )));
   }
 }

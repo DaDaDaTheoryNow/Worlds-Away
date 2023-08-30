@@ -57,31 +57,4 @@ class RemoteUserSetupImpl implements RemoteUserSetupRepository {
       'photoUrl': user.photoURL ?? "",
     }, SetOptions(merge: true));
   }
-
-  @override
-  Future<UserModel?> getUserInformation() async {
-    final user = _auth.currentUser;
-
-    if (user != null) {
-      final userRef =
-          _firestore.collection(firestoreCollectionUsers).doc(user.uid);
-
-      final userSnapshot =
-          await userRef.get(const GetOptions(source: Source.server));
-      final Map<String, dynamic>? userData = userSnapshot.data();
-
-      if (userData != null) {
-        return UserModel(
-            email: userData["email"],
-            id: userData["id"],
-            uniqueUid: userData["uniqueUid"],
-            name: userData["name"],
-            about: userData["about"],
-            photoUrl: userData["photoUrl"],
-            isOnline: userData["isOnline"]);
-      }
-    }
-
-    return null;
-  }
 }

@@ -22,12 +22,13 @@ class RemoteProfileRepositoryImpl implements RemoteProfileRepository {
       final Map<String, dynamic>? userData = userSnapshot.data();
 
       return UserModel(
-        email: userData!["email"] ?? "Unknown",
-        id: userData["id"] ?? "Unknown",
-        uniqueUid: userData["uniqueUid"] ?? "Unknown",
-        name: userData["name"] ?? "Unknown",
-        about: userData["about"] ?? "Unknown",
-        photoUrl: userData["photoUrl"] ?? "Unknown",
+        email: userData?["email"] ?? "Unknown",
+        id: userData?["id"] ?? "Unknown",
+        uniqueUid: userData?["uniqueUid"] ?? "Unknown",
+        name: userData?["name"] ?? "Unknown",
+        about: userData?["about"] ?? "Unknown",
+        photoUrl: userData?["photoUrl"] ?? "Unknown",
+        fcmToken: userData?["fcmToken"] ?? "Unknown",
       );
     });
   }

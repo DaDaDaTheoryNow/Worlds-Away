@@ -1,11 +1,11 @@
 import 'package:worlds_away/core/resources/data_state.dart';
 import 'package:worlds_away/core/usecase/usecase.dart';
-import 'package:worlds_away/features/home/domain/repository/user_setup_repository.dart';
 import 'package:worlds_away/features/shared/user/user/domain/entities/user.dart';
+import 'package:worlds_away/features/shared/user/user/domain/repository/user_repository.dart';
 
 class GetUserInformationUseCase
     implements UseCase<DataState<UserEntity?>, void> {
-  final UserSetupRepository _userSetupRepository;
+  final UserRepository _userSetupRepository;
 
   GetUserInformationUseCase(this._userSetupRepository);
 

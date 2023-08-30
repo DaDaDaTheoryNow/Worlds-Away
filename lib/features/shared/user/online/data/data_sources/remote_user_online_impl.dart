@@ -14,8 +14,12 @@ class RemoteUserOnlineImpl implements RemoteUserOnlineRepository {
         .collection(firestoreCollectionUsers)
         .doc(userOnlineModel.uniqueUid);
 
-    await userRef.update({
-      'isOnline': userOnlineModel.isOnline,
-    });
+    final userSnapshot = await userRef.get();
+
+    if (userSnapshot.exists) {
+      await userRef.update({
+        'isOnline': userOnlineModel.isOnline,
+      });
+    }
   }
 }

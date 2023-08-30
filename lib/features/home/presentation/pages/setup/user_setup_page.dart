@@ -118,7 +118,7 @@ class _UserSetupPageState extends State<UserSetupPage> {
                           child: TextFormField(
                             controller: _idController,
                             inputFormatters: [
-                              LengthLimitingTextInputFormatter(8),
+                              LengthLimitingTextInputFormatter(maxIdLength),
                               FilteringTextInputFormatter.deny(
                                   RegExp(r'[^a-zA-Z0-9]'))
                             ],

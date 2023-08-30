@@ -15,6 +15,13 @@ import 'package:worlds_away/features/chat/chats/data/repository/chats_repository
 import 'package:worlds_away/features/chat/chats/domain/repository/chats_repository.dart';
 import 'package:worlds_away/features/chat/chats/domain/usecases/get_chats_stream.dart';
 import 'package:worlds_away/features/chat/chats/presention/blocs/chats_bloc.dart';
+import 'package:worlds_away/features/shared/firebase_messaging/data/data_sources/remote/remote_firebase_messaging_impl.dart';
+import 'package:worlds_away/features/shared/firebase_messaging/data/data_sources/remote/remote_firebase_messaging_repository.dart';
+import 'package:worlds_away/features/shared/firebase_messaging/data/data_sources/retrofit/firebase_messaging_retrofit.dart';
+import 'package:worlds_away/features/shared/firebase_messaging/data/repository/firebase_messaging_repository.dart';
+import 'package:worlds_away/features/shared/firebase_messaging/domain/repository/firebase_messaging_repository.dart';
+import 'package:worlds_away/features/shared/firebase_messaging/domain/usecases/init_notifications.dart';
+import 'package:worlds_away/features/shared/firebase_messaging/domain/usecases/send_notification_to_receiver.dart';
 import 'package:worlds_away/features/shared/user/id/data/data_sources/remote_id_impl.dart';
 import 'package:worlds_away/features/shared/user/id/data/data_sources/remote_id_repository.dart';
 import 'package:worlds_away/features/shared/user/online/data/data_sources/remote_user_online_repository.dart';
@@ -43,7 +50,11 @@ import 'package:worlds_away/features/auth/domain/usecases/check_user_auth_status
 import 'package:worlds_away/features/auth/domain/usecases/sign_in_with_google.dart';
 import 'package:worlds_away/features/auth/domain/usecases/sign_out_and_clear_user_setup_bool.dart';
 import 'package:worlds_away/features/shared/user/id/domain/usecases/check_id_available.dart';
-import 'package:worlds_away/features/home/domain/usecases/get_user_information.dart';
+import 'package:worlds_away/features/shared/user/user/data/data_sources/remote_user_impl.dart';
+import 'package:worlds_away/features/shared/user/user/data/data_sources/remote_user_repository.dart';
+import 'package:worlds_away/features/shared/user/user/data/repository/user_repository.dart';
+import 'package:worlds_away/features/shared/user/user/domain/repository/user_repository.dart';
+import 'package:worlds_away/features/shared/user/user/domain/usecases/get_user_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/get_user_local_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/get_user_setup_state.dart';
 import 'package:worlds_away/features/home/domain/usecases/send_user_setup_information.dart';
@@ -95,8 +106,17 @@ Future<void> initializeDependencies() async {
   // Firebase Messaging dependencie
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   sl.registerSingleton<FirebaseMessaging>(firebaseMessaging);
-
   sl.registerSingleton<Dio>(Dio());
+
+  sl.registerSingleton<FirebaseMessagingRetrofit>(
+      FirebaseMessagingRetrofit(sl()));
+  sl.registerSingleton<RemoteFirebaseMessagingRepository>(
+      RemoteFirebaseMessagingImpl(sl(), sl(), sl()));
+  sl.registerSingleton<FirebaseMessagingRepository>(
+      FirebaseMessagingRepositoryImpl(sl(), sl()));
+  sl.registerSingleton(InitNotificationsUseCase(sl()));
+  sl.registerSingleton(SendNotificationToReceiverUseCase(sl()));
+  //
 
   // Repositories
   sl.registerSingleton<RemoteAuthRepository>(
@@ -125,6 +145,8 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<UserOnlineRepository>(UserOnlineRepositoryImpl(sl()));
   sl.registerSingleton<RemoteIdRepository>(RemoteIdImpl(sl()));
   sl.registerSingleton<IdRepository>(IdRepositoryImpl(sl()));
+  sl.registerSingleton<RemoteUserRepository>(RemoteUserImpl(sl(), sl()));
+  sl.registerSingleton<UserRepository>(UserRepositoryImpl(sl()));
 
   // Usecases
   sl.registerSingleton<SignInWithGoogleUseCase>(SignInWithGoogleUseCase(sl()));

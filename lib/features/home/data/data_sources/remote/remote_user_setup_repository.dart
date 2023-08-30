@@ -5,6 +5,4 @@ abstract class RemoteUserSetupRepository {
   Future<UserModel?> getUserSetupModel();
   Future<void> sendUserSetupInformation(
       UserSetupInformationModel userSetupInformationModel);
-
-  Future<UserModel?> getUserInformation();
 }

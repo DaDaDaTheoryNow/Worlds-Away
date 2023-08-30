@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:worlds_away/features/chat/chats/presention/pages/chats_page.dart';
 import 'package:worlds_away/features/shared/common/presentation/widgets/cupertino_loading.dart';
+import 'package:worlds_away/features/shared/firebase_messaging/domain/usecases/init_notifications.dart';
 import 'package:worlds_away/features/shared/user/online/domain/usecases/update_user_online_status_usecase.dart';
 
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_bloc.dart';
@@ -34,6 +35,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
+    sl<InitNotificationsUseCase>().call();
 
     WidgetsBinding.instance.addObserver(UserOnlineObserver(
         sl<UpdateUserOnlineStatusUseCase>(), sl<FirebaseAuth>())

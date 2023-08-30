@@ -3,7 +3,7 @@ import 'package:worlds_away/core/resources/data_state.dart';
 import 'package:worlds_away/core/resources/user_setup_data_state.dart';
 import 'package:worlds_away/features/home/domain/entities/user_setup_information.dart';
 import 'package:worlds_away/features/shared/user/id/domain/usecases/check_id_available.dart';
-import 'package:worlds_away/features/home/domain/usecases/get_user_information.dart';
+import 'package:worlds_away/features/shared/user/user/domain/usecases/get_user_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/send_user_setup_information.dart';
 import 'package:worlds_away/features/home/domain/usecases/set_user_setup_bool.dart';
 import 'package:worlds_away/features/home/presentation/blocs/setup/setup_page/setup_page_event.dart';

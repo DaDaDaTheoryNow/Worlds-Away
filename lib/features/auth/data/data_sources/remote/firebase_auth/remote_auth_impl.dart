@@ -49,6 +49,7 @@ class FirebaseAuthImpl implements RemoteAuthRepository {
           'about': "",
           'photoUrl': user.photoURL ?? "",
           'isOnline': null,
+          'fcmToken': "",
         });
 
         debugPrint('User document created successfully.');

@@ -10,6 +10,7 @@ class UserModel extends UserEntity {
     final String? photoUrl,
     final String? about,
     final bool? isOnline,
+    final String? fcmToken,
   }) : super(
           id: id,
           uniqueUid: uniqueUid,
@@ -18,6 +19,7 @@ class UserModel extends UserEntity {
           about: about,
           photoUrl: photoUrl,
           isOnline: isOnline,
+          fcmToken: fcmToken,
         );
 
   factory UserModel.fromSnapshot(DocumentSnapshot documentSnapshot) {
@@ -31,7 +33,8 @@ class UserModel extends UserEntity {
         name: data["name"],
         photoUrl: data["photoUrl"],
         about: data["about"],
-        isOnline: data["isOnline"]);
+        isOnline: data["isOnline"],
+        fcmToken: data["fcmToken"]);
   }
 
   factory UserModel.fromEntity(UserEntity userEntity) {
@@ -42,6 +45,7 @@ class UserModel extends UserEntity {
         name: userEntity.name,
         photoUrl: userEntity.photoUrl,
         about: userEntity.about,
-        isOnline: userEntity.isOnline);
+        isOnline: userEntity.isOnline,
+        fcmToken: userEntity.fcmToken);
   }
 }

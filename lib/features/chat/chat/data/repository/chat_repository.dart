@@ -32,9 +32,18 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<void> sendMessage(SendMessageEntity messageEntity) async {
-    await _remoteChatRepository
-        .sendMessage(SendMessageModel.fromEntity(messageEntity));
+  Future<DataState> sendMessage(SendMessageEntity messageEntity) async {
+    try {
+      await _remoteChatRepository
+          .sendMessage(SendMessageModel.fromEntity(messageEntity));
+      return const DataSuccess(true);
+    } on FirebaseException catch (e) {
+      if (e.code == 'unavailable') {
+        return const DataFailed("Error: Нужно Интернет Соединение");
+      } else {
+        return DataFailed("Error: ${e.message}");
+      }
+    }
   }
 
   @override

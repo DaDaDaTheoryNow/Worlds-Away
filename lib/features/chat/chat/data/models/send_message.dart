@@ -14,7 +14,7 @@ class SendMessageModel extends MessageEntity {
     return SendMessageModel(
       content: sendMessageEntity.content,
       timestamp: sendMessageEntity.timestamp,
-      receiverUniqueUid: sendMessageEntity.receiverUniqueUid,
+      receiverUniqueUid: sendMessageEntity.toUser!.uniqueUid,
     );
   }
 }

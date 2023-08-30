@@ -7,7 +7,7 @@ abstract class ChatRepository {
   Future<DataState<Stream<ChatInfoEntity>>> getChatInfoStream(
       String receiverUniqueUid);
 
-  Future<void> sendMessage(SendMessageEntity messageEntity);
+  Future<DataState> sendMessage(SendMessageEntity messageEntity);
 
   Future<void> setMessagesIsViewed(MessageEntity messageEntity);
 }

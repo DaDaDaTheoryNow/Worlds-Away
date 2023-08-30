@@ -8,6 +8,7 @@ class UserEntity extends Equatable {
   final String? about;
   final String? photoUrl;
   final bool? isOnline;
+  final String? fcmToken;
 
   const UserEntity({
     this.email,
@@ -17,9 +18,10 @@ class UserEntity extends Equatable {
     this.about,
     this.photoUrl,
     this.isOnline,
+    this.fcmToken,
   });
 
   @override
   List<Object?> get props =>
-      [email, uniqueUid, id, name, about, photoUrl, isOnline];
+      [email, uniqueUid, id, name, about, photoUrl, isOnline, fcmToken];
 }

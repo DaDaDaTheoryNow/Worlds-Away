@@ -2,51 +2,22 @@ import 'package:worlds_away/features/shared/firebase_messaging/domain/entities/f
 
 class FirebaseNotificationModel {
   final String token;
-  final FirebaseNotificationDetailsModel firebaseNotification;
+  final String title;
+  final String body;
 
-  FirebaseNotificationModel({
-    required this.token,
-    required this.firebaseNotification,
-  });
+  FirebaseNotificationModel(
+      {required this.title, required this.body, required this.token});
+
+  Map<String, dynamic> toJson() {
+    return {
+      "to": token,
+      "notification": {"title": title, "body": body},
+    };
+  }
 
   factory FirebaseNotificationModel.fromEntity(
       FirebaseNotificationEntity entity) {
     return FirebaseNotificationModel(
-      token: entity.token,
-      firebaseNotification: FirebaseNotificationDetailsModel.fromEntity(
-          entity.firebaseNotification),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'token': token,
-      'firebaseNotification': firebaseNotification.toJson(),
-    };
-  }
-}
-
-class FirebaseNotificationDetailsModel {
-  final String title;
-  final String body;
-
-  FirebaseNotificationDetailsModel({
-    required this.title,
-    required this.body,
-  });
-
-  factory FirebaseNotificationDetailsModel.fromEntity(
-      FirebaseNotificationDetailsEntity entity) {
-    return FirebaseNotificationDetailsModel(
-      title: entity.title,
-      body: entity.body,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'title': title,
-      'body': body,
-    };
+        title: entity.title, body: entity.body, token: entity.token);
   }
 }

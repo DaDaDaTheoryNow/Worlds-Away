@@ -34,8 +34,9 @@ migrate_working_dir/
 /web/
 /test/
 /ios/
-.metadata
+.metadata/
 analysis_options.yaml
+/generate_token_messaging_api/
 
 # Symbolication related
 app.*.symbols
