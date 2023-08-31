@@ -6,13 +6,13 @@ import 'package:worlds_away/features/chat/chat/presentation/widgets/message.dart
 import 'package:worlds_away/features/shared/common/presentation/widgets/cupertino_loading.dart';
 import 'package:worlds_away/features/shared/common/presentation/widgets/my_error_widget.dart';
 
+final ScrollController chatScrollController = ScrollController();
+
 class ChatWidget extends StatelessWidget {
   const ChatWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ScrollController chatScrollController = ScrollController();
-
     return BlocBuilder<ChatBloc, ChatState>(
       builder: (context, state) {
         if (state is ChatError) {
@@ -24,8 +24,8 @@ class ChatWidget extends StatelessWidget {
         }
 
         if (state is ChatDone) {
-          final messages = state.chatInfo!.messages;
-          if (messages!.isEmpty) {
+          final messages = state.chatInfo!.messages!.reversed.toList();
+          if (messages.isEmpty) {
             return const Center(
               child: Text(
                 "Начните переписку первым",
@@ -38,21 +38,29 @@ class ChatWidget extends StatelessWidget {
             );
           }
 
-          // jump to down
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            chatScrollController
-                .jumpTo(chatScrollController.position.maxScrollExtent);
-          });
-
-          return ListView.builder(
-            controller: chatScrollController,
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            itemCount: messages.length,
-            itemBuilder: (context, index) {
-              final message = messages[index];
-
-              return MessageWidget(message);
-            },
+          return Padding(
+            padding: const EdgeInsets.only(top: 5),
+            child: GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  reverse: true,
+                  controller: chatScrollController,
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    final message = messages[index];
+                    return MessageWidget(message);
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(
+                    height: 6,
+                  ),
+                ),
+              ),
+            ),
           );
         }
 

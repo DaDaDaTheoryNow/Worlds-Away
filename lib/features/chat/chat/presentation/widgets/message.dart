@@ -33,7 +33,7 @@ class _MessageWidgetState extends State<MessageWidget> {
     return Align(
       alignment: alignment,
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 8),
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: backgroundColor,

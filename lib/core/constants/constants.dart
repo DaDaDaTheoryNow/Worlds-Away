@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+const String changeUserOnlineBackground = "changeUserOnlineBackground";
+
 const List<BottomNavigationBarItem> bottomNavigationBarItems = [
   BottomNavigationBarItem(icon: Icon(CupertinoIcons.chat_bubble), label: "Чат"),
   BottomNavigationBarItem(icon: Icon(CupertinoIcons.search), label: "Искать"),

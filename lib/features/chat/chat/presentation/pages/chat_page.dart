@@ -24,6 +24,7 @@ class ChatPage extends StatelessWidget {
         user.uniqueUid!,
       ),
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: _buildAppBar(),
         body: Column(
           children: [

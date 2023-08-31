@@ -2,30 +2,29 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
-import 'package:worlds_away/features/shared/user/online/domain/entities/user_online.dart';
-import 'package:worlds_away/features/shared/user/online/domain/usecases/update_user_online_status_usecase.dart';
+import 'package:workmanager/workmanager.dart';
+import 'package:worlds_away/core/constants/constants.dart';
 
 class UserOnlineObserver extends WidgetsBindingObserver {
-  final UpdateUserOnlineStatusUseCase _updateUserOnlineStatusUseCase;
-  final FirebaseAuth _auth;
+  final FirebaseAuth firebaseAuth;
+  UserOnlineObserver(this.firebaseAuth);
 
-  UserOnlineObserver(this._updateUserOnlineStatusUseCase, this._auth);
+  Future<void> updateUserOnline(isOnline) async {
+    final userUniqueUid = firebaseAuth.currentUser?.uid;
 
-  Future<void> updateUserOnline(bool isOnline) async {
-    final userUniqueUid = _auth.currentUser?.uid;
     if (userUniqueUid != null) {
-      await _updateUserOnlineStatusUseCase(
-          params:
-              UserOnlineEntity(uniqueUid: userUniqueUid, isOnline: isOnline));
+      await Workmanager().registerOneOffTask(
+          (isOnline) ? "online" : "offline", changeUserOnlineBackground,
+          inputData: {"isOnline": isOnline, "userUniqueUid": userUniqueUid});
     }
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
-      updateUserOnline(true);
+      await updateUserOnline(true);
     } else {
-      updateUserOnline(false);
+      await updateUserOnline(false);
     }
   }
 }

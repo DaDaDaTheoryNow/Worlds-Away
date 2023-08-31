@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/features/chat/chat/domain/entities/send_message.dart';
 import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_bloc.dart';
 import 'package:worlds_away/features/chat/chat/presentation/blocs/chat_event.dart';
+import 'package:worlds_away/features/chat/chat/presentation/widgets/chat.dart';
 import 'package:worlds_away/features/shared/user/user/domain/entities/user.dart';
 
 class ChatTextField extends StatelessWidget {
@@ -62,6 +63,12 @@ class ChatTextField extends StatelessWidget {
   }
 
   _onSendMessagePressed(String message, UserEntity user, context) {
+    chatScrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+
     BlocProvider.of<ChatBloc>(context).add(SendMessage(SendMessageEntity(
       content: message,
       toUser: user,
