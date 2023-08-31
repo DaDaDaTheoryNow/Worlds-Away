@@ -34,14 +34,24 @@ class CurrentUserProfilePage extends StatelessWidget {
 
         if (state is ProfileDone) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: _buildAppBar(state.user!),
-            body: Column(
-              children: [
-                AccountInfoWidget(user: state.user!),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
-                  child: _buildSignOutWithGoogleButton(context),
+            body: CustomScrollView(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              slivers: [
+                SliverToBoxAdapter(child: AccountInfoWidget(user: state.user!)),
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 30),
+                        child: _buildSignOutWithGoogleButton(context),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

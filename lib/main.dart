@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:worlds_away/callback_dispatcher.dart';
 import 'package:worlds_away/features/chat/chats/presention/blocs/chats_bloc.dart';
@@ -37,7 +38,9 @@ Future<void> main() async {
   await SystemChrome.setPreferredOrientations(
       <DeviceOrientation>[DeviceOrientation.portraitUp]);
 
-  runApp(const MyApp());
+  initializeDateFormatting('ru', null).then((_) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {

@@ -65,12 +65,17 @@ class ChatTile extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Text(chat.user.name!,
+                            Flexible(
+                              child: Text(
+                                chat.user.name!,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 17,
-                                )),
+                                ),
+                              ),
+                            ),
                             if (chat.messagesToNotViewed > 0)
                               Container(
                                 margin: const EdgeInsets.only(left: 10),
@@ -82,6 +87,7 @@ class ChatTile extends StatelessWidget {
                                 child: Center(
                                   child: Text(
                                     chat.messagesToNotViewed.toString(),
+                                    overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.center,
                                   ),
                                 ),

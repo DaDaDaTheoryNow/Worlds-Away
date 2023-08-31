@@ -32,6 +32,7 @@ class ChangeUserInfoButton extends StatelessWidget {
             children: [
               Text(
                 title,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
@@ -40,6 +41,7 @@ class ChangeUserInfoButton extends StatelessWidget {
               ),
               Text(
                 description,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: Colors.grey,
                 ),

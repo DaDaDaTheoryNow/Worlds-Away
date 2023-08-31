@@ -64,7 +64,7 @@ class ChatTextField extends StatelessWidget {
 
   _onSendMessagePressed(String message, UserEntity user, context) {
     chatScrollController.animateTo(
-      0,
+      chatScrollController.position.minScrollExtent,
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );

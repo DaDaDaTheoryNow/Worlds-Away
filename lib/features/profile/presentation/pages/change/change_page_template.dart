@@ -34,7 +34,7 @@ class ChangePageTemplate extends StatefulWidget {
 
 class _ChangePageTemplateState extends State<ChangePageTemplate> {
   final TextEditingController _changeController = TextEditingController();
-  double _readyToChangeScale = 0;
+  double _readyToChangeOpacity = 0;
 
   @override
   void dispose() {
@@ -45,178 +45,192 @@ class _ChangePageTemplateState extends State<ChangePageTemplate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: _buildAppBar(),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: containerColor,
-                borderRadius: BorderRadius.circular(42),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _changeController,
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(
-                            widget.maxCharacterCount),
-                        if (widget.isIdChange)
-                          FilteringTextInputFormatter.deny(
-                              RegExp(r'[^a-zA-Z0-9]'))
-                      ],
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                      ),
-                      onChanged: (query) {
-                        if (widget.isIdChange) {
-                          // id text to id view
-                          String idToSearch = query.toLowerCase().trim();
-
-                          if (idToSearch.isNotEmpty && idToSearch[0] != "@") {
-                            idToSearch = "@$idToSearch";
-                          }
-
-                          // check id available
-                          BlocProvider.of<ChangeBloc>(context)
-                              .add(ChangeCheckIdAvailable(idToSearch));
-
-                          // set save button
-                          setState(() {
-                            if (idToSearch.isNotEmpty) {
-                              _readyToChangeScale = 1;
-                            } else {
-                              _readyToChangeScale = 0;
-                            }
-                          });
-                        } else {
-                          // reset state
-                          BlocProvider.of<ChangeBloc>(context)
-                              .add(ChangeInititState());
-
-                          // set save button
-                          setState(() {
-                            if (query.trim().isNotEmpty) {
-                              _readyToChangeScale = 1;
-                            } else {
-                              _readyToChangeScale = 0;
-                            }
-                          });
-                        }
-                      },
-                      decoration: InputDecoration(
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        prefixText: (widget.isIdChange) ? "@" : null,
-                        label: Text(widget.labelText),
-                        labelStyle: const TextStyle(
-                          color: Colors.grey,
-                        ),
-                        prefixStyle:
-                            const TextStyle(color: Colors.white, fontSize: 17),
-                        prefixIcon: const Icon(Icons.edit),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.only(right: 12),
-                    child: Text(
-                      "${_changeController.text.trim().length}/${widget.maxCharacterCount}",
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+      body: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              color: containerColor,
+              borderRadius: BorderRadius.circular(42),
             ),
-            BlocBuilder<ChangeBloc, ChangeState>(
-              builder: (context, state) {
-                if (state is ChangeDone) {
-                  return const Padding(
-                    padding: EdgeInsets.only(right: 20),
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        "Успешно!",
-                        style: TextStyle(
-                          color: Colors.green,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _changeController,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(
+                          widget.maxCharacterCount),
+                      if (widget.isIdChange)
+                        FilteringTextInputFormatter.deny(
+                            RegExp(r'[^a-zA-Z0-9]'))
+                    ],
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
                     ),
-                  );
-                }
+                    onChanged: (query) {
+                      if (widget.isIdChange) {
+                        // id text to id view
+                        String idToSearch = query.toLowerCase().trim();
 
-                if (state is ChangeLoading) {
-                  return const CupertinoLoading();
-                }
+                        if (idToSearch.isNotEmpty && idToSearch[0] != "@") {
+                          idToSearch = "@$idToSearch";
+                        }
 
-                if (state is ChangeError) {
-                  return MyErrorWidget(error: state.error!);
-                }
+                        // check id available
+                        BlocProvider.of<ChangeBloc>(context)
+                            .add(ChangeCheckIdAvailable(idToSearch));
 
-                if (widget.isIdChange) {
-                  if (state.idAvailableStatus == null ||
-                      state.idAvailableStatus!) {
-                    return AnimatedScale(
-                      scale: _readyToChangeScale,
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves.easeInSine,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 17),
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: _buildSaveButton(),
-                        ),
+                        // set save button
+                        setState(() {
+                          if (idToSearch.isNotEmpty) {
+                            _readyToChangeOpacity = 1;
+                          } else {
+                            _readyToChangeOpacity = 0;
+                          }
+                        });
+                      } else {
+                        // reset state
+                        BlocProvider.of<ChangeBloc>(context)
+                            .add(ChangeInititState());
+
+                        // set save button
+                        setState(() {
+                          if (query.trim().isNotEmpty) {
+                            _readyToChangeOpacity = 1;
+                          } else {
+                            _readyToChangeOpacity = 0;
+                          }
+                        });
+                      }
+                    },
+                    decoration: InputDecoration(
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      prefixText: (widget.isIdChange) ? "@" : null,
+                      label: Text(widget.labelText),
+                      labelStyle: const TextStyle(
+                        color: Colors.grey,
                       ),
-                    );
-                  } else {
-                    return const Text("ID занято");
-                  }
-                }
-
-                return AnimatedScale(
-                  scale: _readyToChangeScale,
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeInSine,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 17),
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: _buildSaveButton(),
+                      prefixStyle:
+                          const TextStyle(color: Colors.white, fontSize: 17),
+                      prefixIcon: const Icon(Icons.edit),
+                    ),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.only(right: 12),
+                  child: Text(
+                    "${_changeController.text.trim().length}/${widget.maxCharacterCount}",
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          BlocBuilder<ChangeBloc, ChangeState>(
+            builder: (context, state) {
+              if (state is ChangeDone) {
+                return const Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      "Успешно!",
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 );
-              },
-            ),
-            Container(
-              constraints: const BoxConstraints(maxHeight: 60),
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              decoration: BoxDecoration(
-                color: containerColor,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  widget.helperText,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
+              }
+
+              if (state is ChangeLoading) {
+                return const Padding(
+                  padding: EdgeInsets.only(right: 65, top: 15),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: CupertinoLoading(
+                      isCenter: false,
+                    ),
                   ),
+                );
+              }
+
+              if (state is ChangeError) {
+                return MyErrorWidget(error: state.error!);
+              }
+
+              if (widget.isIdChange) {
+                if (state.idAvailableStatus == null ||
+                    state.idAvailableStatus!) {
+                  return AnimatedOpacity(
+                    opacity: _readyToChangeOpacity,
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeInSine,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 17),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: _buildSaveButton(),
+                      ),
+                    ),
+                  );
+                } else {
+                  return const Text(
+                    "ID занято",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  );
+                }
+              }
+
+              return AnimatedOpacity(
+                opacity: _readyToChangeOpacity,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInSine,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 17),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: _buildSaveButton(),
+                  ),
+                ),
+              );
+            },
+          ),
+          const Spacer(),
+          Container(
+            constraints: const BoxConstraints(maxHeight: 60),
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            decoration: BoxDecoration(
+              color: containerColor,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                widget.helperText,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

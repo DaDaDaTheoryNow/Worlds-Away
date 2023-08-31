@@ -6,6 +6,7 @@ import 'package:worlds_away/injection_container.dart';
 
 import 'core/constants/constants.dart';
 
+@pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     await Firebase.initializeApp();

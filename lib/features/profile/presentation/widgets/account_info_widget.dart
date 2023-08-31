@@ -44,7 +44,7 @@ class AccountInfoWidget extends StatelessWidget {
               _goToChangePage(
                 context,
                 title: "Изменениe идентификатора",
-                labelText: "Придумайте идентификатор...",
+                labelText: "Придумайте id...",
                 helperText:
                     "Идентификатор может содержать только латиницу и цифры 0-9",
                 onPressed: (value, bloc) =>
