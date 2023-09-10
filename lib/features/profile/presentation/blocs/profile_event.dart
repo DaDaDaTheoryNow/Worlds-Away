@@ -9,4 +9,8 @@ abstract class ProfileEvent extends Equatable {
   List<Object?> get props => [userUniqueId];
 }
 
+class ChangeAvatar extends ProfileEvent {
+  const ChangeAvatar();
+}
+
 class GetCurrentUserProfile extends ProfileEvent {}

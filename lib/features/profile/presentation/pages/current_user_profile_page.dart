@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/constants/constants.dart';
+import 'package:worlds_away/features/profile/presentation/blocs/profile_event.dart';
 import 'package:worlds_away/features/shared/user/user/domain/entities/user.dart';
 
 import 'package:worlds_away/features/shared/common/presentation/widgets/auth_elevated_button.dart';
@@ -35,7 +36,7 @@ class CurrentUserProfilePage extends StatelessWidget {
         if (state is ProfileDone) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
-            appBar: _buildAppBar(state.user!),
+            appBar: _buildAppBar(state.user!, context),
             body: CustomScrollView(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -68,12 +69,13 @@ class CurrentUserProfilePage extends StatelessWidget {
     );
   }
 
-  _buildAppBar(UserEntity user) {
+  _buildAppBar(UserEntity user, BuildContext context) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(appBarHeight),
       child: ProfileAppBar(
         user: user,
-        onPressed: () {},
+        onPressed: () =>
+            BlocProvider.of<ProfileBloc>(context).add(ChangeAvatar()),
       ),
     );
   }

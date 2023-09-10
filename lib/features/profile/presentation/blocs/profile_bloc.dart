@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:worlds_away/core/resources/data_state.dart';
+import 'package:worlds_away/features/profile/domain/usecases/change_avatar.dart';
 
 import 'package:worlds_away/features/shared/user/user/domain/entities/user.dart';
 import 'package:worlds_away/features/profile/domain/usecases/get_user_profile.dart';
@@ -9,11 +10,14 @@ import 'package:worlds_away/features/profile/presentation/blocs/profile_state.da
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetUserProfileUseCase _getUserProfileUseCase;
+  final ChangeAvatarUseCase _changeAvatarUseCase;
   final FirebaseAuth _auth;
 
-  ProfileBloc(this._getUserProfileUseCase, this._auth)
+  ProfileBloc(
+      this._getUserProfileUseCase, this._changeAvatarUseCase, this._auth)
       : super(ProfileLoading()) {
     on<GetCurrentUserProfile>(_onGetCurrentUserProfile);
+    on<ChangeAvatar>(_onChangeAvatar);
   }
 
   void _onGetCurrentUserProfile(
@@ -26,6 +30,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         return ProfileDone(data);
       });
     }
+
+    if (dataState is DataFailed) {
+      emit(ProfileError(dataState.error!));
+    }
+  }
+
+  void _onChangeAvatar(ChangeAvatar event, Emitter emit) async {
+    final dataState = await _changeAvatarUseCase();
 
     if (dataState is DataFailed) {
       emit(ProfileError(dataState.error!));

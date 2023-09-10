@@ -37,6 +37,7 @@ migrate_working_dir/
 .metadata/
 analysis_options.yaml
 /generate/
+.vscode/
 
 # Symbolication related
 app.*.symbols

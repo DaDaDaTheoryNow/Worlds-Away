@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -82,6 +83,7 @@ import 'features/chat/chat/data/data_sources/remote/remote_chat_impl.dart';
 import 'features/chat/chat/data/data_sources/remote/remote_chat_repository.dart';
 import 'features/chat/chat/data/repository/chat_repository.dart';
 import 'features/chat/chat/domain/repository/chat_repository.dart';
+import 'features/profile/domain/usecases/change_avatar.dart';
 import 'features/shared/user/online/data/data_sources/remote_user_online_impl.dart';
 import 'features/auth/presentation/blocs/auth/auth_bloc.dart';
 import 'features/auth/presentation/blocs/user_auth_status/user_auth_bloc.dart';
@@ -102,6 +104,7 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
   sl.registerSingleton<GoogleSignIn>(GoogleSignIn());
   sl.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
+  sl.registerSingleton<FirebaseStorage>(FirebaseStorage.instance);
 
   // Firebase Messaging dependencie
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
@@ -133,7 +136,7 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<UserSetupRepository>(
       UserSetupRepositoryImpl(sl(), sl()));
   sl.registerSingleton<RemoteProfileRepository>(
-      RemoteProfileRepositoryImpl(prefs, sl(), sl()));
+      RemoteProfileRepositoryImpl(prefs, sl(), sl(), sl()));
   sl.registerSingleton<ProfileRepository>(ProfileRepositoryImpl(sl()));
   sl.registerSingleton<RemoteSearchRepository>(RemoteSearchImpl(sl(), sl()));
   sl.registerSingleton<SearchRepository>(SearchRepositoryImpl(sl()));
@@ -179,6 +182,7 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<ChangeNameUseCase>(ChangeNameUseCase(sl()));
   sl.registerSingleton<ChangeAboutUseCase>(ChangeAboutUseCase(sl()));
   sl.registerSingleton<ChangeIdUseCase>(ChangeIdUseCase(sl()));
+  sl.registerSingleton<ChangeAvatarUseCase>(ChangeAvatarUseCase(sl()));
 
   // Factory
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));
@@ -188,7 +192,7 @@ Future<void> initializeDependencies() async {
   sl.registerFactory<UserSetupBloc>(() => UserSetupBloc(sl(), sl(), sl()));
   sl.registerFactory<SetupPageBloc>(
       () => SetupPageBloc(sl(), sl(), sl(), sl()));
-  sl.registerFactory<ProfileBloc>(() => ProfileBloc(sl(), sl()));
+  sl.registerFactory<ProfileBloc>(() => ProfileBloc(sl(), sl(), sl()));
   sl.registerFactory<SearchBloc>(() => SearchBloc(sl()));
   sl.registerFactory<ChatsBloc>(() => ChatsBloc(sl()));
 }

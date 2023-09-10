@@ -13,6 +13,7 @@ class UserOnlineObserver extends WidgetsBindingObserver {
     final userUniqueUid = firebaseAuth.currentUser?.uid;
 
     if (userUniqueUid != null) {
+      print("register one task...");
       await Workmanager().registerOneOffTask(
           (isOnline) ? "online" : "offline", changeUserOnlineBackground,
           inputData: {"isOnline": isOnline, "userUniqueUid": userUniqueUid});
@@ -22,8 +23,10 @@ class UserOnlineObserver extends WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
+      debugPrint("online on");
       await updateUserOnline(true);
     } else {
+      debugPrint("online off");
       await updateUserOnline(false);
     }
   }

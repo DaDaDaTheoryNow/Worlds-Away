@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:worlds_away/core/resources/data_state.dart';
 import 'package:worlds_away/features/shared/user/user/data/models/user.dart';
 import 'package:worlds_away/features/profile/data/data_sources/remote/remote_profile_repository.dart';
@@ -64,5 +67,27 @@ class ProfileRepositoryImpl implements ProfileRepository {
         return DataFailed("Error: ${e.message}");
       }
     }
+  }
+
+  @override
+  Future<DataState<void>> changeAvatar() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(type: FileType.image);
+
+    if (result != null) {
+      File file = File(result.files.single.path!);
+
+      try {
+        await _remoteProfileRepository.changeAvatar(file);
+        return const DataSuccess(null);
+      } on FirebaseException catch (e) {
+        if (e.code == 'unavailable') {
+          return const DataFailed("Error: Нужно Интернет Соединение");
+        } else {
+          return DataFailed("Error: ${e.message}");
+        }
+      }
+    }
+    return DataFailed("Error: Изображение было не выбрано");
   }
 }
