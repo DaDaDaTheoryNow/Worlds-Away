@@ -63,11 +63,13 @@ class ChatTextField extends StatelessWidget {
   }
 
   _onSendMessagePressed(String message, UserEntity user, context) {
-    chatScrollController.animateTo(
-      chatScrollController.position.minScrollExtent,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
+    if (chatScrollController.onAttach != null) {
+      chatScrollController.animateTo(
+        chatScrollController.position.minScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
 
     BlocProvider.of<ChatBloc>(context).add(SendMessage(SendMessageEntity(
       content: message,

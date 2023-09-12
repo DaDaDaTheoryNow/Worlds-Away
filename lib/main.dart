@@ -3,8 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:workmanager/workmanager.dart';
-import 'package:worlds_away/callback_dispatcher.dart';
 import 'package:worlds_away/features/chat/chats/presention/blocs/chats_bloc.dart';
 
 import 'package:worlds_away/features/home/presentation/blocs/bottom_navigation_bar/bottom_nav_bar_bloc.dart';
@@ -15,6 +13,7 @@ import 'package:worlds_away/features/home/presentation/pages/home/home_page.dart
 import 'package:worlds_away/features/profile/presentation/blocs/profile_bloc.dart';
 import 'package:worlds_away/features/profile/presentation/blocs/profile_event.dart';
 import 'package:worlds_away/features/search/presentation/blocs/search_bloc.dart';
+import 'package:worlds_away/init_background_service.dart';
 
 import 'config/routes/routes.dart';
 import 'config/theme/theme.dart';
@@ -30,10 +29,11 @@ import 'injection_container.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
   await initializeDependencies();
 
-  Workmanager().initialize(callbackDispatcher);
+  await initializeService();
 
   await SystemChrome.setPreferredOrientations(
       <DeviceOrientation>[DeviceOrientation.portraitUp]);
