@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -99,6 +100,9 @@ Future<void> initializeDependencies() async {
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   sl.registerSingleton<SharedPreferences>(prefs);
+
+  final service = FlutterBackgroundService();
+  sl.registerSingleton<FlutterBackgroundService>(service);
 
   // Firebase dependencies
   sl.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);

@@ -34,13 +34,15 @@ void onStart(ServiceInstance service) async {
 }
 
 Future<void> initializeService() async {
-  final service = FlutterBackgroundService();
+  final service = sl<FlutterBackgroundService>();
 
   await service.configure(
     androidConfiguration: AndroidConfiguration(
       onStart: onStart,
       autoStart: true,
       isForegroundMode: false,
+      initialNotificationTitle: "Worlds Away",
+      initialNotificationContent: "Change user online status...",
     ),
     iosConfiguration: IosConfiguration(
       autoStart: true,
@@ -48,5 +50,5 @@ Future<void> initializeService() async {
     ),
   );
 
-  service.startService();
+  await service.startService();
 }

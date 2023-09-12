@@ -13,7 +13,6 @@ import 'package:worlds_away/features/home/presentation/pages/home/home_page.dart
 import 'package:worlds_away/features/profile/presentation/blocs/profile_bloc.dart';
 import 'package:worlds_away/features/profile/presentation/blocs/profile_event.dart';
 import 'package:worlds_away/features/search/presentation/blocs/search_bloc.dart';
-import 'package:worlds_away/init_background_service.dart';
 
 import 'config/routes/routes.dart';
 import 'config/theme/theme.dart';
@@ -32,8 +31,6 @@ Future<void> main() async {
 
   await Firebase.initializeApp();
   await initializeDependencies();
-
-  await initializeService();
 
   await SystemChrome.setPreferredOrientations(
       <DeviceOrientation>[DeviceOrientation.portraitUp]);
