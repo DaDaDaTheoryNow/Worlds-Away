@@ -1,3 +1,5 @@
+// ignore_for_file: cancel_subscriptions
+
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';

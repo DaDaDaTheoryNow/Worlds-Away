@@ -24,6 +24,7 @@ import 'features/auth/presentation/blocs/user_auth_status/user_auth_event.dart';
 import 'features/auth/presentation/blocs/user_auth_status/user_auth_state.dart';
 
 import 'features/home/presentation/blocs/setup/user_setup/user_setup_bloc.dart';
+import 'init_background_service.dart';
 import 'injection_container.dart';
 
 Future<void> main() async {
@@ -31,6 +32,8 @@ Future<void> main() async {
 
   await Firebase.initializeApp();
   await initializeDependencies();
+
+  await initializeService();
 
   await SystemChrome.setPreferredOrientations(
       <DeviceOrientation>[DeviceOrientation.portraitUp]);
