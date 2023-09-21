@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -40,18 +41,37 @@ class MessageWidget extends StatelessWidget {
               color: backgroundColor,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(message.content!,
-                    style: const TextStyle(fontSize: 16, color: Colors.white)),
-                if (message.isViewed!)
-                  const Text(
-                    "Просмотрено",
-                    style: TextStyle(
-                      color: Color.fromARGB(193, 255, 255, 255),
+                if (!message.isMy!)
+                  Container(
+                    margin: EdgeInsets.only(right: 8),
+                    child: CircleAvatar(
+                      backgroundImage: CachedNetworkImageProvider(
+                          message.fromUser!.photoUrl!),
                     ),
                   ),
+                Flexible(
+                  flex: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        message.content!,
+                        style:
+                            const TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                      if (message.isViewed!)
+                        const Text(
+                          "Просмотрено",
+                          style: TextStyle(
+                            color: Color.fromARGB(193, 255, 255, 255),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

@@ -15,6 +15,7 @@ import 'package:worlds_away/features/chat/chats/data/data_sources/remote/remote_
 import 'package:worlds_away/features/chat/chats/data/data_sources/remote/remote_chats_repository.dart';
 import 'package:worlds_away/features/chat/chats/data/repository/chats_repository.dart';
 import 'package:worlds_away/features/chat/chats/domain/repository/chats_repository.dart';
+import 'package:worlds_away/features/chat/chats/domain/usecases/delete_chat.dart';
 import 'package:worlds_away/features/chat/chats/domain/usecases/get_chats_stream.dart';
 import 'package:worlds_away/features/chat/chats/presention/blocs/chats_bloc.dart';
 import 'package:worlds_away/features/shared/firebase_messaging/data/data_sources/remote/remote_firebase_messaging_impl.dart';
@@ -187,6 +188,7 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<ChangeAboutUseCase>(ChangeAboutUseCase(sl()));
   sl.registerSingleton<ChangeIdUseCase>(ChangeIdUseCase(sl()));
   sl.registerSingleton<ChangeAvatarUseCase>(ChangeAvatarUseCase(sl()));
+  sl.registerSingleton<DeleteChatUseCase>(DeleteChatUseCase(sl()));
 
   // Factory
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));
@@ -198,5 +200,5 @@ Future<void> initializeDependencies() async {
       () => SetupPageBloc(sl(), sl(), sl(), sl()));
   sl.registerFactory<ProfileBloc>(() => ProfileBloc(sl(), sl(), sl()));
   sl.registerFactory<SearchBloc>(() => SearchBloc(sl()));
-  sl.registerFactory<ChatsBloc>(() => ChatsBloc(sl()));
+  sl.registerFactory<ChatsBloc>(() => ChatsBloc(sl(), sl()));
 }

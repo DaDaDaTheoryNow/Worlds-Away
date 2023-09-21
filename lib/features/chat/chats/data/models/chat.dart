@@ -19,4 +19,11 @@ class ChatModel extends ChatEntity {
         lastMessage: lastMessage,
         messageToNotViewed: messagesToNotViewed);
   }
+
+  factory ChatModel.fromEntity(ChatEntity chatEntity) {
+    return ChatModel(
+        user: UserModel.fromEntity(chatEntity.user),
+        lastMessage: chatEntity.lastMessage,
+        messageToNotViewed: chatEntity.messagesToNotViewed);
+  }
 }

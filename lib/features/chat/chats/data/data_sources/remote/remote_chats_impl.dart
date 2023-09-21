@@ -61,4 +61,29 @@ class RemoteChatsImpl implements RemoteChatsRepository {
       }
     });
   }
+
+  @override
+  Future<void> deleteChat(ChatModel chatModel) async {
+    final user = _auth.currentUser;
+    final chatsRef = _firestore.collection(firestoreCollectionChats);
+
+    if (user != null) {
+      final chatsWithUserSnapshot =
+          await chatsRef.where("recipients", arrayContains: user.uid).get();
+
+      if (chatsWithUserSnapshot.docs.isNotEmpty) {
+        final deleteDoc = chatsWithUserSnapshot.docs
+            .where((doc) {
+              final recipients = doc.data()["recipients"] as List;
+              return recipients.contains(chatModel.user.uniqueUid);
+            })
+            .toList()
+            .first;
+
+        if (deleteDoc.exists) {
+          await deleteDoc.reference.delete();
+        }
+      }
+    }
+  }
 }

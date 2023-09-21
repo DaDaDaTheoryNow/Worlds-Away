@@ -5,7 +5,9 @@ import 'package:worlds_away/features/chat/chats/domain/entities/chat_entity.dart
 abstract class ChatsEvent extends Equatable {
   final DataState<List<ChatEntity>>? dataStateChats;
 
-  const ChatsEvent({this.dataStateChats});
+  final ChatEntity? chatEntity;
+
+  const ChatsEvent({this.dataStateChats, this.chatEntity});
 
   @override
   List<Object?> get props => [dataStateChats];
@@ -14,4 +16,8 @@ abstract class ChatsEvent extends Equatable {
 class GetChatsStream extends ChatsEvent {
   const GetChatsStream(DataState<List<ChatEntity>> dataStateChats)
       : super(dataStateChats: dataStateChats);
+}
+
+class DeleteChat extends ChatsEvent {
+  const DeleteChat(ChatEntity chatEntity) : super(chatEntity: chatEntity);
 }
