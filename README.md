@@ -1,16 +1,39 @@
-# worlds_away
+<h1 align="center">Welcome to Worlds Away - Chat App👋</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000" />
+  <a href="#" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+  </a>
+</p>
 
-A new Flutter project.
+# Slogan
+You can talk to people from other worlds)!
 
-## Getting Started
+> # Technologies
+> - Flutter
+> - GetX
+> - Firebase Messaging (legacy api)
+> - BLoC
+> - Clean Architecture
+> - Retrofit
 
-This project is a starting point for a Flutter application.
+## Chats
+![chats](https://github.com/DaDaDaTheoryNow/Worlds-Away/assets/105795587/99f8cbdb-44b5-4bff-acba-8099b7b2af06)
 
-A few resources to get you started if this is your first Flutter project:
+## Search
+![search](https://github.com/DaDaDaTheoryNow/Worlds-Away/assets/105795587/8279972c-7f7f-4531-8217-18860e8329e5)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Profile
+![profile](https://github.com/DaDaDaTheoryNow/Worlds-Away/assets/105795587/5220fd44-9fd4-47ba-8358-63551fd05662)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Install
+
+```sh
+flutter pub get
+```
+
+## Usage
+
+```sh
+flutter run
+```
