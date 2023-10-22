@@ -7,7 +7,7 @@
 </p>
 
 # Slogan
-You can talk to people from other worlds)!
+## You can talk to people from other worlds)!
 
 > # Technologies
 > - Flutter
