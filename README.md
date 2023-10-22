@@ -6,7 +6,7 @@
   </a>
 </p>
 
-# Slogan
+## Slogan
 You can talk to people from other worlds)!
 
 > # Technologies
