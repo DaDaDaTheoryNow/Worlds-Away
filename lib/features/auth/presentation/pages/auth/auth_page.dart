@@ -22,6 +22,7 @@ class AuthPage extends StatelessWidget {
       children: [
         const Center(
             child: Text(
+          textAlign: TextAlign.center,
           "Добро Пожаловать в Worlds Away!",
           style: TextStyle(
             color: Colors.white,

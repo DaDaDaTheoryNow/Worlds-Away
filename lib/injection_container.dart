@@ -111,7 +111,7 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
   sl.registerSingleton<FirebaseStorage>(FirebaseStorage.instance);
 
-  // Firebase Messaging dependencie
+  // Firebase Messaging dependencies
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   sl.registerSingleton<FirebaseMessaging>(firebaseMessaging);
   sl.registerSingleton<Dio>(Dio());
@@ -124,7 +124,6 @@ Future<void> initializeDependencies() async {
       FirebaseMessagingRepositoryImpl(sl(), sl()));
   sl.registerSingleton(InitNotificationsUseCase(sl()));
   sl.registerSingleton(SendNotificationToReceiverUseCase(sl()));
-  //
 
   // Repositories
   sl.registerSingleton<RemoteAuthRepository>(

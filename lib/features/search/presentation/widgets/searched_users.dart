@@ -26,6 +26,7 @@ class SearchedUsers extends StatelessWidget {
             return const Center(
               child: Text(
                 "Не найдено ни одного пользователя",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
